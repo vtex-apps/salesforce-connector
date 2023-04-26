@@ -6,9 +6,11 @@
   "maxReplicas": 4,
   "workers": 1,
   "routes": {
-    "status": {
-      "path": "/_v/status/:code",
-      "public": true
+  },
+  "events": {
+    "orderState": {
+      "sender": "vtex.orders-broadcast",
+      "topics": ["cancel", "order-created"]
     }
   }
 }
