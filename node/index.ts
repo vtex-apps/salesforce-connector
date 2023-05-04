@@ -1,11 +1,13 @@
-import {
+import type {
   ClientsConfig,
-  LRUCache,
-  Service,
   ServiceContext,
   RecorderState,
   EventContext,
- // method,
+} from '@vtex/api'
+import {
+  LRUCache,
+  Service,
+  // method,
 } from '@vtex/api'
 
 import { Clients } from './clients'
@@ -53,6 +55,5 @@ export default new Service({
   events: {
     orderState,
   },
-  routes: {
-  },
+  routes: {},
 })
