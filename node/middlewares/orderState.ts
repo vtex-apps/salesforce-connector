@@ -7,6 +7,8 @@ export async function orderState(
   } = ctx
 
   try {
+    const clientSalesforce = omsClient.getClient()
+    console.log(clientSalesforce)
     const { orderId } = ctx.body
     const order = await omsClient.getOrder(orderId)
     const { email } = order.data.clientProfileData
