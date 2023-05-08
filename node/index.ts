@@ -3,6 +3,7 @@ import type {
   ServiceContext,
   RecorderState,
   EventContext,
+  IOContext,
 } from '@vtex/api'
 import {
   LRUCache,
@@ -35,7 +36,8 @@ const clients: ClientsConfig<Clients> = {
 declare global {
   type Context = ServiceContext<Clients, State>
 
-  interface StatusChangeContext extends EventContext<Clients> {
+  interface StatusChangeContext2 extends EventContext<Clients> {
+    vtex: IOContext
     body: {
       domain: string
       orderId: string
