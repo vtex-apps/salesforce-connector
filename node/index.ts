@@ -1,9 +1,10 @@
-import type {
+import {
   ClientsConfig,
   ServiceContext,
   RecorderState,
   EventContext,
   IOContext,
+  method,
 } from '@vtex/api'
 import {
   LRUCache,
@@ -13,6 +14,7 @@ import {
 
 import { Clients } from './clients'
 import { orderState } from './middlewares/orderState'
+import { OrderHook} from './middlewares/orderHook'
 
 const TIMEOUT_MS = 800
 
@@ -57,5 +59,8 @@ export default new Service({
   events: {
     orderState,
   },
-  routes: {},
+  routes: {
+    OrderHook: method({
+      POST: [OrderHook],
+    })  },
 })
