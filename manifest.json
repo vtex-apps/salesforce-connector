@@ -17,6 +17,13 @@
   "credentialType": "absolute",
   "policies": [
     {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "*",
+        "path": "*"
+      }
+    },
+    {
       "name": "OMSViewer"
     },
     {
