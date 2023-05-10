@@ -1,8 +1,10 @@
 {
   "dependencies": {
+    "axios": "~0.24.0",
     "co-body": "^6.0.0",
-    "ramda": "^0.25.0",
-    "axios": "~0.24.0"
+    "jsforce": "^1.11.1",
+    "nforce": "^1.12.2",
+    "ramda": "^0.25.0"
   },
   "devDependencies": {
     "@types/co-body": "^0.0.3",
