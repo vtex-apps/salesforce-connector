@@ -38,7 +38,7 @@ const clients: ClientsConfig<Clients> = {
 declare global {
   type Context = ServiceContext<Clients, State>
 
-  interface StatusChangeContext2 extends EventContext<Clients> {
+  interface StatusChangeContext extends EventContext<Clients> {
     vtex: IOContext
     body: {
       domain: string

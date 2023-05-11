@@ -19,7 +19,6 @@ export default class MasterDataClient extends ExternalClient {
   }
 
   public async getClient(clientId: string) {
-    console.log("+++++++++++++++++++++++++++++"+clientId);
     return this.http.getRaw(`CL/search?_fields=_all&userId=${clientId}`)
   }
 
