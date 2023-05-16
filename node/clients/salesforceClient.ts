@@ -1,15 +1,12 @@
 import { IOResponse } from '@vtex/api';
 import axios from 'axios'
-import * as qs from 'qs'
+import qs from 'qs';
 import { URL_SALESFORCE, URL_SALESFORCE_AUTH } from '../utils/constans';
 
 export default class SalesforceClient {
-  public auth = async (ctx: StatusChangeContext) => {
+  public auth = async () => {
     const http = axios.create({
       headers: {
-        VtexIdclientAutCookie: ctx.vtex.authToken,
-        "Cache-Control":"no-cache",
-        "X-Vtex-Use-Https":"true",
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     });

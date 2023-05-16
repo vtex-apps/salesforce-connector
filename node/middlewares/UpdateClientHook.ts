@@ -1,18 +1,15 @@
-import SalesforceClient from "../clients/salesforceClient"
+import { json } from "co-body";
+import SalesforceClient from "../clients/salesforceClient";
 
-export async function orderState(
-  ctx: StatusChangeContext,
-  next: () => Promise<any>
-) {
+export async function UpdateClientHook(ctx: Context, next: () => Promise<any>) {
   const {
-    clients: { omsClient, masterDataClient },
+    clients: { masterDataClient },
+    req,
   } = ctx
-
+  
   try {
-    const { orderId } = ctx.body
-    const order = await omsClient.getOrder(orderId)
-    const { userProfileId } = order.data.clientProfileData
-    const clientVtex = await masterDataClient.getClient(userProfileId)
+    const args = await json(req);
+    const clientVtex = await masterDataClient.getClient(args.userId)
     const adrress = await masterDataClient.getAddresses(clientVtex.data[0].id);
     const salesforceCliente = new SalesforceClient();
     const accessToken = await salesforceCliente.auth();
@@ -20,23 +17,23 @@ export async function orderState(
     if (clientSalesforce.records.length !== 0) {
       if (clientVtex.data[0].email === clientSalesforce.records[0].Email) {
         const updateContact = await salesforceCliente.update(clientVtex, adrress.data[0], clientSalesforce.records[0].Id, accessToken);
-        ctx.state = 200;
+        ctx.status = 200;
         ctx.body = updateContact;
       } else {
         const createContact = await salesforceCliente.create(clientVtex, adrress.data[0], accessToken);
-        ctx.state = 201;
+        ctx.status = 201;
         ctx.body = createContact;
       }
     } else {
       const createContact = await salesforceCliente.create(clientVtex, adrress.data[0], accessToken);
-      ctx.state = 201;
+      ctx.status = 201;
       ctx.body = createContact;
     }
   } catch (error) {
     console.info('error', error)
-    ctx.state = 500
+    ctx.status = 500
     ctx.body = error
   }
 
-  await next()
+  await next();
 }

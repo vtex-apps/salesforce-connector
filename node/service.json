@@ -9,6 +9,10 @@
     "OrderHook": {
       "path": "/v1/test/orders/:id",
       "public": true
+    },
+    "UpdateClientHook": {
+      "path": "/v1/vtex/clients",
+      "public": true
     }
   },
   "events": {

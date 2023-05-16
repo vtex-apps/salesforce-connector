@@ -9,12 +9,12 @@ import {
 import {
   LRUCache,
   Service,
-  // method,
 } from '@vtex/api'
 
 import { Clients } from './clients'
 import { orderState } from './middlewares/orderState'
-import { OrderHook} from './middlewares/orderHook'
+import { OrderHook } from './middlewares/orderHook'
+import { UpdateClientHook } from './middlewares/UpdateClientHook'
 
 const TIMEOUT_MS = 800
 
@@ -54,6 +54,7 @@ declare global {
     code: number
   }
 }
+
 export default new Service({
   clients,
   events: {
@@ -62,5 +63,9 @@ export default new Service({
   routes: {
     OrderHook: method({
       POST: [OrderHook],
-    })  },
+    }),
+    UpdateClientHook: method({
+      POST: [UpdateClientHook],
+    }),
+  },
 })
