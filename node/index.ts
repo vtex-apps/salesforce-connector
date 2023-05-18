@@ -15,7 +15,6 @@ dotenv.config();
 
 import { Clients } from './clients'
 import { orderState } from './middlewares/orderState'
-import { OrderHook } from './middlewares/orderHook'
 import { UpdateClientHook } from './middlewares/UpdateClientHook'
 import { CreateTrigger } from './middlewares/CreateTrigger'
 
@@ -64,9 +63,6 @@ export default new Service({
     orderState,
   },
   routes: {
-    OrderHook: method({
-      POST: [OrderHook],
-    }),
     UpdateClientHook: method({
       POST: [UpdateClientHook],
     }),
