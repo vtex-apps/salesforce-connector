@@ -1,11 +1,21 @@
-import * as dotenv from "dotenv";
-
-dotenv.config();
-
-export const SALESFORCE_GRANT_TYPE = process.env.GRANT_TYPE;
-export const SALESFORCE_CLIENT_ID = process.env.CLIENT_ID;
-export const SALESFORCE_CLIENT_SECRET = process.env.CLIENT_SECRET;
-export const SALESFORCE_USERNAME = process.env.USERNAME;
-export const SALESFORCE_PASSWORD = process.env.PASSWORD;
-export const URL_SALESFORCE_AUTH = 'https://login.salesforce.com/services/oauth2/token';
-export const URL_SALESFORCE = 'https://titamedia-dev-ed.develop.my.salesforce.com';
+/** Constans enviroment variables */
+export const GRANT_TYPE = 'password';
+export const CLIENT_ID = '3MVG9gtDqcOkH4PKx5GaxzwrPnOsL886NZvqUj3hQddpkMGoEXP_KVm.Sg0tW8l34hWD1amdP3Hl_X9EbLZE1';
+export const CLIENT_SECRET = '4BF9EA8BC9EA6CAA2CE2505E50BE695F7802AF4414CCE2E048D7356492E279FB';
+export const USERNAME = 'giovannyj@titamedia.com';
+export const PASSWORD = 'P@sto123NgVRH5yg0xLjIeGJseqp80In';
+/** Constans VTEX */
+export const ENTITY_NAME = 'Client';
+export const TRIGGER_NAME = 'customerTrigger';
+export const PATH_ACTION_TRIGGER = '/v1/vtex/clients';
+export const PATH_API_DATAENTITIES = '/api/dataentities'
+export const PATH_SEARCH_USERID = '/search?_fields=_all&userId='
+/** Constans Salesforce */
+export const URI_SALESFORCE_AUTH = 'https://login.salesforce.com/services/oauth2/token';
+export const URI_SALESFORCE = 'https://titamedia-dev-ed.develop.my.salesforce.com';
+export const PATH_API_SALESFORCE = '/services/data/v57.0'
+export const PATH_CONTACT_SALESFORCE = '/sobjects/Contact'
+/** Code Status */
+export const CODE_STATUS_200 = 200;
+export const CODE_STATUS_201 = 201;
+export const CODE_STATUS_500 = 500;

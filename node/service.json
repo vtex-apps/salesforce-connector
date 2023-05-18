@@ -13,6 +13,10 @@
     "UpdateClientHook": {
       "path": "/v1/vtex/clients",
       "public": true
+    },
+    "CreateTrigger": {
+      "path": "/v1/vtex/triggers",
+      "public": true
     }
   },
   "events": {

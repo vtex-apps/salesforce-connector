@@ -1,7 +1,14 @@
 // import axios from 'axios'
 // import SalesforceClient from '../clients/salesforceClient'
 
+import SalesforceClient from "../clients/salesforceClient";
+
 export async function OrderHook(ctx: Context, next: () => Promise<any>) {
+  const salesforceCliente = new SalesforceClient();
+  const accessToken = await salesforceCliente.auth();
+  console.log(accessToken);
+  
+  
   // const {
   //   vtex: {
   //     route: { params },

@@ -1,7 +1,7 @@
 import { IOResponse } from '@vtex/api';
 import axios from 'axios'
 import qs from 'qs';
-import { URL_SALESFORCE, URL_SALESFORCE_AUTH } from '../utils/constans';
+import { CLIENT_ID, CLIENT_SECRET, GRANT_TYPE, PASSWORD, PATH_API_SALESFORCE, PATH_CONTACT_SALESFORCE, URI_SALESFORCE, URI_SALESFORCE_AUTH, USERNAME } from '../utils/constans';
 
 export default class SalesforceClient {
   public auth = async () => {
@@ -10,20 +10,20 @@ export default class SalesforceClient {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     });
-    const url = URL_SALESFORCE_AUTH;
+    const url = URI_SALESFORCE_AUTH;
     const data = qs.stringify({
-      grant_type: 'password',
-      client_id: '3MVG9gtDqcOkH4PKx5GaxzwrPnOsL886NZvqUj3hQddpkMGoEXP_KVm.Sg0tW8l34hWD1amdP3Hl_X9EbLZE1',
-      client_secret: '4BF9EA8BC9EA6CAA2CE2505E50BE695F7802AF4414CCE2E048D7356492E279FB',
-      username: 'giovannyj@titamedia.com',
-      password: 'P@sto123NgVRH5yg0xLjIeGJseqp80In',
+      grant_type: GRANT_TYPE,
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
+      username: USERNAME,
+      password: PASSWORD,
     });
     try {
       const response = await http.post(url, data);
       return response.data.access_token;
     }
     catch (error) {
-      console.info('error', error)
+      console.error('error', error)
     }
   }
 
@@ -31,18 +31,18 @@ export default class SalesforceClient {
     const http = axios.create({
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Cache-Control":"no-cache",
-        "X-Vtex-Use-Https":"true",
+        "Cache-Control": "no-cache",
+        "X-Vtex-Use-Https": "true",
         'Content-Type': 'application/json'
       }
     });
-    const url = `${URL_SALESFORCE}/services/data/v57.0/query/?q=SELECT+id,Email+FROM+Contact+WHERE+Email+=+'${clientVtex.data[0].email}'`;
+    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}/query/?q=SELECT+id,Email+FROM+Contact+WHERE+Email+=+'${clientVtex.data[0].email}'`;
     try {
       const response = await http.get(url);
       return response.data;
     }
     catch (error) {
-      console.info('error', error)
+      console.error('error', error)
     }
   }
 
@@ -50,8 +50,8 @@ export default class SalesforceClient {
     const http = axios.create({
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Cache-Control":"no-cache",
-        "X-Vtex-Use-Https":"true",
+        "Cache-Control": "no-cache",
+        "X-Vtex-Use-Https": "true",
         'Content-Type': 'application/json'
       }
     });
@@ -66,13 +66,13 @@ export default class SalesforceClient {
       MailingPostalCode: adrress.postalCode,
       MailingCountry: adrress.country,
     }
-    const url = `${URL_SALESFORCE}/services/data/v57.0/sobjects/Contact`;
+    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_CONTACT_SALESFORCE}`;
     try {
       const response = await http.post(url, data);
       return response.data;
     }
     catch (error) {
-      console.info('error', error)
+      console.error('error', error)
     }
   }
 
@@ -80,8 +80,8 @@ export default class SalesforceClient {
     const http = axios.create({
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Cache-Control":"no-cache",
-        "X-Vtex-Use-Https":"true",
+        "Cache-Control": "no-cache",
+        "X-Vtex-Use-Https": "true",
         'Content-Type': 'application/json'
       }
     });
@@ -96,13 +96,13 @@ export default class SalesforceClient {
       MailingPostalCode: adrress.postalCode,
       MailingCountry: adrress.country,
     }
-    const url = `${URL_SALESFORCE}/services/data/v57.0/sobjects/Contact/${idClientSalesforce}`;
+    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_CONTACT_SALESFORCE}/${idClientSalesforce}`;
     try {
       const response = await http.patch(url, data);
       return response.data;
     }
     catch (error) {
-      console.info('error', error)
+      console.error('error', error)
     }
   }
 }

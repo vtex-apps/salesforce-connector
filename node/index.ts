@@ -10,11 +10,14 @@ import {
   LRUCache,
   Service,
 } from '@vtex/api'
+import * as dotenv from "dotenv";
+dotenv.config();
 
 import { Clients } from './clients'
 import { orderState } from './middlewares/orderState'
 import { OrderHook } from './middlewares/orderHook'
 import { UpdateClientHook } from './middlewares/UpdateClientHook'
+import { CreateTrigger } from './middlewares/CreateTrigger'
 
 const TIMEOUT_MS = 800
 
@@ -66,6 +69,9 @@ export default new Service({
     }),
     UpdateClientHook: method({
       POST: [UpdateClientHook],
+    }),
+    CreateTrigger: method({
+      POST: [CreateTrigger],
     }),
   },
 })
