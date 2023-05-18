@@ -15,6 +15,7 @@
     "@vtex/api": "6.45.15",
     "@vtex/test-tools": "^1.0.0",
     "@vtex/tsconfig": "^0.5.6",
+    "felipedev.salesforce-connector": "https://salesforce--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1684421051/public/_types/react",
     "typescript": "3.9.7"
   },
   "resolutions": {
