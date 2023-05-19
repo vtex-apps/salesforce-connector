@@ -5,11 +5,15 @@ export const CLIENT_SECRET = '4BF9EA8BC9EA6CAA2CE2505E50BE695F7802AF4414CCE2E048
 export const USERNAME = 'giovannyj@titamedia.com';
 export const PASSWORD = 'P@sto123NgVRH5yg0xLjIeGJseqp80In';
 /** Constans VTEX */
-export const ENTITY_NAME = 'Client';
+export const CLIENT_ENTITY_V1 = 'CL';
+export const ADDRESS_ENTITY_V1 = 'AD';
+export const CLIENT_ENTITY_V2 = 'Client';
+export const ADDRESS_ENTITY_V2 = 'Address';
 export const TRIGGER_NAME = 'customerTrigger';
 export const PATH_ACTION_TRIGGER = '/v1/vtex/clients';
-export const PATH_API_DATAENTITIES = '/api/dataentities'
-export const PATH_SEARCH_USERID = '/search?_fields=_all&userId='
+export const PATH_API_DATAENTITIES = '/api/dataentities';
+export const PATH_SEARCH_USERID = '/search?_fields=_all&userId=';
+export const PATH_SEARCH_ID = '/search?_fields=_all&id=';
 /** Constans Salesforce */
 export const URI_SALESFORCE_AUTH = 'https://login.salesforce.com/services/oauth2/token';
 export const URI_SALESFORCE = 'https://titamedia-dev-ed.develop.my.salesforce.com';

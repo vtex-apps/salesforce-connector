@@ -13,8 +13,8 @@ export async function orderState(
     const { orderId } = ctx.body
     const order = await omsClient.getOrder(orderId)
     const { userProfileId } = order.data.clientProfileData
-    const clientVtex = await masterDataClient.getClient(userProfileId)
-    const adrress = await masterDataClient.getAddresses(clientVtex.data[0].id);
+    const clientVtex = await masterDataClient.getClient(userProfileId, 'V1');
+    const adrress = await masterDataClient.getAddresses(clientVtex.data[0].id, 'V1');
     const salesforceCliente = new SalesforceClient();
     const accessToken = await salesforceCliente.auth();
     const clientSalesforce = await salesforceCliente.get(clientVtex, accessToken);

@@ -1,7 +1,7 @@
 import type { IOContext, InstanceOptions } from '@vtex/api'
 import { ExternalClient } from '@vtex/api'
 import axios from 'axios'
-import { ENTITY_NAME, PATH_ACTION_TRIGGER, PATH_API_DATAENTITIES, PATH_SEARCH_USERID, TRIGGER_NAME } from '../utils/constans'
+import { ADDRESS_ENTITY_V1, ADDRESS_ENTITY_V2, CLIENT_ENTITY_V1, CLIENT_ENTITY_V2, PATH_ACTION_TRIGGER, PATH_API_DATAENTITIES, PATH_SEARCH_ID, PATH_SEARCH_USERID, TRIGGER_NAME } from '../utils/constans'
 
 export default class MasterDataClient extends ExternalClient {
   constructor(context: IOContext, options?: InstanceOptions) {
@@ -20,20 +20,31 @@ export default class MasterDataClient extends ExternalClient {
     )
   }
 
-  public async getClient(clientId: string) {
-    return this.http.getRaw(`CL${PATH_SEARCH_USERID}${clientId}`)
+  public async getClient(clientId: string, version: string) {
+    if (version === 'V1') {
+      return this.http.getRaw(`${CLIENT_ENTITY_V1}${PATH_SEARCH_USERID}${clientId}`)
+    } else {
+      return this.http.getRaw(`${CLIENT_ENTITY_V2}${PATH_SEARCH_ID}${clientId}`)
+    } 
   }
 
-  public async getAddresses(clientId: string) {
-    return this.http.getRaw(`AD${PATH_SEARCH_USERID}${clientId}`)
+  public async getAddresses(clientId: string, version: string) {
+    if (version === 'V1') {
+      return this.http.getRaw(`${ADDRESS_ENTITY_V1}${PATH_SEARCH_USERID}${clientId}`)
+    } else {
+      return this.http.getRaw(`${ADDRESS_ENTITY_V2}${PATH_SEARCH_ID}${clientId}`)
+    }
   }
 
   public async createTrigger() {
-    const endpoint = `http://${this.context.account}.myvtex.com${PATH_API_DATAENTITIES}/${ENTITY_NAME}/schemas/${TRIGGER_NAME}`;
+    const endpoint = `http://${this.context.account}.myvtex.com${PATH_API_DATAENTITIES}/${CLIENT_ENTITY_V2}/schemas/${TRIGGER_NAME}`;
 
     const triggerConfig = {
       "properties": {
-        "name": {
+        "firstName": {
+          "type": "string"
+        },
+        "phone": {
           "type": "string"
         }
       },
@@ -41,7 +52,7 @@ export default class MasterDataClient extends ExternalClient {
         {
           "name": "trigger-test-http",
           "active": true,
-          "condition": "document=123456789",
+          "condition": "phone=+12345678900",
           "action": {
             "type": "http",
             "uri": `https://salesforce--felipedev.myvtex.com${PATH_ACTION_TRIGGER}`,
@@ -51,8 +62,7 @@ export default class MasterDataClient extends ExternalClient {
             },
             "body": {
               "id": "{!id}",
-              "test": "TestValue",
-              "count": 25
+              "version": "V2"
             }
           },
           "retry": {

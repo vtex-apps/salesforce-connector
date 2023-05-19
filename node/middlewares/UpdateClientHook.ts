@@ -10,8 +10,15 @@ export async function UpdateClientHook(ctx: Context, next: () => Promise<any>) {
   
   try {
     const args = await json(req);
-    const clientVtex = await masterDataClient.getClient(args.userId)
-    const adrress = await masterDataClient.getAddresses(clientVtex.data[0].id);
+    let clientVtex;
+    let adrress;
+    if (args.version === 'V1') {
+      clientVtex = await masterDataClient.getClient(args.userId, args.version);
+      adrress = await masterDataClient.getAddresses(args.id, args.version);
+    } else {
+      clientVtex = await masterDataClient.getClient(args.id, args.version);
+      adrress = await masterDataClient.getAddresses(args.id, args.version);
+    }
     const salesforceCliente = new SalesforceClient();
     const accessToken = await salesforceCliente.auth();
     const clientSalesforce = await salesforceCliente.get(clientVtex, accessToken);

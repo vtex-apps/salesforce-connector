@@ -59,12 +59,12 @@ export default class SalesforceClient {
       FirstName: clientVtex.data[0].firstName,
       LastName: clientVtex.data[0].lastName,
       Email: clientVtex.data[0].email,
-      Phone: clientVtex.data[0].homePhone,
-      MailingStreet: adrress.street,
-      MailingCity: adrress.city,
-      MailingState: adrress.state,
-      MailingPostalCode: adrress.postalCode,
-      MailingCountry: adrress.country,
+      Phone: clientVtex.data[0].homePhone ? clientVtex.data[0].homePhone : clientVtex.data[0].phone,
+      MailingStreet: adrress ? adrress.street : '',
+      MailingCity: adrress ? adrress.city : '',
+      MailingState: adrress ? adrress.state : '',
+      MailingPostalCode: adrress ? adrress.postalCode : '',
+      MailingCountry: adrress ? adrress.country : '',
     }
     const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_CONTACT_SALESFORCE}`;
     try {
@@ -89,12 +89,12 @@ export default class SalesforceClient {
       FirstName: clientVtex.data[0].firstName,
       LastName: clientVtex.data[0].lastName,
       Email: clientVtex.data[0].email,
-      Phone: clientVtex.data[0].homePhone,
-      MailingStreet: adrress.street,
-      MailingCity: adrress.city,
-      MailingState: adrress.state,
-      MailingPostalCode: adrress.postalCode,
-      MailingCountry: adrress.country,
+      Phone: clientVtex.data[0].homePhone ? clientVtex.data[0].homePhone : clientVtex.data[0].phone,
+      MailingStreet: adrress ? adrress.street : '',
+      MailingCity: adrress ? adrress.city : '',
+      MailingState: adrress ? adrress.state : '',
+      MailingPostalCode: adrress ? adrress.postalCode : '',
+      MailingCountry: adrress ? adrress.country : '',
     }
     const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_CONTACT_SALESFORCE}/${idClientSalesforce}`;
     try {
