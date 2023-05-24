@@ -41,10 +41,19 @@ export default class MasterDataClient extends ExternalClient {
 
     const triggerConfig = {
       "properties": {
-        "firstName": {
+        "document": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "name": {
           "type": "string"
         },
         "phone": {
+          "type": "string"
+        },
+        "email": {
           "type": "string"
         }
       },
@@ -52,7 +61,7 @@ export default class MasterDataClient extends ExternalClient {
         {
           "name": "trigger-test-http",
           "active": true,
-          "condition": "phone=+12345678900",
+          "condition": "id<>00000000",
           "action": {
             "type": "http",
             "uri": `https://salesforce--felipedev.myvtex.com${PATH_ACTION_TRIGGER}`,
