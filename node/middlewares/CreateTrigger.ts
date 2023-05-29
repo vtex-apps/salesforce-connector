@@ -6,6 +6,7 @@ export async function CreateTrigger(ctx: Context, next: () => Promise<any>) {
   } = ctx
 
   const response = await masterDataClient.createTrigger();
+  //TODO: Handle error response
   ctx.status = CODE_STATUS_200;
   ctx.body = response
 

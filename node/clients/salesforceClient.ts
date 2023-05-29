@@ -23,10 +23,12 @@ export default class SalesforceClient {
       return response.data.access_token;
     }
     catch (error) {
+      //TODO: return error response
       console.error('error', error)
     }
   }
 
+  //TODO: Change any type
   public get = async (clientVtex: IOResponse<any>, accessToken: string) => {
     const http = axios.create({
       headers: {
@@ -42,6 +44,7 @@ export default class SalesforceClient {
       return response.data;
     }
     catch (error) {
+      //TODO: Improve error response
       console.error('error', error)
     }
   }
@@ -102,6 +105,7 @@ export default class SalesforceClient {
       return response.data;
     }
     catch (error) {
+      //TODO: Improve error response
       console.error('error', error)
     }
   }

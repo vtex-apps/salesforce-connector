@@ -21,14 +21,16 @@ export default class MasterDataClient extends ExternalClient {
   }
 
   public async getClient(clientId: string, version: string) {
+    //TODO: use ternary operator
     if (version === 'V1') {
       return this.http.getRaw(`${CLIENT_ENTITY_V1}${PATH_SEARCH_USERID}${clientId}`)
     } else {
       return this.http.getRaw(`${CLIENT_ENTITY_V2}${PATH_SEARCH_ID}${clientId}`)
-    } 
+    }
   }
 
   public async getAddresses(clientId: string, version: string) {
+    //TODO: use ternary operator
     if (version === 'V1') {
       return this.http.getRaw(`${ADDRESS_ENTITY_V1}${PATH_SEARCH_USERID}${clientId}`)
     } else {
@@ -64,7 +66,7 @@ export default class MasterDataClient extends ExternalClient {
           "condition": "id<>00000000",
           "action": {
             "type": "http",
-            "uri": `https://salesforce--felipedev.myvtex.com${PATH_ACTION_TRIGGER}`,
+            "uri": `https://salesforce--felipedev.myvtex.com${PATH_ACTION_TRIGGER}`, //TODO: Change the hard-coded URL for something generic.
             "method": "POST",
             "headers": {
               "content-type": "application/json"
@@ -98,6 +100,7 @@ export default class MasterDataClient extends ExternalClient {
       return response.data;
     } catch (error) {
       console.error('Error creating trigger:', error);
+      // TODO: return with appropriate error message and error code
     }
   }
 }
