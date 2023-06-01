@@ -1,10 +1,13 @@
-import { IOResponse } from '@vtex/api';
-import axios from 'axios'
+import axios from 'axios';
 import qs from 'qs';
-import { CLIENT_ID, CLIENT_SECRET, GRANT_TYPE, PASSWORD, PATH_API_SALESFORCE, PATH_CONTACT_SALESFORCE, URI_SALESFORCE, URI_SALESFORCE_AUTH, USERNAME } from '../utils/constans';
+import { CLIENT_ID, CLIENT_SECRET, CODE_STATUS_201, GRANT_TYPE, PASSWORD, PATH_API_SALESFORCE, PATH_CONTACT_SALESFORCE, URI_SALESFORCE, URI_SALESFORCE_AUTH, USERNAME } from '../utils/constans';
+import { Result } from '../schemas/Result';
+import { ClientVtexResponse } from '../schemas/ClientVtexResponse';
+import { AddressVtexResponse } from '../schemas/AddressVtexResponse';
 
 export default class SalesforceClient {
   public auth = async () => {
+    const result = new Result();
     const http = axios.create({
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -20,16 +23,19 @@ export default class SalesforceClient {
     });
     try {
       const response = await http.post(url, data);
-      return response.data.access_token;
+      result.ok(response.data.access_token)
+      return result;
     }
     catch (error) {
       //TODO: return error response
-      console.error('error', error)
+      result.error('Ocurrio un error al obtener el token', error)
+      return result;
     }
   }
 
   //TODO: Change any type
-  public get = async (clientVtex: IOResponse<any>, accessToken: string) => {
+  public get = async (clientVtex: ClientVtexResponse, accessToken: string) => {
+    const result = new Result();
     const http = axios.create({
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -38,18 +44,21 @@ export default class SalesforceClient {
         'Content-Type': 'application/json'
       }
     });
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}/query/?q=SELECT+id,Email+FROM+Contact+WHERE+Email+=+'${clientVtex.data[0].email}'`;
+    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}/query/?q=SELECT+id,Email+FROM+Contact+WHERE+Email+=+'${clientVtex.email}'`;
     try {
       const response = await http.get(url);
-      return response.data;
+      result.ok(response.data)
+      return result;
     }
     catch (error) {
       //TODO: Improve error response
-      console.error('error', error)
+      result.error('Ocurrio un error al obtener el cliente', error)
+      return result;
     }
   }
 
-  public create = async (clientVtex: IOResponse<any>, adrress: any, accessToken: string) => {
+  public create = async (clientVtex: ClientVtexResponse, address: AddressVtexResponse, accessToken: string) => {
+    const result = new Result();
     const http = axios.create({
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -59,27 +68,30 @@ export default class SalesforceClient {
       }
     });
     const data = {
-      FirstName: clientVtex.data[0].firstName,
-      LastName: clientVtex.data[0].lastName,
-      Email: clientVtex.data[0].email,
-      Phone: clientVtex.data[0].homePhone ? clientVtex.data[0].homePhone : clientVtex.data[0].phone,
-      MailingStreet: adrress ? adrress.street : '',
-      MailingCity: adrress ? adrress.city : '',
-      MailingState: adrress ? adrress.state : '',
-      MailingPostalCode: adrress ? adrress.postalCode : '',
-      MailingCountry: adrress ? adrress.country : '',
+      FirstName: clientVtex.firstName,
+      LastName: clientVtex.lastName,
+      Email: clientVtex.email,
+      Phone: clientVtex.homePhone ? clientVtex.homePhone : clientVtex.phone,
+      MailingStreet: address ? address.street : '',
+      MailingCity: address ? address.city : '',
+      MailingState: address ? address.state : '',
+      MailingPostalCode: address ? address.postalCode : '',
+      MailingCountry: address ? address.country : '',
     }
     const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_CONTACT_SALESFORCE}`;
     try {
       const response = await http.post(url, data);
-      return response.data;
+      result.rst(CODE_STATUS_201, response.data)
+      return result;
     }
     catch (error) {
-      console.error('error', error)
+      result.error('Ocurrio un error al crear el cliente', error)
+      return result;
     }
   }
 
-  public update = async (clientVtex: IOResponse<any>, adrress: any, idClientSalesforce: any, accessToken: string) => {
+  public update = async (clientVtex: ClientVtexResponse, address: AddressVtexResponse, idClientSalesforce: string, accessToken: string) => {
+    const result = new Result();
     const http = axios.create({
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -89,24 +101,26 @@ export default class SalesforceClient {
       }
     });
     const data = {
-      FirstName: clientVtex.data[0].firstName,
-      LastName: clientVtex.data[0].lastName,
-      Email: clientVtex.data[0].email,
-      Phone: clientVtex.data[0].homePhone ? clientVtex.data[0].homePhone : clientVtex.data[0].phone,
-      MailingStreet: adrress ? adrress.street : '',
-      MailingCity: adrress ? adrress.city : '',
-      MailingState: adrress ? adrress.state : '',
-      MailingPostalCode: adrress ? adrress.postalCode : '',
-      MailingCountry: adrress ? adrress.country : '',
+      FirstName: clientVtex.firstName,
+      LastName: clientVtex.lastName,
+      Email: clientVtex.email,
+      Phone: clientVtex.homePhone ? clientVtex.homePhone : clientVtex.phone,
+      MailingStreet: address ? address.street : '',
+      MailingCity: address ? address.city : '',
+      MailingState: address ? address.state : '',
+      MailingPostalCode: address ? address.postalCode : '',
+      MailingCountry: address ? address.country : '',
     }
     const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_CONTACT_SALESFORCE}/${idClientSalesforce}`;
     try {
       const response = await http.patch(url, data);
-      return response.data;
+      result.ok(response.data)
+      return result;
     }
     catch (error) {
       //TODO: Improve error response
-      console.error('error', error)
+      result.error('Ocurrio un error al actualizar el cliente', error)
+      return result;
     }
   }
 }

@@ -17,6 +17,7 @@ export const PATH_SEARCH_ID = '/search?_fields=_all&id=';
 /** Constans Salesforce */
 export const URI_SALESFORCE_AUTH = 'https://login.salesforce.com/services/oauth2/token';
 export const URI_SALESFORCE = 'https://titamedia-dev-ed.develop.my.salesforce.com';
+export const URI_SALESFORCE_TRIGGER = 'https://salesforce--felipedev.myvtex.com';
 export const PATH_API_SALESFORCE = '/services/data/v57.0'
 export const PATH_CONTACT_SALESFORCE = '/sobjects/Contact'
 /** Code Status */

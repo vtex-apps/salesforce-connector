@@ -11,38 +11,25 @@ export async function UpdateClientHook(ctx: Context, next: () => Promise<any>) {
 
   try {
     const args = await json(req);
-    let clientVtex;
-    let adrress;
-
     /**
      * TODO: Delete if
      * Use ternary conditional
      */
-    if (args.version === 'V1') {
-      clientVtex = await masterDataClient.getClient(args.userId, args.version);
-      adrress = await masterDataClient.getAddresses(args.id, args.version);
-    } else {
-      clientVtex = await masterDataClient.getClient(args.id, args.version);
-      adrress = await masterDataClient.getAddresses(args.id, args.version);
-    }
-
+    const clientVtex = args.version === 'V1' ? await masterDataClient.getClient(args.userId, args.version) : await masterDataClient.getClient(args.id, args.version);
+    const address = await masterDataClient.getAddresses(args.id, args.version);
+    console.log(address);
+    
     const salesforceCliente = new SalesforceClient();
-    const accessToken = await salesforceCliente.auth();
-    const clientSalesforce = await salesforceCliente.get(clientVtex, accessToken);
+    const responseAuth = await salesforceCliente.auth();
+    const clientSalesforce = await salesforceCliente.get(clientVtex, responseAuth.data);
 
     //TODO: use && to improve this block getting rid of seconde 'else' statement
-    if (clientSalesforce.records.length !== 0) {
-      if (clientVtex.data[0].email === clientSalesforce.records[0].Email) {
-        const updateContact = await salesforceCliente.update(clientVtex, adrress.data[0], clientSalesforce.records[0].Id, accessToken);
-        ctx.status = CODE_STATUS_200;
-        ctx.body = updateContact;
-      } else {
-        const createContact = await salesforceCliente.create(clientVtex, adrress.data[0], accessToken);
-        ctx.status = CODE_STATUS_201;
-        ctx.body = createContact;
-      }
+    if (clientSalesforce.data.records.length !== 0 && clientVtex.email === clientSalesforce.data.records[0].Email) {
+      const updateContact = await salesforceCliente.update(clientVtex, address, clientSalesforce.data.records[0].Id, responseAuth.data);
+      ctx.status = CODE_STATUS_200;
+      ctx.body = updateContact;
     } else {
-      const createContact = await salesforceCliente.create(clientVtex, adrress.data[0], accessToken);
+      const createContact = await salesforceCliente.create(clientVtex, address, responseAuth.data);
       ctx.status = CODE_STATUS_201;
       ctx.body = createContact;
     }

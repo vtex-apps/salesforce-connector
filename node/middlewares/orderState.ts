@@ -14,24 +14,18 @@ export async function orderState(
     const order = await omsClient.getOrder(orderId)
     const { userProfileId } = order.data.clientProfileData
     const clientVtex = await masterDataClient.getClient(userProfileId, 'V1');
-    const adrress = await masterDataClient.getAddresses(clientVtex.data[0].id, 'V1');
+    const adrress = await masterDataClient.getAddresses(clientVtex.id, 'V1');
     const salesforceCliente = new SalesforceClient();
     const accessToken = await salesforceCliente.auth();
-    const clientSalesforce = await salesforceCliente.get(clientVtex, accessToken);
-    if (clientSalesforce.records.length !== 0) {
-      if (clientVtex.data[0].email === clientSalesforce.records[0].Email) {
-        const updateContact = await salesforceCliente.update(clientVtex, adrress.data[0], clientSalesforce.records[0].Id, accessToken);
-        ctx.state = CODE_STATUS_200;
-        ctx.body = updateContact;
-      } else {
-        const createContact = await salesforceCliente.create(clientVtex, adrress.data[0], accessToken);
-        ctx.state = CODE_STATUS_201;
-        ctx.body = createContact;
-      }
+    const clientSalesforce = await salesforceCliente.get(clientVtex, accessToken.data);
+    if (clientSalesforce.data.records.length !== 0 && clientVtex.email === clientSalesforce.data.records[0].Email) {
+      const updateContact = await salesforceCliente.update(clientVtex, adrress, clientSalesforce.data.records[0].Id, accessToken.data);
+      ctx.state = CODE_STATUS_200;
+      ctx.body = updateContact.data;
     } else {
-      const createContact = await salesforceCliente.create(clientVtex, adrress.data[0], accessToken);
+      const createContact = await salesforceCliente.create(clientVtex, adrress, accessToken.data);
       ctx.state = CODE_STATUS_201;
-      ctx.body = createContact;
+      ctx.body = createContact.data;
     }
   } catch (error) {
     console.error('error', error)
