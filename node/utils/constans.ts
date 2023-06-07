@@ -18,8 +18,13 @@ export const PATH_SEARCH_ID = '/search?_fields=_all&id=';
 export const URI_SALESFORCE_AUTH = 'https://login.salesforce.com/services/oauth2/token';
 export const URI_SALESFORCE = 'https://titamedia-dev-ed.develop.my.salesforce.com';
 export const URI_SALESFORCE_TRIGGER = 'https://salesforce--felipedev.myvtex.com';
-export const PATH_API_SALESFORCE = '/services/data/v57.0'
-export const PATH_CONTACT_SALESFORCE = '/sobjects/Contact'
+export const PATH_API_SALESFORCE = '/services/data/v57.0/sobjects'
+export const PATH_QUERY_SALESFORCE = '/services/data/v57.0/query?q='
+export const PATH_CONTACT_SALESFORCE = '/Contact'
+export const PATH_OPPORTUNITY_SALESFORCE = '/Opportunity'
+export const PATH_PRODUCT2_SALESFORCE = '/Product2'
+export const PATH_PRICEBOOKENTRY_SALESFORCE = '/PricebookEntry'
+export const PATH_ASSOCIATE_PRODUCT_OPORTUNITY_SALESFORCE = '/OpportunityLineItem'
 /** Code Status */
 export const CODE_STATUS_200 = 200;
 export const CODE_STATUS_201 = 201;

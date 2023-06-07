@@ -13,6 +13,10 @@
     "CreateTrigger": {
       "path": "/v1/vtex/triggers",
       "public": true
+    },
+    "TestHook": {
+      "path": "/v1/vtex/test",
+      "public": true
     }
   },
   "events": {

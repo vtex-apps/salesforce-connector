@@ -1,6 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
-import { CLIENT_ID, CLIENT_SECRET, CODE_STATUS_201, GRANT_TYPE, PASSWORD, PATH_API_SALESFORCE, PATH_CONTACT_SALESFORCE, URI_SALESFORCE, URI_SALESFORCE_AUTH, USERNAME } from '../utils/constans';
+import { CLIENT_ID, CLIENT_SECRET, CODE_STATUS_201, GRANT_TYPE, PASSWORD, PATH_API_SALESFORCE, PATH_CONTACT_SALESFORCE, PATH_QUERY_SALESFORCE, URI_SALESFORCE, URI_SALESFORCE_AUTH, USERNAME } from '../utils/constans';
 import { Result } from '../schemas/Result';
 import { ClientVtexResponse } from '../schemas/ClientVtexResponse';
 import { AddressVtexResponse } from '../schemas/AddressVtexResponse';
@@ -44,7 +44,7 @@ export default class SalesforceClient {
         'Content-Type': 'application/json'
       }
     });
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}/query/?q=SELECT+id,Email+FROM+Contact+WHERE+Email+=+'${clientVtex.email}'`;
+    const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT+id,Email+FROM+Contact+WHERE+Email+=+'${clientVtex.email}'`;
     try {
       const response = await http.get(url);
       result.ok(response.data)

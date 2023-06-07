@@ -17,7 +17,6 @@ export async function UpdateClientHook(ctx: Context, next: () => Promise<any>) {
      */
     const clientVtex = args.version === 'V1' ? await masterDataClient.getClient(args.userId, args.version) : await masterDataClient.getClient(args.id, args.version);
     const address = await masterDataClient.getAddresses(args.id, args.version);
-    console.log(address);
     
     const salesforceCliente = new SalesforceClient();
     const responseAuth = await salesforceCliente.auth();
