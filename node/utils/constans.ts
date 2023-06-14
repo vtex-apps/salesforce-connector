@@ -21,10 +21,12 @@ export const URI_SALESFORCE_TRIGGER = 'https://salesforce--felipedev.myvtex.com'
 export const PATH_API_SALESFORCE = '/services/data/v57.0/sobjects'
 export const PATH_QUERY_SALESFORCE = '/services/data/v57.0/query?q='
 export const PATH_CONTACT_SALESFORCE = '/Contact'
-export const PATH_OPPORTUNITY_SALESFORCE = '/Opportunity'
+export const PATH_ORDER_SALESFORCE = '/Order'
+export const PATH_ACCOUNT_SALESFORCE = '/Account'
 export const PATH_PRODUCT2_SALESFORCE = '/Product2'
+export const PATH_PRICEBOOK2_SALESFORCE = '/Pricebook2'
 export const PATH_PRICEBOOKENTRY_SALESFORCE = '/PricebookEntry'
-export const PATH_ASSOCIATE_PRODUCT_OPORTUNITY_SALESFORCE = '/OpportunityLineItem'
+export const PATH_ASSOCIATE_ORDER_PRODUCT_SALESFORCE = '/OrderItem'
 /** Code Status */
 export const CODE_STATUS_200 = 200;
 export const CODE_STATUS_201 = 201;

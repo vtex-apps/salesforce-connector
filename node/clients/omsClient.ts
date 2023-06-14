@@ -28,12 +28,14 @@ export default class OMS extends ExternalClient {
         uniqueId: item.uniqueId,
         name: item.name,
         quantity: item.quantity,
+        measurementUnit: item.measurementUnit,
         price: item.price,
         imageUrl: item.imageUrl,
       }
     });
     const orderVtexResponse: OrderVtexResponse = {
       orderId: response.data.orderId,
+      sequence: response.data.sequence,
       status: response.data.status,
       value: response.data.value,
       creationDate: response.data.creationDate,
@@ -45,6 +47,13 @@ export default class OMS extends ExternalClient {
         document: response.data.clientProfileData.document,
         phone: response.data.clientProfileData.phone,
         userProfileId: response.data.clientProfileData.userProfileId,
+      },
+      address: {
+        street: response.data.shippingData.address.street,
+        city: response.data.shippingData.address.city,
+        state: response.data.shippingData.address.state,
+        country: response.data.shippingData.address.country,
+        postalCode: response.data.shippingData.address.postalCode,
       }
     }
     return orderVtexResponse;

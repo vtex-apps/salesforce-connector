@@ -1,6 +1,4 @@
 import SalesforceClient from "../clients/salesforceClient"
-import SalesforceProduct from "../products/SalesforceProduct";
-import { Item } from "../schemas/orderVtexResponse";
 import { CODE_STATUS_200, CODE_STATUS_201, CODE_STATUS_500 } from "../utils/constans"
 
 export async function orderState(
@@ -14,6 +12,7 @@ export async function orderState(
   try {
     const { orderId } = ctx.body;
     const order = await omsClient.getOrder(orderId);
+    console.log(order);
     const userProfileId = order.clientProfileData.userProfileId;
     const clientVtex = await masterDataClient.getClient(userProfileId, 'V1');
     const address = await masterDataClient.getAddresses(clientVtex.id, 'V1');
@@ -29,17 +28,25 @@ export async function orderState(
       ctx.state = CODE_STATUS_201;
       ctx.body = createContact.data;
     }
-    const salesforceProduct = new SalesforceProduct();
-    const createOportunity = await salesforceProduct.createOportunity(order, accessToken.data);
-    console.log(createOportunity.data);
-    order.items.forEach(async (item: Item) => {
-      const product = await salesforceProduct.getProduct(item, accessToken.data);
-      console.log(product.data);
-      if (product.data.totalSize === 0) {
-        const createProduct = await salesforceProduct.createProduct(item, accessToken.data);
-        console.log(createProduct.data);
-      }
-    });
+    // const salesforceProduct = new SalesforceProduct();
+    // const createOportunity = await salesforceProduct.createOportunity(order, accessToken.data);
+    // order.items.forEach(async (item: Item) => {
+    //   const product = await salesforceProduct.getProduct(item, accessToken.data);
+    //   if (product.data.totalSize === 0) {
+    //     const createProduct = await salesforceProduct.createProduct(item, accessToken.data);
+    //     const createPricebook = await salesforceProduct.createPricebook(accessToken.data);
+    //     console.log(createPricebook.data);
+    //     const createPricebookEntry = await salesforceProduct.createPricebookEntry(createProduct.data.id, createPricebook.data.id, accessToken.data);
+    //     console.log(createPricebook.data);
+    //     const associateProductAndOportunity = await salesforceProduct.associateProductAndOportunity(
+    //       createOportunity.data.id, createPricebookEntry.data.id, item, accessToken.data);
+    //     console.log(associateProductAndOportunity.data);
+    //   } else {
+    //     const associateProductAndOportunity = await salesforceProduct.associateProductAndOportunity(
+    //       createOportunity.data.id, product.data.records[0].Id, item, accessToken.data);
+    //     console.log(associateProductAndOportunity.data);
+    //   }
+    // });
   } catch (error) {
     console.error('error', error)
     ctx.state = CODE_STATUS_500
