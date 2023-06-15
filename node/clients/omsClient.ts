@@ -31,6 +31,8 @@ export default class OMS extends ExternalClient {
         measurementUnit: item.measurementUnit,
         price: item.price,
         imageUrl: item.imageUrl,
+        refId: item.refId,
+        sellingPrice: item.sellingPrice
       }
     });
     const orderVtexResponse: OrderVtexResponse = {

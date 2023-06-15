@@ -10,6 +10,10 @@ export class Result {
     this.message = '';
   }
 
+  isOk(){
+    return this.status == 200;
+  }
+
   error(message:string, data:any):void {
     this.status = 500;
     this.message = message;
@@ -35,5 +39,29 @@ export class Result {
   rst(status:number, data:any):void {
     this.status = status;
     this.data = data;
+  }
+
+  static TaskError(message : string) : Result {
+    const result = new Result();
+    result.status = 500;
+    result.message = message;
+    result.data = undefined;
+    return result;
+  }
+
+  static TaskOk(data : any) : Result {
+    const result = new Result();
+    result.status = 200;
+    result.message = "OK";
+    result.data = data;
+    return result;
+  }
+
+  static TaskResult(status: number, message : string, data : any) : Result {
+    const result = new Result();
+    result.status = status;
+    result.message = message;
+    result.data = data;
+    return result;
   }
 }
