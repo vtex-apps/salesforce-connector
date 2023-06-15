@@ -11,7 +11,7 @@ import { getCurrentDate } from "../utils/Util";
 
 export default class OrderService {
 
-    public processOrder = async (order: OrderVtexResponse, clientSalesforceId: string, access_token: string, parameter : ParameterList, ctx: Context) : Promise<Result> => {
+    public processOrder = async (order: OrderVtexResponse, clientSalesforceId: string, access_token: string, parameter : ParameterList, ctx: StatusChangeContext) : Promise<Result> => {
         try {
             const httpVTX = await getHttpVTX(ctx.vtex.authToken);
             const salesforceOrderService = new SalesforceOrderService();

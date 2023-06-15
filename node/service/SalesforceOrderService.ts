@@ -146,4 +146,37 @@ export default class SalesforceOrderService {
         }
     }
 
+    public getOrderById = async (orderId: string, access_token: string) : Promise<Result> => {
+      const http = await getHttpToken(access_token);
+      const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT Id, Name FROM Order WHERE PoNumber = '${orderId}'`;
+      try {
+        const { data, status} = await http.get(url);
+        if( status == CODE_STATUS_200){
+          return Result.TaskOk(data);
+        }else{
+          return Result.TaskResult(status, "product could not be queried in salesforce", data);
+        }
+      } catch (error) {
+          return Result.TaskResult(500, "an error occurred while viewing the product", error)
+      }
+    }
+
+    public updateStatusOrder = async (orderId: string, status: string, access_token: string) : Promise<Result> => {
+      const http = await getHttpToken(access_token);
+      const body = {
+        Description: status
+      }
+      const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_ORDER_SALESFORCE}/${orderId}`;
+      try {
+          const { data, status} = await http.patch(url, body);
+          if( status == CODE_STATUS_200 || status == CODE_STATUS_201){
+            return Result.TaskOk(data);
+          }else{
+            return Result.TaskResult(status, "updateStatusOrder could not be updating in salesforce", data);
+          }
+      } catch (error) {
+          return Result.TaskResult(500, "an error occurred when updating updateStatusOrder in salesforce", error)
+      }
+  }
+
 }
