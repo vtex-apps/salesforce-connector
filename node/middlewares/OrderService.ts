@@ -42,7 +42,7 @@ export default class OrderService {
             }
             for(let i=0; i<order.items.length; i++){
                 const item = order.items[i];
-                const resultGetProduct = await salesforceOrderService.getProductByExternalId(item.refId, access_token);
+                const resultGetProduct = await salesforceOrderService.getProductByExternalId(item.id, access_token);
                 if(!resultGetProduct.isOk()){
                     console.log(resultGetProduct.message);
                     console.log(resultGetProduct.data);

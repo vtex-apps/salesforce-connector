@@ -51,10 +51,10 @@ export default class MasterDataOrderService {
             if (status === 200 && validateResponse(data)) {
                 return Result.TaskOk(data);
             } else {
-                return Result.TaskResult(status, "could not be get Parameters in MTDT", data);
+                return Result.TaskResult(404, "not found PriceBookEntry in MTDT", data);
             }
         } catch (error) {
-            return Result.TaskResult(500, "an error has occurred  in getParameters", error)
+            return Result.TaskResult(500, "an error has occurred  in PriceBookEntry", error)
         }
     }
 

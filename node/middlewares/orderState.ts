@@ -1,6 +1,7 @@
 import SalesforceClient from "../clients/salesforceClient"
 import { ParameterList } from "../schemas/Parameter";
 import MasterDataOrderService from "../service/MasterDataOrderService";
+import SalesforceOrderService from "../service/SalesforceOrderService";
 import { getHttpVTX } from "../utils/HttpUtil";
 import { CODE_STATUS_200, CODE_STATUS_500 } from "../utils/constans"
 import OrderService from "./OrderService";
@@ -15,8 +16,13 @@ export async function orderState(
 
   try {
     const { orderId } = ctx.body;
+    const { currentState } = ctx.body;
+    const { lastState } = ctx.body;
+    console.log(currentState);
+    console.log(lastState);
+    console.log(orderId);
     const order = await omsClient.getOrder(orderId);
-    console.log(order);
+    //console.log(order);
     const userProfileId = order.clientProfileData.userProfileId;
     const clientVtex = await masterDataClient.getClient(userProfileId, 'V1');
     const address = await masterDataClient.getAddresses(clientVtex.id, 'V1');
@@ -35,12 +41,30 @@ export async function orderState(
     }
     const orderService = new OrderService();
     const masterDataService = new MasterDataOrderService();
-    const httpVTX = await getHttpVTX(ctx.vtex.authToken);
-    const resultParameters = await masterDataService.getParameters(ctx, httpVTX);
-    const parameters = new ParameterList(resultParameters.data);
-    const result = await orderService.processOrder(order, clientId, accessToken.data, parameters, ctx);
-    ctx.state = result.status;
-    ctx.body = result.data;
+    const salesforceOrderService = new SalesforceOrderService();
+    const resultGetOrder = await salesforceOrderService.getOrderById(orderId, accessToken.data);
+    console.log(resultGetOrder)
+    const ordersFound = resultGetOrder.data;
+    if(resultGetOrder.isOk() && ordersFound.records.length > 0){
+      console.log('order found')
+      //Order found update status
+      const result = await salesforceOrderService.updateStatusOrder(ordersFound.records[0].Id,currentState,accessToken.data);
+      ctx.state = result.status;
+      ctx.body = result.data;
+      console.log(result.status)
+      console.log(result.data)
+    }else{
+      //Order not found
+      console.log('order not found')
+      const httpVTX = await getHttpVTX(ctx.vtex.authToken);
+      const resultParameters = await masterDataService.getParameters(ctx, httpVTX);
+      const parameters = new ParameterList(resultParameters.data);
+      const result = await orderService.processOrder(order, clientId, accessToken.data, parameters, ctx);
+      ctx.state = result.status;
+      ctx.body = result.data;
+      console.log(result.status)
+      console.log(result.data)
+    }
   } catch (error) {
     console.error('error', error)
     ctx.state = CODE_STATUS_500

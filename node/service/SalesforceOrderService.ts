@@ -50,6 +50,7 @@ export default class SalesforceOrderService {
     public getProductByExternalId = async (itemId: string, access_token: string) : Promise<Result> => {
         const http = await getHttpToken(access_token);
         const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT Id, Name FROM Product2 WHERE ExternalId = '${itemId}'`;
+        console.log(url);
         try {
           const { data, status} = await http.get(url);
           if( status == CODE_STATUS_200){
