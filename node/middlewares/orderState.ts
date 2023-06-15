@@ -3,6 +3,7 @@ import { ParameterList } from "../schemas/Parameter";
 import MasterDataOrderService from "../service/MasterDataOrderService";
 import SalesforceOrderService from "../service/SalesforceOrderService";
 import { getHttpVTX } from "../utils/HttpUtil";
+import { StatusHomologate } from "../utils/StatusOrder";
 import { CODE_STATUS_200, CODE_STATUS_500 } from "../utils/constans"
 import OrderService from "./OrderService";
 
@@ -48,7 +49,9 @@ export async function orderState(
     if(resultGetOrder.isOk() && ordersFound.records.length > 0){
       console.log('order found')
       //Order found update status
-      const result = await salesforceOrderService.updateStatusOrder(ordersFound.records[0].Id,currentState,accessToken.data);
+      const statusUpdate = StatusHomologate[currentState];
+      console.log(statusUpdate)
+      const result = await salesforceOrderService.updateStatusOrder(ordersFound.records[0].Id,currentState, accessToken.data);
       ctx.state = result.status;
       ctx.body = result.data;
       console.log(result.status)

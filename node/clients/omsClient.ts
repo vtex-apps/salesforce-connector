@@ -35,6 +35,24 @@ export default class OMS extends ExternalClient {
         sellingPrice: item.sellingPrice
       }
     });
+    const totalsShipping = response.data.totals.find( (total: { id: string; }) => total.id === 'Shipping');
+    console.log(totalsShipping);
+    if(totalsShipping !== undefined && totalsShipping !== null){
+      if(totalsShipping.value > 0){
+        items.push({
+          id: 'SHIPPING-CODE',
+          productId: 'SHIPPING-CODE',
+          uniqueId: 'SHIPPING-CODE',
+          name: 'Item Shipping',
+          quantity: 1,
+          measurementUnit: "un",
+          price: totalsShipping.value/100,
+          imageUrl: '',
+          refId: 'SHIPPING-CODE',
+          sellingPrice: totalsShipping.value/100
+        });
+      }
+    }
     const orderVtexResponse: OrderVtexResponse = {
       orderId: response.data.orderId,
       sequence: response.data.sequence,

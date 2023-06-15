@@ -3,6 +3,7 @@ import { Item, OrderVtexResponse } from "../schemas/orderVtexResponse";
 import { getHttpToken } from "../utils/HttpUtil";
 import { ParameterList } from "../schemas/Parameter";
 import { ACCOUNT_ID, CODE_STATUS_200, CODE_STATUS_201, LIST_PRICE_ID, PATH_API_SALESFORCE, PATH_ASSOCIATE_ORDER_PRODUCT_SALESFORCE, PATH_ORDER_SALESFORCE, PATH_PRICEBOOKENTRY_SALESFORCE, PATH_PRODUCT2_SALESFORCE, PATH_QUERY_SALESFORCE, URI_SALESFORCE } from "../utils/constans";
+import { StatusOrderSalesForce } from "../utils/StatusOrder";
 
 export default class SalesforceOrderService {
 
@@ -19,8 +20,8 @@ export default class SalesforceOrderService {
             return Result.TaskError(`Parameter not found: ${LIST_PRICE_ID}`)
         }
         const body = {
-          Description: order.status,
-          Status: "Draft",
+          Description: `Order VTEX in status ${order.status}`,
+          Status: StatusOrderSalesForce.DRAFT,
           PoDate: date,
           EffectiveDate: date,
           PoNumber: order.orderId,
@@ -165,7 +166,7 @@ export default class SalesforceOrderService {
     public updateStatusOrder = async (orderId: string, status: string, access_token: string) : Promise<Result> => {
       const http = await getHttpToken(access_token);
       const body = {
-        Description: status
+        Description: `Order VTEX in status ${status}`,
       }
       const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_ORDER_SALESFORCE}/${orderId}`;
       try {
