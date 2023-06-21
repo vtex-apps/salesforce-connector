@@ -9,7 +9,7 @@ export default class OMS extends ExternalClient {
       context,
       {
         ...options,
-        headers: {          
+        headers: {
            VtexIdClientAutCookie:
              context.adminUserAuthToken ??
              context.storeUserAuthToken ??
@@ -21,6 +21,7 @@ export default class OMS extends ExternalClient {
 
   public async getOrder(orderId: string) {
     const response = await this.http.getRaw(`/${orderId}`)
+    // TODO: change any to Item type.
     const items = response.data.items.map((item: any) => {
       return {
         id: item.id,
@@ -37,6 +38,8 @@ export default class OMS extends ExternalClient {
     });
     const totalsShipping = response.data.totals.find( (total: { id: string; }) => total.id === 'Shipping');
     console.log(totalsShipping);
+
+    // TODO nullability could be tested just with if (totalShipping && totalShipping.value)
     if(totalsShipping !== undefined && totalsShipping !== null){
       if(totalsShipping.value > 0){
         items.push({
