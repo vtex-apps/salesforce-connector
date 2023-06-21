@@ -1,7 +1,7 @@
 {
-  "name": "service-example",
-  "vendor": "vtex",
-  "version": "0.2.21",
+  "name": "salesforce-connector",
+  "vendor": "felipedev",
+  "version": "0.0.1",
   "title": "Service Example",
   "description": "Reference app for VTEX IO Services",
   "mustUpdateAt": "2018-01-04",
@@ -19,8 +19,31 @@
     {
       "name": "outbound-access",
       "attrs": {
+        "host": "*",
+        "path": "*"
+      }
+    },
+    {
+      "name": "OMSViewer"
+    },
+    {
+      "name": "ADMIN_DS"
+    },
+    {
+      "name": "POWER_USER_DS"
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
         "host": "httpstat.us",
         "path": "*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "{{account}}.vtexcommercestable.com.br",
+        "path": "/api/*"
       }
     },
     {
@@ -28,6 +51,15 @@
     },
     {
       "name": "colossus-write-logs"
+    },
+    {
+      "name": "read-workspace-apps-assets"
+    },
+    {
+      "name": "update-app-settings"
+    },
+    {
+      "name": "install-apps"
     }
   ],
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"

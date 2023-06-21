@@ -6,9 +6,19 @@
   "maxReplicas": 4,
   "workers": 1,
   "routes": {
-    "status": {
-      "path": "/_v/status/:code",
+    "UpdateClientHook": {
+      "path": "/v1/vtex/clients",
       "public": true
+    },
+    "CreateTrigger": {
+      "path": "/v1/vtex/triggers",
+      "public": true
+    }
+  },
+  "events": {
+    "orderState": {
+      "sender": "vtex.orders-broadcast",
+      "topics": ["cancel", "order-created"]
     }
   }
 }

@@ -1,6 +1,10 @@
 {
   "dependencies": {
+    "axios": "~0.24.0",
     "co-body": "^6.0.0",
+    "dotenv": "^16.0.3",
+    "jsforce": "^1.11.1",
+    "nforce": "^1.12.2",
     "ramda": "^0.25.0"
   },
   "devDependencies": {
@@ -11,6 +15,7 @@
     "@vtex/api": "6.45.15",
     "@vtex/test-tools": "^1.0.0",
     "@vtex/tsconfig": "^0.5.6",
+    "felipedev.salesforce-connector": "https://salesforce--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1684859730/public/_types/react",
     "typescript": "3.9.7"
   },
   "resolutions": {
