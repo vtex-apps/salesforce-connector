@@ -27,6 +27,8 @@ export const PATH_PRODUCT2_SALESFORCE = '/Product2'
 export const PATH_PRICEBOOK2_SALESFORCE = '/Pricebook2'
 export const PATH_PRICEBOOKENTRY_SALESFORCE = '/PricebookEntry'
 export const PATH_ASSOCIATE_ORDER_PRODUCT_SALESFORCE = '/OrderItem'
+export const PATH_OPPORTUNITY_SALESFORCE = '/Opportunity'
+export const PATH_ASSOCIATE_OPPORTUNITY_PRODUCT_SALESFORCE = '/OpportunityLineItem'
 /** Code Status */
 export const CODE_STATUS_200 = 200;
 export const CODE_STATUS_201 = 201;

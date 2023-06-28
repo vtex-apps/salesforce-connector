@@ -20,7 +20,7 @@ export async function UpdateClientHook(ctx: Context, next: () => Promise<any>) {
     
     const salesforceCliente = new SalesforceClient();
     const responseAuth = await salesforceCliente.auth();
-    const clientSalesforce = await salesforceCliente.get(clientVtex, responseAuth.data);
+    const clientSalesforce = await salesforceCliente.get(clientVtex.email, responseAuth.data);
 
     //TODO: use && to improve this block getting rid of seconde 'else' statement
     if (clientSalesforce.data.records.length !== 0 && clientVtex.email === clientSalesforce.data.records[0].Email) {

@@ -19,9 +19,9 @@ export default class MasterDataOrderService {
         }
     }
 
-    public saveUpdatePriceBookEntry = async(pricebookEntry: PriceBookEntryOrderSalesforce, ctx: StatusChangeContext, http: AxiosInstance) : Promise<Result> => {
+    public saveUpdatePriceBookEntry = async(pricebookEntry: PriceBookEntryOrderSalesforce, account: string, http: AxiosInstance) : Promise<Result> => {
         try {
-            const response = await http.put(`http://${ctx.vtex.account}.myvtex.com/api/dataentities/${ENTITY_PX}/documents`,pricebookEntry);
+            const response = await http.put(`http://${account}.myvtex.com/api/dataentities/${ENTITY_PX}/documents`,pricebookEntry);
             if (response.status == CODE_STATUS_200 || response.status == CODE_STATUS_201 || response.status == CODE_STATUS_204) {
                 return Result.TaskOk(response.data);
             } else {
@@ -32,9 +32,9 @@ export default class MasterDataOrderService {
         }
     }
 
-    public getParameters = async (ctx: StatusChangeContext, http: AxiosInstance) : Promise<Result> => {
+    public getParameters = async (account: string, http: AxiosInstance) : Promise<Result> => {
         try {
-            const { data, status } = await http.get(`http://${ctx.vtex.account}.myvtex.com/api/dataentities/${ENTITY_PM}/search?_fields=id,parameterValue`)
+            const { data, status } = await http.get(`http://${account}.myvtex.com/api/dataentities/${ENTITY_PM}/search?_fields=id,parameterValue`)
             if (status === 200 && validateResponse(data)) {
                 return Result.TaskOk(data);
             } else {
@@ -45,9 +45,9 @@ export default class MasterDataOrderService {
         }
     }
 
-    public getPriceBookEntry = async (productId: string, ctx: StatusChangeContext, http: AxiosInstance) : Promise<Result> => {
+    public getPriceBookEntry = async (productId: string, account: string, http: AxiosInstance) : Promise<Result> => {
         try {
-            const { data, status } = await http.get(`http://${ctx.vtex.account}.myvtex.com/api/dataentities/${ENTITY_PX}/search?_fields=_all&_where=id=${productId}`)
+            const { data, status } = await http.get(`http://${account}.myvtex.com/api/dataentities/${ENTITY_PX}/search?_fields=_all&_where=id=${productId}`)
             if (status === 200 && validateResponse(data)) {
                 return Result.TaskOk(data);
             } else {

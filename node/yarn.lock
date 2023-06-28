@@ -3012,9 +3012,9 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
-"felipedev.salesforce-connector@https://salesforce--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1686660096/public/_types/react":
+"felipedev.salesforce-connector@https://salesforce--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1687790648/public/_types/react":
   version "0.0.0"
-  resolved "https://salesforce--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1686660096/public/_types/react#fa7a0347e046eab3dd768998fc9252b2c0dd5aef"
+  resolved "https://salesforce--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1687790648/public/_types/react#fa7a0347e046eab3dd768998fc9252b2c0dd5aef"
 
 file-uri-to-path@1.0.0:
   version "1.0.0"
