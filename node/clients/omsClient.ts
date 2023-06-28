@@ -41,20 +41,18 @@ export default class OMS extends ExternalClient {
 
     // TODO nullability could be tested just with if (totalShipping && totalShipping.value)
     if(totalsShipping && totalsShipping.value) {
-      if(totalsShipping.value > 0){
-        items.push({
-          id: 'SHIPPING-CODE',
-          productId: 'SHIPPING-CODE',
-          uniqueId: 'SHIPPING-CODE',
-          name: 'Item Shipping',
-          quantity: 1,
-          measurementUnit: "un",
-          price: totalsShipping.value/100,
-          imageUrl: '',
-          refId: 'SHIPPING-CODE',
-          sellingPrice: totalsShipping.value/100
-        });
-      }
+      items.push({
+        id: 'SHIPPING-CODE',
+        productId: 'SHIPPING-CODE',
+        uniqueId: 'SHIPPING-CODE',
+        name: 'Item Shipping',
+        quantity: 1,
+        measurementUnit: "un",
+        price: totalsShipping.value,
+        imageUrl: '',
+        refId: 'SHIPPING-CODE',
+        sellingPrice: totalsShipping.value
+      });
     }
     const orderVtexResponse: OrderVtexResponse = {
       orderId: response.data.orderId,
