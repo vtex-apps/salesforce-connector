@@ -18,8 +18,8 @@
       "path": "/v1/vtex/abandoned-cart",
       "public": true
     },
-    "TestHook": {
-      "path": "/v1/vtex/test",
+    "SalesforceConfigurationHook": {
+      "path": "/v1/vtex/salesforce-configuration",
       "public": true
     }
   },

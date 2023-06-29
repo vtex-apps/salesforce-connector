@@ -28,11 +28,11 @@ export default class salesforceOpportunityService {
       if (status == CODE_STATUS_200 || status == CODE_STATUS_201) {
         return Result.TaskOk(data);
       } else {
-        return Result.TaskResult(status, "opportunity could not be created in salesforce", data);
+        return Result.TaskResult(status, "Opportunity could not be created in salesforce", data);
       }
     }
     catch (error) {
-      return Result.TaskResult(500, "an error occurred when creating product in salesforce", error)
+      return Result.TaskResult(500, "An error occurred when creating opportunity in salesforce", error)
     }
   }
 
@@ -51,10 +51,10 @@ export default class salesforceOpportunityService {
         if( status == CODE_STATUS_200 || status == CODE_STATUS_201){
           return Result.TaskOk(data);
         }else{
-          return Result.TaskResult(status, "OpportunityItem could not be created in salesforce", data);
+          return Result.TaskResult(status, "OpportunityLineItem could not be created in salesforce", data);
         }
     } catch (error) {
-        return Result.TaskResult(500, "an error occurred when creating OpportunityItem in salesforce", error)
+        return Result.TaskResult(500, "An error occurred when creating OpportunityLineItem in salesforce", error)
     }
-}
+  }
 }

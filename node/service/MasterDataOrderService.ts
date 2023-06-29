@@ -3,6 +3,7 @@ import { AxiosInstance } from "axios";
 import { Result } from "../schemas/Result";
 import { CODE_STATUS_200, CODE_STATUS_201, CODE_STATUS_204, ENTITY_OX, ENTITY_PM, ENTITY_PX } from "../utils/constans";
 import { validateResponse } from "../utils/Util";
+import { Parameter } from "../schemas/Parameter";
 
 export default class MasterDataOrderService {
 
@@ -16,6 +17,19 @@ export default class MasterDataOrderService {
             }
         } catch (error) {
             return Result.TaskResult(500, "an error has occurred  in saveUpdateOrder", error)
+        }
+    }
+
+    public saveParameter = async (parameter: Parameter, account: string, http: AxiosInstance) : Promise<Result> => {
+        try {
+            const response = await http.post(`http://${account}.myvtex.com/api/dataentities/${ENTITY_PM}/documents`, parameter);
+            if (response.status == CODE_STATUS_200 || response.status == CODE_STATUS_201 || response.status == CODE_STATUS_204) {
+                return Result.TaskOk(response.data);
+            } else {
+                return Result.TaskResult(response.status, "could not be registered Parameters in MTDT", response.data);
+            }
+        } catch (error) {
+            return Result.TaskResult(500, "an error has occurred  in saveParameters", error)
         }
     }
 

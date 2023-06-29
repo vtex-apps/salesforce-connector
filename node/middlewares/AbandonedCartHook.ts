@@ -25,7 +25,6 @@ export async function AbandonedCartHook(ctx: Context, next: () => Promise<any>) 
     const parameters = new ParameterList(resultParameters.data);
     const resultCreateOpportunity = await salesforceOpportunity.createOpportunity(args, parameters, userSalesforceId, accessToken.data);
     const opportunityService = new OpportunityService();
-    console.log(resultCreateOpportunity.data.id);
     const resultProcessOpportunity = await opportunityService.processOpporunity(args, resultCreateOpportunity.data.id, accessToken.data, parameters, ctx);
     ctx.status = resultProcessOpportunity.status;
     ctx.body = resultProcessOpportunity.data;
