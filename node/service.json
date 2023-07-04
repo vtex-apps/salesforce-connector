@@ -22,7 +22,7 @@
   "events": {
     "orderState": {
       "sender": "vtex.orders-broadcast",
-      "topics": ["cancel", "order-created", "invoiced"]
+      "topics": ["payment-approved", "canceled", "ready-for-handling", "handling", "invoiced"]
     }
   }
 }

@@ -18,6 +18,8 @@ export interface Item {
   measurementUnit: string;
   price: number;
   imageUrl: string;
+  refId: string;
+  sellingPrice: number;
 }
 
 export interface ClientProfileData {

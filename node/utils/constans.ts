@@ -30,4 +30,12 @@ export const PATH_ASSOCIATE_ORDER_PRODUCT_SALESFORCE = '/OrderItem'
 /** Code Status */
 export const CODE_STATUS_200 = 200;
 export const CODE_STATUS_201 = 201;
+export const CODE_STATUS_204 = 204;
 export const CODE_STATUS_500 = 500;
+/** PARAMETERS */
+export const ACCOUNT_ID = "ACCOUNT_ID";
+export const LIST_PRICE_ID = "STANDARD_PRICEBOOK_ID";
+/** ENTITIES MASTER DATA */
+export const ENTITY_OX = 'OX'; //Entities Order Salesforce
+export const ENTITY_PX = 'PX'; //Entities Product PriceBook Entry
+export const ENTITY_PM = 'PM'; //Entities Parameter

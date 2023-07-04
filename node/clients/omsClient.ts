@@ -1,6 +1,6 @@
 import type { IOContext, InstanceOptions } from '@vtex/api'
 import { ExternalClient } from '@vtex/api'
-import { OrderVtexResponse } from '../schemas/orderVtexResponse';
+import { Item, OrderVtexResponse } from '../schemas/orderVtexResponse';
 
 export default class OMS extends ExternalClient {
   constructor(context: IOContext, options?: InstanceOptions) {
@@ -9,7 +9,7 @@ export default class OMS extends ExternalClient {
       context,
       {
         ...options,
-        headers: {          
+        headers: {
            VtexIdClientAutCookie:
              context.adminUserAuthToken ??
              context.storeUserAuthToken ??
@@ -21,7 +21,8 @@ export default class OMS extends ExternalClient {
 
   public async getOrder(orderId: string) {
     const response = await this.http.getRaw(`/${orderId}`)
-    const items = response.data.items.map((item: any) => {
+    // TODO: change any to Item type.
+    const items = response.data.items.map((item: Item) => {
       return {
         id: item.id,
         productId: item.productId,
@@ -31,8 +32,28 @@ export default class OMS extends ExternalClient {
         measurementUnit: item.measurementUnit,
         price: item.price,
         imageUrl: item.imageUrl,
+        refId: item.refId,
+        sellingPrice: item.sellingPrice
       }
     });
+    const totalsShipping = response.data.totals.find( (total: { id: string; }) => total.id === 'Shipping');
+    console.log(totalsShipping);
+
+    // TODO nullability could be tested just with if (totalShipping && totalShipping.value)
+    if(totalsShipping && totalsShipping.value) {
+      items.push({
+        id: 'SHIPPING-CODE',
+        productId: 'SHIPPING-CODE',
+        uniqueId: 'SHIPPING-CODE',
+        name: 'Item Shipping',
+        quantity: 1,
+        measurementUnit: "un",
+        price: totalsShipping.value,
+        imageUrl: '',
+        refId: 'SHIPPING-CODE',
+        sellingPrice: totalsShipping.value
+      });
+    }
     const orderVtexResponse: OrderVtexResponse = {
       orderId: response.data.orderId,
       sequence: response.data.sequence,
