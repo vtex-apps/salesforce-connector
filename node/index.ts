@@ -17,6 +17,7 @@ import { Clients } from './clients'
 import { orderState } from './middlewares/orderState'
 import { UpdateClientHook } from './middlewares/UpdateClientHook'
 import { CreateTrigger } from './middlewares/CreateTrigger'
+import { TestHook } from './middlewares/TestHook';
 
 const TIMEOUT_MS = 800
 
@@ -68,6 +69,9 @@ export default new Service({
     }),
     CreateTrigger: method({
       POST: [CreateTrigger],
+    }),
+    TestHook: method({
+      POST: [TestHook],
     }),
   },
 })
