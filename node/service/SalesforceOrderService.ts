@@ -19,9 +19,11 @@ export default class SalesforceOrderService {
         if(listPriceId === undefined){
             return Result.TaskError(`Parameter not found: ${LIST_PRICE_ID}`)
         }
+        console.log('status => ', order.status);
         const body = {
-          Description: `Order VTEX in status ${order.status}`,
+          Description: `Order VTEX #${order.orderId}`,
           Status: StatusOrderSalesForce.DRAFT,
+          Order_Status__c: order.status,
           PoDate: date,
           EffectiveDate: date,
           PoNumber: order.orderId,
@@ -166,7 +168,7 @@ export default class SalesforceOrderService {
     public updateStatusOrder = async (orderId: string, status: string, access_token: string) : Promise<Result> => {
       const http = await getHttpToken(access_token);
       const body = {
-        Description: `Order VTEX in status ${status}`,
+        Order_Status__c: status
       }
       const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_ORDER_SALESFORCE}/${orderId}`;
       try {
