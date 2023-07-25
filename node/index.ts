@@ -18,6 +18,7 @@ import { orderState } from './middlewares/orderState'
 import { UpdateClientHook } from './middlewares/UpdateClientHook'
 import { CreateTrigger } from './middlewares/CreateTrigger'
 import { AbandonedCartHook } from './middlewares/AbandonedCartHook';
+import { CreateEntitiesMasterDataV2Hook } from './middlewares/CreateEntitiesMasterDataV2Hook';
 
 const TIMEOUT_MS = 800
 
@@ -72,6 +73,9 @@ export default new Service({
     }),
     AbandonedCartHook: method({
       POST: [AbandonedCartHook],
+    }),
+    CreateEntitiesMasterDataV2Hook: method({
+      POST: [CreateEntitiesMasterDataV2Hook],
     }),
   },
 })

@@ -17,6 +17,10 @@
     "AbandonedCartHook": {
       "path": "/v1/vtex/abandoned-cart",
       "public": true
+    },
+    "CreateEntitiesMasterDataV2Hook": {
+      "path": "/v1/vtex/entities",
+      "public": true
     }
   },
   "events": {
