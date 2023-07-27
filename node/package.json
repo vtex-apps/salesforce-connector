@@ -15,8 +15,9 @@
     "@vtex/api": "6.45.19",
     "@vtex/test-tools": "^1.0.0",
     "@vtex/tsconfig": "^0.5.6",
-    "felipedev.salesforce-connector": "https://salesforce--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1689200847/public/_types/react",
-    "typescript": "3.9.7"
+    "felipedev.salesforce-connector": "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1690405852/public/@types/felipedev.salesforce-connector",
+    "typescript": "3.9.7",
+    "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.146.9/public/@types/vtex.styleguide"
   },
   "resolutions": {
     "@types/testing-library__dom": "6.12.1",
