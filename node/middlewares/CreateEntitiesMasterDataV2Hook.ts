@@ -4,7 +4,6 @@ import { CODE_STATUS_200, CODE_STATUS_500 } from "../utils/constans";
 
 export async function CreateEntitiesMasterDataV2Hook(ctx: Context, next: () => Promise<any>) {
   try {
-    console.log(ctx.vtex.authToken);
     const httpVTX = await getHttpVTX(ctx.vtex.authToken);
     const createEntitiesMasterDataV2Service = new CreateEntitiesMasterDataV2Service();
     const response = await createEntitiesMasterDataV2Service.createEntity(ctx, httpVTX);
