@@ -26,7 +26,7 @@ export async function orderState(
     console.log(orderId);
     const httpVTX = await getHttpVTX(ctx.vtex.authToken);
     const salesforceCliente = new SalesforceClient();
-    const accessToken = await salesforceCliente.auth();
+    const accessToken = await salesforceCliente.auth(ctx.vtex.account, httpVTX);
     const masterDataService = new MasterDataOrderService();
     const resultParameters = await masterDataService.getParameters(ctx.vtex.account, httpVTX);
     const parameterList = new ParameterList(resultParameters.data);

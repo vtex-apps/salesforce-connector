@@ -21,6 +21,10 @@
     "CreateEntitiesMasterDataV2Hook": {
       "path": "/v1/vtex/entities",
       "public": true
+    },
+    "Authentication": {
+      "path": "/v1/vtex/authenticate",
+      "public": true
     }
   },
   "events": {

@@ -1,6 +1,7 @@
 import { json } from "co-body";
 import SalesforceClient from "../clients/salesforceClient";
 import { CODE_STATUS_200, CODE_STATUS_201, CODE_STATUS_500 } from "../utils/constans";
+import { getHttpVTX } from "../utils/HttpUtil";
 
 //TODO: Change 'any' type
 export async function UpdateClientHook(ctx: Context, next: () => Promise<any>) {
@@ -11,6 +12,7 @@ export async function UpdateClientHook(ctx: Context, next: () => Promise<any>) {
 
   try {
     const args = await json(req);
+    const httpVTX = await getHttpVTX(ctx.vtex.authToken);
     /**
      * TODO: Delete if
      * Use ternary conditional
@@ -19,7 +21,7 @@ export async function UpdateClientHook(ctx: Context, next: () => Promise<any>) {
     const address = await masterDataClient.getAddresses(args.id, args.version);
     
     const salesforceCliente = new SalesforceClient();
-    const responseAuth = await salesforceCliente.auth();
+    const responseAuth = await salesforceCliente.auth(ctx.vtex.account, httpVTX);
     const clientSalesforce = await salesforceCliente.get(clientVtex.email, responseAuth.data);
 
     //TODO: use && to improve this block getting rid of seconde 'else' statement

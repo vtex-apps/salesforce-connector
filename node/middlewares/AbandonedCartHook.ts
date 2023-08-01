@@ -14,12 +14,12 @@ export async function AbandonedCartHook(ctx: Context, next: () => Promise<any>) 
 
   try {
     const args = await json(req);
+    const httpVTX = await getHttpVTX(ctx.vtex.authToken);
     const salesforceCliente = new SalesforceClient();
-    const accessToken = await salesforceCliente.auth();
+    const accessToken = await salesforceCliente.auth(ctx.vtex.account, httpVTX);
     const userSalesforce = await salesforceCliente.getUser(args.email, accessToken.data)
     const userSalesforceId = userSalesforce.data.records[0].Id;
     const salesforceOpportunity = new salesforceOpportunityService();
-    const httpVTX = await getHttpVTX(ctx.vtex.authToken);
     const masterDataService = new MasterDataOrderService();
     const resultParameters = await masterDataService.getParameters(ctx.vtex.account, httpVTX);
     const parameters = new ParameterList(resultParameters.data);

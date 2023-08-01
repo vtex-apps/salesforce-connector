@@ -21,7 +21,7 @@ export default class ConfigurationService {
           description: "Identificador de la lista de precios estandar",
           groupName: "PRICEBOOK",
         }
-        await masterDataService.saveParameter(priceBook, ctx.vtex.account, httpVTX);
+        await masterDataService.saveUpdateParameter(priceBook, ctx.vtex.account, httpVTX);
       }
       if (accountId === undefined) {
         const resultAccount = await salesforceConfigurationService.createAccount(accessToken);
@@ -31,7 +31,7 @@ export default class ConfigurationService {
           description: "Identificador de la cuenta",
           groupName: "ACCOUNT",
         }
-        await masterDataService.saveParameter(account, ctx.vtex.account, httpVTX);
+        await masterDataService.saveUpdateParameter(account, ctx.vtex.account, httpVTX);
       }
       if (nameField === 0) {
         const resultCustomField = await salesforceConfigurationService.createCustomField(accessToken);

@@ -19,6 +19,7 @@ import { UpdateClientHook } from './middlewares/UpdateClientHook'
 import { CreateTrigger } from './middlewares/CreateTrigger'
 import { AbandonedCartHook } from './middlewares/AbandonedCartHook';
 import { CreateEntitiesMasterDataV2Hook } from './middlewares/CreateEntitiesMasterDataV2Hook';
+import { authenticationHook } from './middlewares/authenticationHook';
 
 const TIMEOUT_MS = 800
 
@@ -76,6 +77,9 @@ export default new Service({
     }),
     CreateEntitiesMasterDataV2Hook: method({
       POST: [CreateEntitiesMasterDataV2Hook],
+    }),
+    Authentication: method({
+      POST: [authenticationHook],
     }),
   },
 })

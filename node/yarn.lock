@@ -3012,9 +3012,9 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
-"felipedev.salesforce-connector@https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1690405852/public/@types/felipedev.salesforce-connector":
+"felipedev.salesforce-connector@https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1690926472/public/@types/felipedev.salesforce-connector":
   version "0.0.0"
-  resolved "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1690405852/public/@types/felipedev.salesforce-connector#c3cc828837a94b6322172cd040afea0d487ddb8f"
+  resolved "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1690926472/public/@types/felipedev.salesforce-connector#c2435ae1223525b20188652e494576da1c8b5d3c"
 
 file-uri-to-path@1.0.0:
   version "1.0.0"

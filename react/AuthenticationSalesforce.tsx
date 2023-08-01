@@ -1,8 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Layout, PageHeader,PageBlock } from 'vtex.styleguide'
+import { Layout, PageHeader, PageBlock } from 'vtex.styleguide'
 
 import './styles.global.css'
+import AuthenticationSalesforceManagement from './components/authentication/AutehenticationSalesforceManagement'
 
 const AuthenticationSalesforce = () => {
   return (
@@ -13,7 +14,9 @@ const AuthenticationSalesforce = () => {
         />
       }
     >
-       <PageBlock variation="full"></PageBlock>
+       <PageBlock variation="full">
+        <AuthenticationSalesforceManagement></AuthenticationSalesforceManagement>
+       </PageBlock>
     </Layout>
   )
 }

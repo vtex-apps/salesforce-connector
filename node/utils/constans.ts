@@ -1,9 +1,3 @@
-/** Constans enviroment variables */
-export const GRANT_TYPE = 'password';
-export const CLIENT_ID = '3MVG9gtDqcOkH4PKx5GaxzwrPnOsL886NZvqUj3hQddpkMGoEXP_KVm.Sg0tW8l34hWD1amdP3Hl_X9EbLZE1';
-export const CLIENT_SECRET = '4BF9EA8BC9EA6CAA2CE2505E50BE695F7802AF4414CCE2E048D7356492E279FB';
-export const USERNAME = 'giovannyj@titamedia.com';
-export const PASSWORD = 'P@sto123NgVRH5yg0xLjIeGJseqp80In';
 /** Constans VTEX */
 export const CLIENT_ENTITY_V1 = 'CL';
 export const ADDRESS_ENTITY_V1 = 'AD';
@@ -15,6 +9,7 @@ export const PATH_API_DATAENTITIES = '/api/dataentities';
 export const PATH_SEARCH_USERID = '/search?_fields=_all&userId=';
 export const PATH_SEARCH_ID = '/search?_fields=_all&id=';
 /** Constans Salesforce */
+export const GRANT_TYPE = 'password';
 export const URI_SALESFORCE_AUTH = 'https://login.salesforce.com/services/oauth2/token';
 export const URI_SALESFORCE = 'https://titamedia-dev-ed.develop.my.salesforce.com';
 export const URI_SALESFORCE_TRIGGER = 'https://salesforce--felipedev.myvtex.com';
@@ -39,6 +34,10 @@ export const CODE_STATUS_500 = 500;
 /** PARAMETERS */
 export const ACCOUNT_ID = "ACCOUNT_ID";
 export const LIST_PRICE_ID = "STANDARD_PRICEBOOK_ID";
+export const USERNAME = "USERNAME";
+export const PASSWORD = "PASSWORD";
+export const CLIENT_ID = "CLIENT_ID";
+export const CLIENT_SECRET = "CLIENT_SECRET";
 /** ENTITIES MASTER DATA */
 export const ENTITY_OX = 'OX'; //Entities Order Salesforce
 export const ENTITY_PX = 'PX'; //Entities Product PriceBook Entry

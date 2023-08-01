@@ -20,9 +20,9 @@ export default class MasterDataOrderService {
         }
     }
 
-    public saveParameter = async (parameter: Parameter, account: string, http: AxiosInstance) : Promise<Result> => {
+    public saveUpdateParameter = async (parameter: Parameter, account: string, http: AxiosInstance) : Promise<Result> => {
         try {
-            const response = await http.post(`http://${account}.myvtex.com/api/dataentities/${ENTITY_PM}/documents`, parameter);
+            const response = await http.put(`http://${account}.myvtex.com/api/dataentities/${ENTITY_PM}/documents`, parameter);
             if (response.status == CODE_STATUS_200 || response.status == CODE_STATUS_201 || response.status == CODE_STATUS_204) {
                 return Result.TaskOk(response.data);
             } else {

@@ -1,25 +1,30 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import qs from 'qs';
 import { CLIENT_ID, CLIENT_SECRET, CODE_STATUS_201, GRANT_TYPE, PASSWORD, PATH_API_SALESFORCE, PATH_CONTACT_SALESFORCE, PATH_QUERY_SALESFORCE, URI_SALESFORCE, URI_SALESFORCE_AUTH, USERNAME } from '../utils/constans';
 import { Result } from '../schemas/Result';
 import { ClientVtexResponse } from '../schemas/ClientVtexResponse';
 import { AddressVtexResponse } from '../schemas/AddressVtexResponse';
+import MasterDataOrderService from '../service/MasterDataOrderService';
+import { ParameterList } from '../schemas/Parameter';
 
 export default class SalesforceClient {
-  public auth = async () => {
+  public auth = async (account: string, httpVTX: AxiosInstance) => {
     const result = new Result();
     const http = axios.create({
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     });
+    const masterDataService = new MasterDataOrderService();
+    const resultParameters = await masterDataService.getParameters(account, httpVTX);
+    const parameterList = new ParameterList(resultParameters.data);
     const url = URI_SALESFORCE_AUTH;
     const data = qs.stringify({
       grant_type: GRANT_TYPE,
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
-      username: USERNAME,
-      password: PASSWORD,
+      client_id: parameterList.get(CLIENT_ID),
+      client_secret: parameterList.get(CLIENT_SECRET),
+      username: parameterList.get(USERNAME),
+      password: parameterList.get(PASSWORD),
     });
     try {
       const response = await http.post(url, data);
