@@ -1,7 +1,7 @@
 import type { IOContext, InstanceOptions } from '@vtex/api'
 import { ExternalClient } from '@vtex/api'
-import axios from 'axios'
-import { ADDRESS_ENTITY_V1, ADDRESS_ENTITY_V2, CLIENT_ENTITY_V1, CLIENT_ENTITY_V2, PATH_ACTION_TRIGGER, PATH_API_DATAENTITIES, PATH_SEARCH_ID, PATH_SEARCH_USERID, TRIGGER_NAME, URI_SALESFORCE_TRIGGER } from '../utils/constans'
+import { AxiosInstance } from 'axios'
+import { ADDRESS_ENTITY_V1, ADDRESS_ENTITY_V2, CLIENT_ENTITY_V1, CLIENT_ENTITY_V2, CODE_STATUS_200, CODE_STATUS_201, CODE_STATUS_204, CODE_STATUS_500, PATH_ACTION_TRIGGER, PATH_API_DATAENTITIES, PATH_SEARCH_ID, PATH_SEARCH_USERID, TRIGGER_NAME, URI_SALESFORCE_TRIGGER } from '../utils/constans'
 import { Result } from '../schemas/Result'
 import { ClientVtexResponse } from '../schemas/ClientVtexResponse'
 import { AddressVtexResponse } from '../schemas/AddressVtexResponse'
@@ -51,8 +51,7 @@ export default class MasterDataClient extends ExternalClient {
     return addressVtexResponse;
   }
 
-  public async createTrigger() {
-    const result = new Result();
+  public async createTrigger(http: AxiosInstance) {
     const endpoint = `http://${this.context.account}.myvtex.com${PATH_API_DATAENTITIES}/${CLIENT_ENTITY_V2}/schemas/${TRIGGER_NAME}`;
     const triggerConfig = {
       "properties": {
@@ -99,20 +98,14 @@ export default class MasterDataClient extends ExternalClient {
       ]
     }
     try {
-      const response = await axios.put(endpoint, triggerConfig, {
-        headers: {
-          VtexIdClientAutCookie:
-          this.context.adminUserAuthToken ??
-          this.context.storeUserAuthToken ??
-          this.context.authToken,
-          'Content-Type': 'application/json',
-        },
-      });
-      result.ok(response.data);
-      return result;
+      const response = await http.put(endpoint, triggerConfig);
+      if (response.status == CODE_STATUS_200 || response.status == CODE_STATUS_201 || response.status == CODE_STATUS_204) {
+        return Result.TaskOk("Trigger created or updated successfully");
+      } else {
+        return Result.TaskOk("Trigger was already created in MTDT and had no modifications");
+      }
     } catch (error) {
-      result.error('Error creando el trigger:', error);
-      return result;
+      return Result.TaskResult(CODE_STATUS_500, 'Error creating the trigger', error);
     }
   }
 }

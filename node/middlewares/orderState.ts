@@ -1,7 +1,5 @@
 import SalesforceClient from "../service/SalesforceClientService"
 import { ParameterList } from "../schemas/Parameter";
-import ConfigurationService from "../service/ConfigurationService";
-import SalesforceConfigurationService from "../service/SalesforceConfigurationService";
 import SalesforceOrderService from "../service/SalesforceOrderService";
 import { getHttpVTX } from "../utils/HttpUtil";
 import { StatusHomologate } from "../utils/StatusOrder";
@@ -30,14 +28,6 @@ export async function orderState(
     const masterDataService = new MasterDataService();
     const resultParameters = await masterDataService.getParameters(ctx.vtex.account, httpVTX);
     const parameterList = new ParameterList(resultParameters.data);
-    const salesforceConfigurationService = new SalesforceConfigurationService();
-    const resultCustomFieldExists = await salesforceConfigurationService.getFielsOrder(accessToken.data);
-    const nameField = resultCustomFieldExists.data.fields.filter((field: any) => field.name === 'Order_Status__c');
-    if (parameterList.parameters.length === 0 || nameField.length === 0) {
-      const configurationService = new ConfigurationService();
-      const resultConfiguration = await configurationService.proccessConfiguration(accessToken.data, ctx, parameterList, nameField.length);
-      console.log(resultConfiguration);
-    }
     const order = await omsClient.getOrder(orderId);
     const userProfileId = order.clientProfileData.userProfileId;
     const clientVtex = await masterDataClient.getClient(userProfileId, 'V1');

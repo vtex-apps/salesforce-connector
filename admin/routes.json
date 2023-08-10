@@ -1,6 +1,6 @@
 {
   "admin.app.frontbasecomponent": {
-    "path": "/admin/app/authentication-salesforce",
-    "component": "AuthenticationSalesforce"
+    "path": "/admin/app/settings",
+    "component": "ApplicationSettings"
   }
 }

@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Modal, Input } from 'vtex.styleguide';
 
-const AuthenticationSalesforceManagement: React.FC = () => {
+const ApplicationSettingsComponent: React.FC = () => {
   const [data, setData] = useState({
     isModalOpen: false,
     userName: '',
@@ -10,6 +10,8 @@ const AuthenticationSalesforceManagement: React.FC = () => {
     clientId: '',
     clientSecret: ''
   });
+
+  const [responseSettings, setresponseSettings] = useState('');
   
   const handleOpenModal = () => {
     setData({
@@ -48,6 +50,22 @@ const AuthenticationSalesforceManagement: React.FC = () => {
     });
   };
 
+  const handleSettings = () => {
+    axios.post('https://salesforcetest--felipedev.myvtex.com/v1/vtex/configuration', data)
+      .then((response) => {
+        console.log(response.data);
+        setresponseSettings("Configuration process completed successfully");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    
+    setData({
+      ...data,
+      isModalOpen: false
+    });
+  };
+
   const handleLogin = () => {
     // Lógica para realizar la autenticación con Salesforce
     const clientId = '3MVG9gtDqcOkH4PKx5GaxzwrPnOsL886NZvqUj3hQddpkMGoEXP_KVm.Sg0tW8l34hWD1amdP3Hl_X9EbLZE1'; // Reemplaza con tu Client ID
@@ -74,12 +92,19 @@ const AuthenticationSalesforceManagement: React.FC = () => {
 
   return (
     <div>
-      <Button onClick={handleOpenModal}>Login</Button>
-      <Button onClick={handleLogin}>Login2</Button>
+      <div className='mb4'>
+        <Button onClick={handleOpenModal}>Login</Button>
+        <Button onClick={handleLogin}>Login2</Button>
+      </div>
+
+      <div className='mb4'>
+        <Button onClick={handleSettings}>Save Settings</Button>
+        <p>{responseSettings}</p>
+      </div>
 
       <Modal
         isOpen={data.isModalOpen}
-        title="Iniciar sesión"
+        title="Login"
         responsiveFullScreen
         bottomBar={
           <div className="nowrap">
@@ -143,4 +168,4 @@ const AuthenticationSalesforceManagement: React.FC = () => {
   )
 }
 
-export default AuthenticationSalesforceManagement;
+export default ApplicationSettingsComponent;

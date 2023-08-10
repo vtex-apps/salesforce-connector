@@ -6,7 +6,7 @@ import MasterDataService from "./MasterDataService";
 import SalesforceConfigurationService from "./SalesforceConfigurationService";
 
 export default class ConfigurationService {
-  public proccessConfiguration = async (accessToken: string, ctx: StatusChangeContext, parameterList: ParameterList, nameField: number): Promise<Result> => {
+  public proccessConfiguration = async (accessToken: string, ctx: Context, parameterList: ParameterList, nameField: number): Promise<Result> => {
     try {
       const masterDataService = new MasterDataService();
       const httpVTX = await getHttpVTX(ctx.vtex.authToken);

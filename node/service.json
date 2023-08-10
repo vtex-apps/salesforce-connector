@@ -10,20 +10,16 @@
       "path": "/v1/vtex/clients",
       "public": true
     },
-    "CreateTrigger": {
-      "path": "/v1/vtex/triggers",
-      "public": true
-    },
     "AbandonedCartHook": {
       "path": "/v1/vtex/abandoned-cart",
       "public": true
     },
-    "CreateEntitiesMasterDataV2Hook": {
-      "path": "/v1/vtex/entities",
-      "public": true
-    },
     "Authentication": {
       "path": "/v1/vtex/authenticate",
+      "public": true
+    },
+    "ConfigurationHook": {
+      "path": "/v1/vtex/configuration",
       "public": true
     }
   },

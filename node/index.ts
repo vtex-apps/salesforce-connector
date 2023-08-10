@@ -16,10 +16,9 @@ dotenv.config();
 import { Clients } from './clients';
 import { orderState } from './middlewares/orderState';
 import { updateClientHook } from './middlewares/updateClientHook';
-import { createTrigger } from './middlewares/createTrigger';
 import { abandonedCartHook } from './middlewares/abandonedCartHook';
-import { createEntitiesMasterDataV2Hook } from './middlewares/createEntitiesMasterDataV2Hook';
 import { authenticationHook } from './middlewares/authenticationHook';
+import { configurationHook } from './middlewares/configurationHook';
 
 const TIMEOUT_MS = 800
 
@@ -69,17 +68,14 @@ export default new Service({
     UpdateClientHook: method({
       POST: [updateClientHook],
     }),
-    CreateTrigger: method({
-      POST: [createTrigger],
-    }),
     AbandonedCartHook: method({
       POST: [abandonedCartHook],
     }),
-    CreateEntitiesMasterDataV2Hook: method({
-      POST: [createEntitiesMasterDataV2Hook],
-    }),
     Authentication: method({
       POST: [authenticationHook],
+    }),
+    ConfigurationHook: method({
+      POST: [configurationHook],
     }),
   },
 })

@@ -1,12 +1,12 @@
 {
   "section": "accountSettings",
-  "titleId": "admin-authentication-salesforce.label-group",
-  "subSection": "Authentication",
-  "searchKeyWordsHelpers": "admin-authentication-salesforce.navigation.keywords",
+  "titleId": "admin-application-settings.label-group",
+  "subSection": "Settings",
+  "searchKeyWordsHelpers": "admin-application-settings.navigation.keywords",
   "subSectionItems": [
     {
-      "labelId": "admin-authentication-salesforce.label-group",
-      "path": "/admin/authentication-salesforce"
+      "labelId": "admin-application-settings.label-group",
+      "path": "/admin/settings"
     }
   ]
 }

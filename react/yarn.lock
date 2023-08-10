@@ -112,9 +112,9 @@ fast-json-stable-stringify@^2.0.0:
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.0.0.tgz#d5142c0caee6b1189f87d3a76111064f86c8bbf2"
   integrity sha1-1RQsDK7msRifh9OnYREGT4bIu/I=
 
-"felipedev.salesforce-connector@https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1691670317/public/@types/felipedev.salesforce-connector":
+"felipedev.salesforce-connector@https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1691680313/public/@types/felipedev.salesforce-connector":
   version "0.0.0"
-  resolved "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1691670317/public/@types/felipedev.salesforce-connector#f69e5d94ae473951a09e681fdb6524b3aa5dd560"
+  resolved "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1691680313/public/@types/felipedev.salesforce-connector#23510f2370f259904c166cb58596305518568a37"
 
 follow-redirects@^1.14.4:
   version "1.15.2"
@@ -268,9 +268,9 @@ typescript@3.9.7:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
   integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
 
-"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.133.2/public/@types/vtex.render-runtime":
-  version "8.133.2"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.133.2/public/@types/vtex.render-runtime#6fc9c79c52f292c67f583e96d66a56b7b61eabd1"
+"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.134.0/public/@types/vtex.render-runtime":
+  version "8.134.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.134.0/public/@types/vtex.render-runtime#ee5a73993a75e45de60ccceac1ef74ab6b9202a3"
 
 "vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.146.9/public/@types/vtex.styleguide":
   version "9.146.9"
