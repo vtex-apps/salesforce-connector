@@ -2,13 +2,13 @@ import { Parameter, ParameterList } from "../schemas/Parameter";
 import { Result } from "../schemas/Result";
 import { getHttpVTX } from "../utils/HttpUtil";
 import { ACCOUNT_ID, LIST_PRICE_ID } from "../utils/constans";
-import MasterDataOrderService from "./MasterDataService";
+import MasterDataService from "./MasterDataService";
 import SalesforceConfigurationService from "./SalesforceConfigurationService";
 
 export default class ConfigurationService {
   public proccessConfiguration = async (accessToken: string, ctx: StatusChangeContext, parameterList: ParameterList, nameField: number): Promise<Result> => {
     try {
-      const masterDataService = new MasterDataOrderService();
+      const masterDataService = new MasterDataService();
       const httpVTX = await getHttpVTX(ctx.vtex.authToken);
       const listPriceId = parameterList.get(LIST_PRICE_ID);
       const accountId = parameterList.get(ACCOUNT_ID);

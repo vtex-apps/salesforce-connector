@@ -2,19 +2,19 @@ import { OrderSalesforce, PriceBookEntryOrderSalesforce } from "../schemas/Order
 import { OrderVtexResponse } from "../schemas/OrderVtexResponse";
 import { ParameterList } from "../schemas/Parameter";
 import { Result } from "../schemas/Result";
-import MasterDataOrderService from "./MasterDataService";
 import SalesforceOrderService from "./SalesforceOrderService";
 import { LIST_PRICE_ID } from "../utils/constans";
 import { getHttpVTX } from "../utils/HttpUtil";
 import { StatusOrder } from "../utils/StatusOrder";
 import { getCurrentDate } from "../utils/Util";
+import MasterDataService from "./MasterDataService";
 
 export default class OrderService {
   public processOrder = async (order: OrderVtexResponse, clientSalesforceId: string, access_token: string, parameter: ParameterList, ctx: StatusChangeContext): Promise<Result> => {
     try {
       const httpVTX = await getHttpVTX(ctx.vtex.authToken);
       const salesforceOrderService = new SalesforceOrderService();
-      const masterDataOrderService = new MasterDataOrderService();
+      const masterDataService = new MasterDataService();
       const listPriceId = parameter.get(LIST_PRICE_ID);
       if (listPriceId === undefined) {
         return Result.TaskError(`Parameter not found: ${LIST_PRICE_ID}`)
@@ -33,7 +33,7 @@ export default class OrderService {
         statusOrder: StatusOrder.SYNCH,
         updateDate: getCurrentDate()
       }
-      const resultSave = await masterDataOrderService.saveUpdateOrder(orderSF, ctx, httpVTX);
+      const resultSave = await masterDataService.saveUpdateOrder(orderSF, ctx, httpVTX);
       if (!resultSave.isOk()) {
         console.log(resultSave.message);
         console.log(resultSave.data);
@@ -69,7 +69,7 @@ export default class OrderService {
             id: idProduct,
             priceBookEntryId: resultCreatePricebookEntry.data.id
           };
-          await masterDataOrderService.saveUpdatePriceBookEntry(pricebookEntry, ctx.vtex.account, httpVTX);
+          await masterDataService.saveUpdatePriceBookEntry(pricebookEntry, ctx.vtex.account, httpVTX);
           //create relation order-product
           const resultCreateOrderItem = await salesforceOrderService.associateOrderAndProduct(orderSF.idSfc, pricebookEntry.priceBookEntryId, item, access_token);
           if (!resultCreateOrderItem.isOk()) {
@@ -81,7 +81,7 @@ export default class OrderService {
           console.log('Product Found');
           const idProduct = itemsFound.records[0].Id;
           let priceBookEntryId = '';
-          const resultPriceBookEntry = await masterDataOrderService.getPriceBookEntry(idProduct, ctx.vtex.account, httpVTX);
+          const resultPriceBookEntry = await masterDataService.getPriceBookEntry(idProduct, ctx.vtex.account, httpVTX);
           console.log(resultPriceBookEntry);
           if (resultPriceBookEntry.isOk()) { // PriceBookEntryFound
             const data: PriceBookEntryOrderSalesforce = resultPriceBookEntry.data[0];
@@ -100,7 +100,7 @@ export default class OrderService {
               priceBookEntryId: resultCreatePricebookEntry.data.id
             };
             priceBookEntryId = pricebookEntry.priceBookEntryId;
-            await masterDataOrderService.saveUpdatePriceBookEntry(pricebookEntry, ctx.vtex.account, httpVTX);
+            await masterDataService.saveUpdatePriceBookEntry(pricebookEntry, ctx.vtex.account, httpVTX);
           }
           //create relation order-product
           const resultCreateOrderItem = await salesforceOrderService.associateOrderAndProduct(orderSF.idSfc, priceBookEntryId, item, access_token);

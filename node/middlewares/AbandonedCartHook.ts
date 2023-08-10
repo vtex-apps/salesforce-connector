@@ -3,7 +3,7 @@ import { CODE_STATUS_500 } from "../utils/constans";
 import SalesforceClient from "../service/SalesforceClientService";
 import salesforceOpportunityService from "../service/SalesforceOpportunityService";
 import { getHttpVTX } from "../utils/HttpUtil";
-import MasterDataOrderService from "../service/MasterDataService";
+import MasterDataService from "../service/MasterDataService";
 import { ParameterList } from "../schemas/Parameter";
 import OpportunityService from "../service/OpportunityService";
 
@@ -20,7 +20,7 @@ export async function abandonedCartHook(ctx: Context, next: () => Promise<any>) 
     const userSalesforce = await salesforceCliente.getUser(args.email, accessToken.data)
     const userSalesforceId = userSalesforce.data.records[0].Id;
     const salesforceOpportunity = new salesforceOpportunityService();
-    const masterDataService = new MasterDataOrderService();
+    const masterDataService = new MasterDataService();
     const resultParameters = await masterDataService.getParameters(ctx.vtex.account, httpVTX);
     const parameters = new ParameterList(resultParameters.data);
     const resultCreateOpportunity = await salesforceOpportunity.createOpportunity(args, parameters, userSalesforceId, accessToken.data);

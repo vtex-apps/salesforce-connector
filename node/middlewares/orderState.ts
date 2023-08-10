@@ -1,13 +1,13 @@
 import SalesforceClient from "../service/SalesforceClientService"
 import { ParameterList } from "../schemas/Parameter";
 import ConfigurationService from "../service/ConfigurationService";
-import MasterDataOrderService from "../service/MasterDataService";
 import SalesforceConfigurationService from "../service/SalesforceConfigurationService";
 import SalesforceOrderService from "../service/SalesforceOrderService";
 import { getHttpVTX } from "../utils/HttpUtil";
 import { StatusHomologate } from "../utils/StatusOrder";
 import { CODE_STATUS_200, CODE_STATUS_500 } from "../utils/constans"
 import OrderService from "../service/OrderService";
+import MasterDataService from "../service/MasterDataService";
 
 export async function orderState(
   ctx: StatusChangeContext,
@@ -27,7 +27,7 @@ export async function orderState(
     const httpVTX = await getHttpVTX(ctx.vtex.authToken);
     const salesforceCliente = new SalesforceClient();
     const accessToken = await salesforceCliente.auth(ctx.vtex.account, httpVTX);
-    const masterDataService = new MasterDataOrderService();
+    const masterDataService = new MasterDataService();
     const resultParameters = await masterDataService.getParameters(ctx.vtex.account, httpVTX);
     const parameterList = new ParameterList(resultParameters.data);
     const salesforceConfigurationService = new SalesforceConfigurationService();

@@ -4,7 +4,7 @@ import { ParameterList } from "../schemas/Parameter";
 import { Result } from "../schemas/Result";
 import { getHttpVTX } from "../utils/HttpUtil";
 import { LIST_PRICE_ID } from "../utils/constans";
-import MasterDataOrderService from "./MasterDataService";
+import MasterDataService from "./MasterDataService";
 import salesforceOpportunityService from "./SalesforceOpportunityService";
 import SalesforceOrderService from "./SalesforceOrderService";
 
@@ -13,7 +13,7 @@ export default class OpportunityService {
     try {
       const httpVTX = await getHttpVTX(ctx.vtex.authToken);
       const salesforceOrderService = new SalesforceOrderService();
-      const masterDataOrderService = new MasterDataOrderService();
+      const masterDataService = new MasterDataService();
       const salesforceOpportunity = new salesforceOpportunityService();
       const listPriceId = parameter.get(LIST_PRICE_ID);
       if (listPriceId === undefined) {
@@ -47,7 +47,7 @@ export default class OpportunityService {
             id: idProduct,
             priceBookEntryId: resultCreatePricebookEntry.data.id
           };
-          await masterDataOrderService.saveUpdatePriceBookEntry(pricebookEntry, ctx.vtex.account, httpVTX);
+          await masterDataService.saveUpdatePriceBookEntry(pricebookEntry, ctx.vtex.account, httpVTX);
           //create relation opportunity-product
           const resultCreateOpportunityItem = await salesforceOpportunity.associateOpportunityAndProduct(opportunityId, pricebookEntry.priceBookEntryId, item, accessToken);
           if (!resultCreateOpportunityItem.isOk()) {
@@ -58,7 +58,7 @@ export default class OpportunityService {
         } else {
           const idProduct = itemsFound.records[0].Id;
           let priceBookEntryId = '';
-          const resultPriceBookEntry = await masterDataOrderService.getPriceBookEntry(idProduct, ctx.vtex.account, httpVTX);
+          const resultPriceBookEntry = await masterDataService.getPriceBookEntry(idProduct, ctx.vtex.account, httpVTX);
           if (resultPriceBookEntry.isOk()) { // PriceBookEntryFound
             const data: PriceBookEntryOrderSalesforce = resultPriceBookEntry.data[0];
             priceBookEntryId = data.priceBookEntryId;
@@ -76,7 +76,7 @@ export default class OpportunityService {
               priceBookEntryId: resultCreatePricebookEntry.data.id
             };
             priceBookEntryId = pricebookEntry.priceBookEntryId;
-            await masterDataOrderService.saveUpdatePriceBookEntry(pricebookEntry, ctx.vtex.account, httpVTX);
+            await masterDataService.saveUpdatePriceBookEntry(pricebookEntry, ctx.vtex.account, httpVTX);
           }
           //create relation opportunity-product
           const resultCreateOpportunityItem = await salesforceOpportunity.associateOpportunityAndProduct(opportunityId, priceBookEntryId, item, accessToken);

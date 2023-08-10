@@ -4,8 +4,8 @@ import { CLIENT_ID, CLIENT_SECRET, CODE_STATUS_201, GRANT_TYPE, PASSWORD, PATH_A
 import { Result } from '../schemas/Result';
 import { ClientVtexResponse } from '../schemas/ClientVtexResponse';
 import { AddressVtexResponse } from '../schemas/AddressVtexResponse';
-import MasterDataOrderService from './MasterDataService';
 import { ParameterList } from '../schemas/Parameter';
+import MasterDataService from './MasterDataService';
 
 export default class SalesforceClient {
   public auth = async (account: string, httpVTX: AxiosInstance) => {
@@ -15,7 +15,7 @@ export default class SalesforceClient {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     });
-    const masterDataService = new MasterDataOrderService();
+    const masterDataService = new MasterDataService();
     const resultParameters = await masterDataService.getParameters(account, httpVTX);
     const parameterList = new ParameterList(resultParameters.data);
     const url = URI_SALESFORCE_AUTH;
