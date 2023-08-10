@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Modal, Input } from 'vtex.styleguide';
 
-const AuthenticationSalesforceManagement = () => {
+const AuthenticationSalesforceManagement: React.FC = () => {
   const [data, setData] = useState({
     isModalOpen: false,
     userName: '',
@@ -48,9 +48,34 @@ const AuthenticationSalesforceManagement = () => {
     });
   };
 
+  const handleLogin = () => {
+    // Lógica para realizar la autenticación con Salesforce
+    const clientId = '3MVG9gtDqcOkH4PKx5GaxzwrPnOsL886NZvqUj3hQddpkMGoEXP_KVm.Sg0tW8l34hWD1amdP3Hl_X9EbLZE1'; // Reemplaza con tu Client ID
+    const redirectUri = 'https://login.salesforce.com/services/oauth2/success'; // Reemplaza con tu Redirect URI
+
+    // Construye la URL de autorización
+    const authUrl = `https://login.salesforce.com/services/oauth2/authorize?response_type=token&client_id=${clientId}&redirect_uri=${redirectUri}`;
+    
+    // Abre una nueva ventana del navegador para la autenticación en Salesforce
+    const authWindow = window.open(authUrl, '_blank', 'width=600,height=400');
+    
+    // Agrega un listener para detectar cuando la ventana de autenticación se cierre
+    window.addEventListener('message', (event) => {
+      if (event.origin === redirectUri) {
+        // Extrae el token de acceso del fragmento de la URL
+        const token = event.data.access_token;
+        console.log(token);
+        
+        // Cierra la ventana de autenticación
+        authWindow?.close();
+      }
+    });
+  };
+
   return (
     <div>
       <Button onClick={handleOpenModal}>Login</Button>
+      <Button onClick={handleLogin}>Login2</Button>
 
       <Modal
         isOpen={data.isModalOpen}
