@@ -92,12 +92,14 @@ const ApplicationSettingsComponent: React.FC = () => {
 
   return (
     <div>
-      <div className='mb4'>
+      <div className='mb6'>
         <Button onClick={handleOpenModal}>Login</Button>
         <Button onClick={handleLogin}>Login2</Button>
       </div>
 
-      <div className='mb4'>
+      <hr />
+
+      <div className='mt6'>
         <Button onClick={handleSettings}>Save Settings</Button>
         <p>{responseSettings}</p>
       </div>
