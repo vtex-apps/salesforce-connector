@@ -2,7 +2,7 @@ import { Parameter, ParameterList } from "../schemas/Parameter";
 import { Result } from "../schemas/Result";
 import { getHttpVTX } from "../utils/HttpUtil";
 import { ACCOUNT_ID, LIST_PRICE_ID } from "../utils/constans";
-import MasterDataOrderService from "./MasterDataOrderService";
+import MasterDataOrderService from "./MasterDataService";
 import SalesforceConfigurationService from "./SalesforceConfigurationService";
 
 export default class ConfigurationService {

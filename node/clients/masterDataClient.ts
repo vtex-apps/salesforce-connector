@@ -24,7 +24,6 @@ export default class MasterDataClient extends ExternalClient {
   }
 
   public async getClient(clientId: string, version: string) {
-    //TODO: use ternary operator
     const path = version === 'V1' ? `${CLIENT_ENTITY_V1}${PATH_SEARCH_USERID}${clientId}` : `${CLIENT_ENTITY_V2}${PATH_SEARCH_ID}${clientId}`;
     const response = await this.http.getRaw(path)
     const clientVtexResponse: ClientVtexResponse = {
@@ -40,7 +39,6 @@ export default class MasterDataClient extends ExternalClient {
   }
 
   public async getAddresses(clientId: string, version: string) {
-    //TODO: use ternary operator
     const path = version === 'V1' ? `${ADDRESS_ENTITY_V1}${PATH_SEARCH_USERID}${clientId}` : `${ADDRESS_ENTITY_V2}${PATH_SEARCH_ID}${clientId}`;
     const response = await this.http.getRaw(path)
     const addressVtexResponse: AddressVtexResponse = {
@@ -81,7 +79,7 @@ export default class MasterDataClient extends ExternalClient {
           "condition": "id<>00000000",
           "action": {
             "type": "http",
-            "uri": `${URI_SALESFORCE_TRIGGER}${PATH_ACTION_TRIGGER}`, //TODO: Change the hard-coded URL for something generic.
+            "uri": `${URI_SALESFORCE_TRIGGER}${PATH_ACTION_TRIGGER}`,
             "method": "POST",
             "headers": {
               "content-type": "application/json"
@@ -115,7 +113,6 @@ export default class MasterDataClient extends ExternalClient {
     } catch (error) {
       result.error('Error creando el trigger:', error);
       return result;
-      // TODO: return with appropriate error message and error code
     }
   }
 }

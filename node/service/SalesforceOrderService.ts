@@ -1,12 +1,11 @@
 import { Result } from "../schemas/Result";
-import { Item, OrderVtexResponse } from "../schemas/orderVtexResponse";
+import { Item, OrderVtexResponse } from "../schemas/OrderVtexResponse";
 import { getHttpToken } from "../utils/HttpUtil";
 import { ParameterList } from "../schemas/Parameter";
 import { ACCOUNT_ID, CODE_STATUS_200, CODE_STATUS_201, LIST_PRICE_ID, PATH_API_SALESFORCE, PATH_ASSOCIATE_ORDER_PRODUCT_SALESFORCE, PATH_ORDER_SALESFORCE, PATH_PRICEBOOKENTRY_SALESFORCE, PATH_PRODUCT2_SALESFORCE, PATH_QUERY_SALESFORCE, URI_SALESFORCE } from "../utils/constans";
 import { StatusOrderSalesForce } from "../utils/StatusOrder";
 
 export default class SalesforceOrderService {
-
     public createOrder = async (order: OrderVtexResponse, clientSalesforceId: string, access_token: string, parameter : ParameterList) : Promise<Result> => {
         const http = await getHttpToken(access_token);
         const fullDate = new Date(order.creationDate);
@@ -182,5 +181,4 @@ export default class SalesforceOrderService {
           return Result.TaskResult(500, "an error occurred when updating updateStatusOrder in salesforce", error)
       }
   }
-
 }

@@ -4,7 +4,7 @@ import { ParameterList } from "../schemas/Parameter";
 import { Result } from "../schemas/Result";
 import { getHttpVTX } from "../utils/HttpUtil";
 import { LIST_PRICE_ID } from "../utils/constans";
-import MasterDataOrderService from "./MasterDataOrderService";
+import MasterDataOrderService from "./MasterDataService";
 import salesforceOpportunityService from "./SalesforceOpportunityService";
 import SalesforceOrderService from "./SalesforceOrderService";
 

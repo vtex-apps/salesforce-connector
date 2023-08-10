@@ -13,12 +13,12 @@ import {
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { Clients } from './clients'
-import { orderState } from './middlewares/orderState'
-import { UpdateClientHook } from './middlewares/UpdateClientHook'
-import { CreateTrigger } from './middlewares/CreateTrigger'
-import { AbandonedCartHook } from './middlewares/AbandonedCartHook';
-import { CreateEntitiesMasterDataV2Hook } from './middlewares/CreateEntitiesMasterDataV2Hook';
+import { Clients } from './clients';
+import { orderState } from './middlewares/orderState';
+import { updateClientHook } from './middlewares/updateClientHook';
+import { createTrigger } from './middlewares/createTrigger';
+import { abandonedCartHook } from './middlewares/abandonedCartHook';
+import { createEntitiesMasterDataV2Hook } from './middlewares/createEntitiesMasterDataV2Hook';
 import { authenticationHook } from './middlewares/authenticationHook';
 
 const TIMEOUT_MS = 800
@@ -67,16 +67,16 @@ export default new Service({
   },
   routes: {
     UpdateClientHook: method({
-      POST: [UpdateClientHook],
+      POST: [updateClientHook],
     }),
     CreateTrigger: method({
-      POST: [CreateTrigger],
+      POST: [createTrigger],
     }),
     AbandonedCartHook: method({
-      POST: [AbandonedCartHook],
+      POST: [abandonedCartHook],
     }),
     CreateEntitiesMasterDataV2Hook: method({
-      POST: [CreateEntitiesMasterDataV2Hook],
+      POST: [createEntitiesMasterDataV2Hook],
     }),
     Authentication: method({
       POST: [authenticationHook],

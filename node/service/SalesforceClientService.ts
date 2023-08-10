@@ -4,7 +4,7 @@ import { CLIENT_ID, CLIENT_SECRET, CODE_STATUS_201, GRANT_TYPE, PASSWORD, PATH_A
 import { Result } from '../schemas/Result';
 import { ClientVtexResponse } from '../schemas/ClientVtexResponse';
 import { AddressVtexResponse } from '../schemas/AddressVtexResponse';
-import MasterDataOrderService from '../service/MasterDataOrderService';
+import MasterDataOrderService from './MasterDataService';
 import { ParameterList } from '../schemas/Parameter';
 
 export default class SalesforceClient {
@@ -32,13 +32,11 @@ export default class SalesforceClient {
       return result;
     }
     catch (error) {
-      //TODO: return error response
       result.error('Ocurrio un error al obtener el token', error)
       return result;
     }
   }
 
-  //TODO: Change any type
   public get = async (email: string, accessToken: string) => {
     const result = new Result();
     const http = axios.create({
@@ -56,7 +54,6 @@ export default class SalesforceClient {
       return result;
     }
     catch (error) {
-      //TODO: Improve error response
       result.error('Ocurrio un error al obtener el cliente', error)
       return result;
     }
@@ -79,7 +76,6 @@ export default class SalesforceClient {
       return result;
     }
     catch (error) {
-      //TODO: Improve error response
       result.error('Ocurrio un error al obtener el cliente', error)
       return result;
     }
@@ -146,7 +142,6 @@ export default class SalesforceClient {
       return result;
     }
     catch (error) {
-      //TODO: Improve error response
       result.error('Ocurrio un error al actualizar el cliente', error)
       return result;
     }

@@ -1,4 +1,4 @@
-import { Item } from "./orderVtexResponse";
+import { Item } from "./OrderVtexResponse";
 
 export interface AbandonedCartResponse {
   email: string;

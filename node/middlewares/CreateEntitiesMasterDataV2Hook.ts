@@ -2,7 +2,7 @@ import CreateEntitiesMasterDataV2Service from "../service/CreateEntitiesMasterDa
 import { getHttpVTX } from "../utils/HttpUtil";
 import { CODE_STATUS_200, CODE_STATUS_500 } from "../utils/constans";
 
-export async function CreateEntitiesMasterDataV2Hook(ctx: Context, next: () => Promise<any>) {
+export async function createEntitiesMasterDataV2Hook(ctx: Context, next: () => Promise<any>) {
   try {
     const httpVTX = await getHttpVTX(ctx.vtex.authToken);
     const createEntitiesMasterDataV2Service = new CreateEntitiesMasterDataV2Service();

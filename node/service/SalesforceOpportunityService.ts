@@ -1,5 +1,5 @@
 import { AbandonedCartResponse } from '../schemas/AbandonedCartResponse';
-import { Item } from '../schemas/orderVtexResponse';
+import { Item } from '../schemas/OrderVtexResponse';
 import { ParameterList } from '../schemas/Parameter';
 import { Result } from '../schemas/Result';
 import { ACCOUNT_ID, CODE_STATUS_200, CODE_STATUS_201, LIST_PRICE_ID, PATH_API_SALESFORCE, PATH_ASSOCIATE_OPPORTUNITY_PRODUCT_SALESFORCE, PATH_OPPORTUNITY_SALESFORCE, URI_SALESFORCE } from '../utils/constans';

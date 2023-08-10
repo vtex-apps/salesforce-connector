@@ -1,7 +1,7 @@
 import { IOClients } from '@vtex/api'
 
-import MasterDataClient from './masterDataClient'
-import OMS from './omsClient'
+import MasterDataClient from './MasterDataClient'
+import OMS from './OmsClient'
 
 export class Clients extends IOClients {
   public get masterDataClient() {

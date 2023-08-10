@@ -1,6 +1,6 @@
 import type { IOContext, InstanceOptions } from '@vtex/api'
 import { ExternalClient } from '@vtex/api'
-import { Item, OrderVtexResponse } from '../schemas/orderVtexResponse';
+import { Item, OrderVtexResponse } from '../schemas/OrderVtexResponse';
 
 export default class OMS extends ExternalClient {
   constructor(context: IOContext, options?: InstanceOptions) {
@@ -21,7 +21,6 @@ export default class OMS extends ExternalClient {
 
   public async getOrder(orderId: string) {
     const response = await this.http.getRaw(`/${orderId}`)
-    // TODO: change any to Item type.
     const items = response.data.items.map((item: Item) => {
       return {
         id: item.id,
@@ -39,7 +38,6 @@ export default class OMS extends ExternalClient {
     const totalsShipping = response.data.totals.find( (total: { id: string; }) => total.id === 'Shipping');
     console.log(totalsShipping);
 
-    // TODO nullability could be tested just with if (totalShipping && totalShipping.value)
     if(totalsShipping && totalsShipping.value) {
       items.push({
         id: 'SHIPPING-CODE',

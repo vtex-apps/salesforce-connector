@@ -1,13 +1,13 @@
-import SalesforceClient from "../clients/salesforceClient"
+import SalesforceClient from "../service/SalesforceClientService"
 import { ParameterList } from "../schemas/Parameter";
 import ConfigurationService from "../service/ConfigurationService";
-import MasterDataOrderService from "../service/MasterDataOrderService";
+import MasterDataOrderService from "../service/MasterDataService";
 import SalesforceConfigurationService from "../service/SalesforceConfigurationService";
 import SalesforceOrderService from "../service/SalesforceOrderService";
 import { getHttpVTX } from "../utils/HttpUtil";
 import { StatusHomologate } from "../utils/StatusOrder";
 import { CODE_STATUS_200, CODE_STATUS_500 } from "../utils/constans"
-import OrderService from "./OrderService";
+import OrderService from "../service/OrderService";
 
 export async function orderState(
   ctx: StatusChangeContext,
