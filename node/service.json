@@ -14,7 +14,7 @@
       "path": "/v1/vtex/abandoned-cart",
       "public": true
     },
-    "Authentication": {
+    "AuthenticationHook": {
       "path": "/v1/vtex/authenticate",
       "public": true
     },

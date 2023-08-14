@@ -9,10 +9,11 @@ export const PATH_API_DATAENTITIES = '/api/dataentities';
 export const PATH_SEARCH_USERID = '/search?_fields=_all&userId=';
 export const PATH_SEARCH_ID = '/search?_fields=_all&id=';
 /** Constans Salesforce */
-export const GRANT_TYPE = 'password';
+export const GRANT_TYPE = 'authorization_code';
 export const URI_SALESFORCE_AUTH = 'https://login.salesforce.com/services/oauth2/token';
 export const URI_SALESFORCE = 'https://titamedia-dev-ed.develop.my.salesforce.com';
 export const URI_SALESFORCE_TRIGGER = 'https://salesforce--felipedev.myvtex.com';
+export const PATH_AUTHENTICATION_SALESFORCE = '/v1/vtex/authenticate';
 export const PATH_API_SALESFORCE = '/services/data/v57.0/sobjects'
 export const PATH_QUERY_SALESFORCE = '/services/data/v57.0/query?q='
 export const PATH_CONTACT_SALESFORCE = '/Contact'
@@ -36,8 +37,10 @@ export const ACCOUNT_ID = "ACCOUNT_ID";
 export const LIST_PRICE_ID = "STANDARD_PRICEBOOK_ID";
 export const USERNAME = "USERNAME";
 export const PASSWORD = "PASSWORD";
+export const ACCOUNT_SALESFORCE = "ACCOUNT_SALESFORCE";
 export const CLIENT_ID = "CLIENT_ID";
 export const CLIENT_SECRET = "CLIENT_SECRET";
+export const ACCESS_TOKEN_SALEFORCE = "ACCESS_TOKEN_SALEFORCE";
 /** ENTITIES MASTER DATA */
 export const ENTITY_OX = 'OX'; //Entities Order Salesforce
 export const ENTITY_PX = 'PX'; //Entities Product PriceBook Entry

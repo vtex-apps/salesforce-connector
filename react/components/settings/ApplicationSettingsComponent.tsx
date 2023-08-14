@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Modal, Input } from 'vtex.styleguide';
+import { CLIENT_ID, REDIRECT_URI, URI_CONFIGURATION_SALESFORCE, URI_SALESFORCE_AUTHORIZE } from '../../utils/constans';
 
 const ApplicationSettingsComponent: React.FC = () => {
   const [data, setData] = useState({
     isModalOpen: false,
-    userName: '',
-    password: '',
+    accountSalesforce: '',
     clientId: '',
     clientSecret: ''
   });
@@ -35,23 +35,8 @@ const ApplicationSettingsComponent: React.FC = () => {
     });
   }
 
-  const handleSubmit = () => {
-    axios.post('https://salesforcetest--felipedev.myvtex.com/v1/vtex/authenticate', data)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    
-    setData({
-      ...data,
-      isModalOpen: false
-    });
-  };
-
   const handleSettings = () => {
-    axios.post('https://salesforcetest--felipedev.myvtex.com/v1/vtex/configuration', data)
+    axios.post(URI_CONFIGURATION_SALESFORCE, data)
       .then((response) => {
         console.log(response.data);
         setresponseSettings("Configuration process completed successfully");
@@ -67,46 +52,29 @@ const ApplicationSettingsComponent: React.FC = () => {
   };
 
   const handleLogin = () => {
-    // Lógica para realizar la autenticación con Salesforce
-    const clientId = '3MVG9gtDqcOkH4PKx5GaxzwrPnOsL886NZvqUj3hQddpkMGoEXP_KVm.Sg0tW8l34hWD1amdP3Hl_X9EbLZE1'; // Reemplaza con tu Client ID
-    const redirectUri = 'https://login.salesforce.com/services/oauth2/success'; // Reemplaza con tu Redirect URI
-
-    // Construye la URL de autorización
-    const authUrl = `https://login.salesforce.com/services/oauth2/authorize?response_type=token&client_id=${clientId}&redirect_uri=${redirectUri}`;
+    const authUrl = `${URI_SALESFORCE_AUTHORIZE}?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
     
-    // Abre una nueva ventana del navegador para la autenticación en Salesforce
-    const authWindow = window.open(authUrl, '_blank', 'width=600,height=400');
+    const authWindow = window.open(authUrl, '_blank', 'width=600,height=600');
     
-    // Agrega un listener para detectar cuando la ventana de autenticación se cierre
-    window.addEventListener('message', (event) => {
-      if (event.origin === redirectUri) {
-        // Extrae el token de acceso del fragmento de la URL
-        const token = event.data.access_token;
-        console.log(token);
-        
-        // Cierra la ventana de autenticación
-        authWindow?.close();
-      }
-    });
+    console.log(authWindow);
   };
 
   return (
     <div>
       <div className='mb6'>
-        <Button onClick={handleOpenModal}>Login</Button>
-        <Button onClick={handleLogin}>Login2</Button>
+        <Button onClick={handleLogin}>Login</Button>
       </div>
 
       <hr />
 
       <div className='mt6'>
-        <Button onClick={handleSettings}>Save Settings</Button>
+        <Button onClick={handleOpenModal}>Add Settings</Button>
         <p>{responseSettings}</p>
       </div>
 
       <Modal
         isOpen={data.isModalOpen}
-        title="Login"
+        title="Returns Settings"
         responsiveFullScreen
         bottomBar={
           <div className="nowrap">
@@ -116,31 +84,21 @@ const ApplicationSettingsComponent: React.FC = () => {
               </Button>
             </span>
             <span>
-              <Button variation="primary" onClick={handleSubmit}>
-                Send
+              <Button variation="primary" onClick={handleSettings}>
+                Save Settings
               </Button>
             </span>
           </div>
         }
         onClose={handleCloseModal}>
         <div>
-          <div className="w-100 mv6">
+        <div className="w-100 mv6">
             <Input
               type="text"
-              name="userName"
-              placeholder="UserName"
+              name="accountSalesforce"
+              placeholder="Account Salesforce"
               size="large"
-              label="Username"
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="w-100 mv6">
-            <Input
-              type="password"
-              name="password"
-              placeholder="Password"
-              size="large"
-              label="Password"
+              label="Account Salesforce"
               onChange={handleInputChange}
             />
           </div>

@@ -2,7 +2,6 @@ import { ParameterList } from "../schemas/Parameter";
 import ConfigurationService from "../service/ConfigurationService";
 import CreateEntitiesMasterDataV2Service from "../service/CreateEntitiesMasterDataV2Service";
 import MasterDataService from "../service/MasterDataService";
-import SalesforceClient from "../service/SalesforceClientService";
 import SalesforceConfigurationService from "../service/SalesforceConfigurationService";
 import { getHttpVTX } from "../utils/HttpUtil";
 import { CODE_STATUS_200, CODE_STATUS_500 } from "../utils/constans";
@@ -14,8 +13,6 @@ export async function configurationHook(ctx: Context, next: () => Promise<any>) 
 
   try {
     const httpVTX = await getHttpVTX(ctx.vtex.authToken);
-    const salesforceCliente = new SalesforceClient();
-    const accessToken = await salesforceCliente.auth(ctx.vtex.account, httpVTX);
     const responseCreateTrigger = await masterDataClient.createTrigger(httpVTX);
     console.log(responseCreateTrigger)
     const createEntitiesMasterDataV2Hook = new CreateEntitiesMasterDataV2Service();
@@ -25,10 +22,10 @@ export async function configurationHook(ctx: Context, next: () => Promise<any>) 
     const resultParameters = await masterDataService.getParameters(ctx.vtex.account, httpVTX);
     const parameterList = new ParameterList(resultParameters.data);
     const salesforceConfigurationService = new SalesforceConfigurationService();
-    const resultCustomFieldExists = await salesforceConfigurationService.getFielsOrder(accessToken.data);
+    const resultCustomFieldExists = await salesforceConfigurationService.getFielsOrder(parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
     const nameField = resultCustomFieldExists.data.fields.filter((field: any) => field.name === 'Order_Status__c');
     const configurationService = new ConfigurationService();
-    const responseConfiguration = await configurationService.proccessConfiguration(accessToken.data, ctx, parameterList, nameField.length);
+    const responseConfiguration = await configurationService.proccessConfiguration(parameterList.get('ACCESS_TOKEN_SALEFORCE') || '', ctx, parameterList, nameField.length);
     console.log(responseConfiguration)
     ctx.status = CODE_STATUS_200;
     ctx.body = "OK";

@@ -1,13 +1,15 @@
+import { json } from "co-body";
 import { Parameter, ParameterList } from "../schemas/Parameter";
 import { Result } from "../schemas/Result";
 import { getHttpVTX } from "../utils/HttpUtil";
-import { ACCOUNT_ID, LIST_PRICE_ID } from "../utils/constans";
+import { ACCOUNT_ID, ACCOUNT_SALESFORCE, CLIENT_ID, CLIENT_SECRET, LIST_PRICE_ID } from "../utils/constans";
 import MasterDataService from "./MasterDataService";
 import SalesforceConfigurationService from "./SalesforceConfigurationService";
 
 export default class ConfigurationService {
   public proccessConfiguration = async (accessToken: string, ctx: Context, parameterList: ParameterList, nameField: number): Promise<Result> => {
     try {
+      const args = await json(ctx.req);
       const masterDataService = new MasterDataService();
       const httpVTX = await getHttpVTX(ctx.vtex.authToken);
       const listPriceId = parameterList.get(LIST_PRICE_ID);
@@ -37,6 +39,27 @@ export default class ConfigurationService {
         const resultCustomField = await salesforceConfigurationService.createCustomField(accessToken);
         console.log(resultCustomField.data);
       }
+      const parameterAccountSaleforce: Parameter = {
+        id: ACCOUNT_SALESFORCE,
+        parameterValue: args.accountSalesforce,
+        description: "Cuenta de salesforce",
+        groupName: "SALESFORCE",
+      }
+      await masterDataService.saveUpdateParameter(parameterAccountSaleforce, ctx.vtex.account, httpVTX);
+      const parameterClientId: Parameter = {
+        id: CLIENT_ID,
+        parameterValue: args.clientId,
+        description: "Client Id de la cuenta de salesforce",
+        groupName: "SALEFORCE",
+      }
+      await masterDataService.saveUpdateParameter(parameterClientId, ctx.vtex.account, httpVTX);
+      const parameterClientSecret: Parameter = {
+        id: CLIENT_SECRET,
+        parameterValue: args.clientSecret,
+        description: "Client Secret de la cuenta de salesforce",
+        groupName: "SALEFORCE",
+      }
+      await masterDataService.saveUpdateParameter(parameterClientSecret, ctx.vtex.account, httpVTX);
       return Result.TaskOk('Configuration completed successfully');
     } catch (error) {
       console.log(error);

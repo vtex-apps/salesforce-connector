@@ -51,7 +51,7 @@ declare global {
       lastState: string
       currentChangeDate: string
       lastChangeDate: string
-    }
+    },
   }
 
   interface State extends RecorderState {
@@ -71,8 +71,8 @@ export default new Service({
     AbandonedCartHook: method({
       POST: [abandonedCartHook],
     }),
-    Authentication: method({
-      POST: [authenticationHook],
+    AuthenticationHook: method({
+      GET: [authenticationHook],
     }),
     ConfigurationHook: method({
       POST: [configurationHook],

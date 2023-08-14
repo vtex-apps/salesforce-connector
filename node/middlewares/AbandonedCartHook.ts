@@ -15,17 +15,16 @@ export async function abandonedCartHook(ctx: Context, next: () => Promise<any>) 
   try {
     const args = await json(req);
     const httpVTX = await getHttpVTX(ctx.vtex.authToken);
-    const salesforceCliente = new SalesforceClient();
-    const accessToken = await salesforceCliente.auth(ctx.vtex.account, httpVTX);
-    const userSalesforce = await salesforceCliente.getUser(args.email, accessToken.data)
-    const userSalesforceId = userSalesforce.data.records[0].Id;
-    const salesforceOpportunity = new salesforceOpportunityService();
     const masterDataService = new MasterDataService();
     const resultParameters = await masterDataService.getParameters(ctx.vtex.account, httpVTX);
-    const parameters = new ParameterList(resultParameters.data);
-    const resultCreateOpportunity = await salesforceOpportunity.createOpportunity(args, parameters, userSalesforceId, accessToken.data);
+    const parameterList = new ParameterList(resultParameters.data);
+    const salesforceCliente = new SalesforceClient();
+    const userSalesforce = await salesforceCliente.getUser(args.email, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
+    const userSalesforceId = userSalesforce.data.records[0].Id;
+    const salesforceOpportunity = new salesforceOpportunityService();
+    const resultCreateOpportunity = await salesforceOpportunity.createOpportunity(args, parameterList, userSalesforceId, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
     const opportunityService = new OpportunityService();
-    const resultProcessOpportunity = await opportunityService.processOpporunity(args, resultCreateOpportunity.data.id, accessToken.data, parameters, ctx);
+    const resultProcessOpportunity = await opportunityService.processOpporunity(args, resultCreateOpportunity.data.id, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '', parameterList, ctx);
     ctx.status = resultProcessOpportunity.status;
     ctx.body = resultProcessOpportunity.data;
   } catch (error) {

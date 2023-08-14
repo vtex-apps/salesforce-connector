@@ -24,7 +24,6 @@ export async function orderState(
     console.log(orderId);
     const httpVTX = await getHttpVTX(ctx.vtex.authToken);
     const salesforceCliente = new SalesforceClient();
-    const accessToken = await salesforceCliente.auth(ctx.vtex.account, httpVTX);
     const masterDataService = new MasterDataService();
     const resultParameters = await masterDataService.getParameters(ctx.vtex.account, httpVTX);
     const parameterList = new ParameterList(resultParameters.data);
@@ -32,20 +31,20 @@ export async function orderState(
     const userProfileId = order.clientProfileData.userProfileId;
     const clientVtex = await masterDataClient.getClient(userProfileId, 'V1');
     const address = await masterDataClient.getAddresses(clientVtex.id, 'V1');
-    const clientSalesforce = await salesforceCliente.get(clientVtex.email, accessToken.data);
+    const clientSalesforce = await salesforceCliente.get(clientVtex.email, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
     let clientId = '';
     if (clientSalesforce.data.records.length !== 0 && clientVtex.email === clientSalesforce.data.records[0].Email) {
       clientId = clientSalesforce.data.records[0].Id;
-      const updateContact = await salesforceCliente.update(clientVtex, address, clientSalesforce.data.records[0].Id, accessToken.data);
+      const updateContact = await salesforceCliente.update(clientVtex, address, clientSalesforce.data.records[0].Id, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
       ctx.state = CODE_STATUS_200;
       ctx.body = updateContact.data;
     } else {
-      const createContact = await salesforceCliente.create(clientVtex, address, accessToken.data);
+      const createContact = await salesforceCliente.create(clientVtex, address, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
       clientId = createContact.data.id;
     }
     const orderService = new OrderService();
     const salesforceOrderService = new SalesforceOrderService();
-    const resultGetOrder = await salesforceOrderService.getOrderById(orderId, accessToken.data);
+    const resultGetOrder = await salesforceOrderService.getOrderById(orderId, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
     console.log(resultGetOrder)
     const ordersFound = resultGetOrder.data;
     if(resultGetOrder.isOk() && ordersFound.records.length > 0){
@@ -53,7 +52,7 @@ export async function orderState(
       //Order found update status
       const statusUpdate = StatusHomologate[currentState];
       console.log(statusUpdate)
-      const result = await salesforceOrderService.updateStatusOrder(ordersFound.records[0].Id, currentState, accessToken.data);
+      const result = await salesforceOrderService.updateStatusOrder(ordersFound.records[0].Id, currentState, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
       ctx.state = result.status;
       ctx.body = result.data;
       console.log(result.status)
@@ -61,7 +60,7 @@ export async function orderState(
     }else{
       //Order not found
       console.log('order not found')
-      const result = await orderService.processOrder(order, clientId, accessToken.data, parameterList, ctx);
+      const result = await orderService.processOrder(order, clientId, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '', parameterList, ctx);
       ctx.state = result.status;
       ctx.body = result.data;
       console.log(result.status)
