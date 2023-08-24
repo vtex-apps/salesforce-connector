@@ -17,7 +17,6 @@ import { Clients } from './clients'
 import { orderState } from './middlewares/orderState'
 import { UpdateClientHook } from './middlewares/UpdateClientHook'
 import { CreateTrigger } from './middlewares/CreateTrigger'
-import { SalesforceConfigurationHook } from './middlewares/SalesforceConfigurationHook';
 import { AbandonedCartHook } from './middlewares/AbandonedCartHook';
 
 const TIMEOUT_MS = 800
@@ -73,9 +72,6 @@ export default new Service({
     }),
     AbandonedCartHook: method({
       POST: [AbandonedCartHook],
-    }),
-    SalesforceConfigurationHook: method({
-      POST: [SalesforceConfigurationHook],
     }),
   },
 })

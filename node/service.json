@@ -17,10 +17,6 @@
     "AbandonedCartHook": {
       "path": "/v1/vtex/abandoned-cart",
       "public": true
-    },
-    "SalesforceConfigurationHook": {
-      "path": "/v1/vtex/salesforce-configuration",
-      "public": true
     }
   },
   "events": {
