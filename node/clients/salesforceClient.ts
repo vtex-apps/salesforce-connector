@@ -34,7 +34,7 @@ export default class SalesforceClient {
   }
 
   //TODO: Change any type
-  public get = async (clientVtex: ClientVtexResponse, accessToken: string) => {
+  public get = async (email: string, accessToken: string) => {
     const result = new Result();
     const http = axios.create({
       headers: {
@@ -44,7 +44,30 @@ export default class SalesforceClient {
         'Content-Type': 'application/json'
       }
     });
-    const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT+id,Email+FROM+Contact+WHERE+Email+=+'${clientVtex.email}'`;
+    const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT+id,Email+FROM+Contact+WHERE+Email+=+'${email}'`;
+    try {
+      const response = await http.get(url);
+      result.ok(response.data)
+      return result;
+    }
+    catch (error) {
+      //TODO: Improve error response
+      result.error('Ocurrio un error al obtener el cliente', error)
+      return result;
+    }
+  }
+
+  public getUser = async (email: string, accessToken: string) => {
+    const result = new Result();
+    const http = axios.create({
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Cache-Control": "no-cache",
+        "X-Vtex-Use-Https": "true",
+        'Content-Type': 'application/json'
+      }
+    });
+    const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT+id,Email+FROM+User+WHERE+Email+=+'${email}'`;
     try {
       const response = await http.get(url);
       result.ok(response.data)

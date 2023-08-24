@@ -1,6 +1,8 @@
 export interface Parameter {
     id: string;
     parameterValue: string;
+    description?: string;
+    groupName?: string;
 }
 
 export class ParameterList {

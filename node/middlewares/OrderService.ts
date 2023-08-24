@@ -70,7 +70,7 @@ export default class OrderService {
                         id: idProduct,
                         priceBookEntryId: resultCreatePricebookEntry.data.id
                     };
-                    await masterDataOrderService.saveUpdatePriceBookEntry(pricebookEntry, ctx, httpVTX);
+                    await masterDataOrderService.saveUpdatePriceBookEntry(pricebookEntry, ctx.vtex.account, httpVTX);
                     //create relation order-product
                     const resultCreateOrderItem = await salesforceOrderService.associateOrderAndProduct(orderSF.idSfc, pricebookEntry.priceBookEntryId, item, access_token);
                     if(!resultCreateOrderItem.isOk()){
@@ -82,7 +82,7 @@ export default class OrderService {
                     console.log('Product Found');
                     const idProduct = itemsFound.records[0].Id;
                     let priceBookEntryId = '';
-                    const resultPriceBookEntry = await masterDataOrderService.getPriceBookEntry(idProduct,ctx,httpVTX);
+                    const resultPriceBookEntry = await masterDataOrderService.getPriceBookEntry(idProduct,ctx.vtex.account,httpVTX);
                     console.log(resultPriceBookEntry);
                     if(resultPriceBookEntry.isOk()){ // PriceBookEntryFound
                         const data : PriceBookEntryOrderSalesforce = resultPriceBookEntry.data[0];
@@ -101,7 +101,7 @@ export default class OrderService {
                             priceBookEntryId: resultCreatePricebookEntry.data.id
                         };
                         priceBookEntryId = pricebookEntry.priceBookEntryId;
-                        await masterDataOrderService.saveUpdatePriceBookEntry(pricebookEntry, ctx, httpVTX);
+                        await masterDataOrderService.saveUpdatePriceBookEntry(pricebookEntry, ctx.vtex.account, httpVTX);
                     }
                     //create relation order-product
                     const resultCreateOrderItem = await salesforceOrderService.associateOrderAndProduct(orderSF.idSfc, priceBookEntryId, item, access_token);

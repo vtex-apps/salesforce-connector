@@ -29,7 +29,7 @@ export async function orderState(
     const address = await masterDataClient.getAddresses(clientVtex.id, 'V1');
     const salesforceCliente = new SalesforceClient();
     const accessToken = await salesforceCliente.auth();
-    const clientSalesforce = await salesforceCliente.get(clientVtex, accessToken.data);
+    const clientSalesforce = await salesforceCliente.get(clientVtex.email, accessToken.data);
     let clientId = '';
     if (clientSalesforce.data.records.length !== 0 && clientVtex.email === clientSalesforce.data.records[0].Email) {
       clientId = clientSalesforce.data.records[0].Id;
@@ -60,7 +60,7 @@ export async function orderState(
       //Order not found
       console.log('order not found')
       const httpVTX = await getHttpVTX(ctx.vtex.authToken);
-      const resultParameters = await masterDataService.getParameters(ctx, httpVTX);
+      const resultParameters = await masterDataService.getParameters(ctx.vtex.account, httpVTX);
       const parameters = new ParameterList(resultParameters.data);
       const result = await orderService.processOrder(order, clientId, accessToken.data, parameters, ctx);
       ctx.state = result.status;

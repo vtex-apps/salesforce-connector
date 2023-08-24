@@ -9,7 +9,7 @@ export interface OrderVtexResponse {
   address: Address;
 }
 
-export interface Item {
+export interface  Item {
   id: string;
   productId: string;
   uniqueId: string;
