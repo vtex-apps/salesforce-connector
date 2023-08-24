@@ -22,7 +22,3 @@ export const StatusHomologate: Record<string, string> = {
   'handling': StatusOrderSalesForce.SHIPPED,
   'invoiced': StatusOrderSalesForce.INVOICED
 } as const;
-
-export function ordinalOrderStatus(status: string): number {
-  return Object.keys(StatusOrder).indexOf(status);
-}

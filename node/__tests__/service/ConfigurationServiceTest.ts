@@ -1,46 +1,71 @@
-// import { ParameterList } from "../../schemas/Parameter";
-// import { Result } from "../../schemas/Result";
-// import MasterDataService from "../../service/MasterDataService";
-// import SalesforceConfigurationService from "../../service/SalesforceConfigurationService";
-// import { getHttpVTX } from "../../utils/HttpUtil";
+import { Parameter, ParameterList } from "../../schemas/Parameter";
+import { Result } from "../../schemas/Result";
+import ConfigurationService from "../../service/ConfigurationService";
+import { LIST_PRICE_ID } from "../../utils/constans";
 
-// // Mocks
-// jest.mock('ParameterList');
-// jest.mock('your-salesforceconfigurationservice-module');
-// jest.mock('your-httpvtx-module');
+jest.mock('co-body', () => ({
+  json: jest.fn().mockReturnValue({ email: 'email' }),
+}));
 
-// describe('proccessConfiguration', () => {
-//   it('should complete configuration successfully', async () => {
-//     const accessToken = 'fakeAccessToken';
-//     const parameterList: ParameterList = [
-//       { id: 'fakeParameterId1', parameterValue: 'fakeParameterValue1', description: 'fakeDescription1', groupName: 'fakeGroupName1' },
-//       { id: 'fakeParameterId2', parameterValue: 'fakeParameterValue2', description: 'fakeDescription2', groupName: 'fakeGroupName2' },
-//     ] as any;
-//     const nameField = 0;
+let mockSalesforceConfigurationService: any;
+let mockMasterDataService: any;
 
-//     const masterDataServiceMock = new MasterDataService() as jest.Mocked<MasterDataService>;
-//     masterDataServiceMock.saveUpdateParameter.mockResolvedValue(Result.TaskOk('fakeParameterId'));
-    
-//     const salesforceConfigurationServiceMock = new SalesforceConfigurationService() as jest.Mocked<SalesforceConfigurationService>;
-//     salesforceConfigurationServiceMock.createPricebook.mockResolvedValue(Result.TaskOk('fakePricebookId'));
-//     salesforceConfigurationServiceMock.createAccount.mockResolvedValue(Result.TaskOk('fakeAccountId'));
-//     salesforceConfigurationServiceMock.createCustomField.mockResolvedValue(Result.TaskOk('fakeCustomFieldId'));
-    
-//     const httpVTXMock = {} as any;
-//     (getHttpVTX as jest.Mock).mockResolvedValue(httpVTXMock);
+jest.mock('../../service/SalesforceConfigurationService', () => jest.fn().mockImplementation(() => mockSalesforceConfigurationService));
+jest.mock('../../service/MasterDataService', () => jest.fn().mockImplementation(() => mockMasterDataService));
 
-//     const result = await processConfiguration(accessToken, ctx, parameterList, nameField);
+describe('ConfigurationService', () => {
+  let service: ConfigurationService;
+  let ctx: any;
+  let parameterList: ParameterList;
+  beforeEach(() => {
+    service = new ConfigurationService();
+    ctx = {
+      vtex: {
+        authToken: 'token',
+      },
+      req: {},
+    };
+    const parameterListPrice = {
+      id: LIST_PRICE_ID,
+      parameterValue: "LIST_PRICE_ID"
+    }
+    const parameters: Parameter[] = []
+    parameters.push(parameterListPrice)
+    parameterList = new ParameterList(parameters)
+  });
+  
+  test('Execute success proccess configuration', async () => {
+    mockSalesforceConfigurationService = {
+      createPricebook: jest.fn().mockReturnValue(Result.TaskOk({})),
+      createAccount: jest.fn().mockReturnValue(Result.TaskOk({})),
+      createCustomField: jest.fn().mockReturnValue({}),
+    };
+    mockMasterDataService = {
+      saveUpdateParameter: jest.fn().mockReturnValue({}),
+    };
+    const response = await service.proccessConfiguration('token', ctx, parameterList, 0);
+    expect(response).toEqual({
+      data: 'Configuration completed successfully',
+      status: 200,
+      message: 'OK',
+    });
+  });
 
-//     expect(result).toEqual(Result.TaskOk('Configuration completed successfully'));
-//     expect(masterDataServiceMock.saveUpdateParameter).toHaveBeenCalledTimes(2); // Should be called twice
-//     expect(salesforceConfigurationServiceMock.createPricebook).toHaveBeenCalledWith(accessToken);
-//     expect(salesforceConfigurationServiceMock.createAccount).toHaveBeenCalledWith(accessToken);
-//     expect(salesforceConfigurationServiceMock.createCustomField).toHaveBeenCalledWith(accessToken);
-
-//     // You can also add more specific assertions based on your actual implementation
-//   });
-
-//   it('should handle errors during configuration', async () => {
-//     // Similar to the successful test, but you can mock services to throw errors
-//   });
-// });
+  test('Create pricebook in Salesforce', async () => {
+    parameterList.remove(LIST_PRICE_ID);
+    mockSalesforceConfigurationService = {
+      createPricebook: jest.fn().mockReturnValue(Result.TaskOk({})),
+      createAccount: jest.fn().mockReturnValue(Result.TaskOk({})),
+      createCustomField: jest.fn().mockReturnValue({}),
+    };
+    mockMasterDataService = {
+      saveUpdateParameter: jest.fn().mockReturnValue({}),
+    };
+    const response = await service.proccessConfiguration('token', ctx, parameterList, 0);
+    expect(response).toEqual({
+      data: 'Configuration completed successfully',
+      status: 200,
+      message: 'OK',
+    });
+  });
+});

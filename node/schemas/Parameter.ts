@@ -19,4 +19,12 @@ export class ParameterList {
     }
     return undefined;
   }
+
+  public remove(id: string) {
+    const found = this.parameters.find(x => x.id == id);
+    if (found !== undefined && found !== null) {
+      const index = this.parameters.indexOf(found);
+      this.parameters.splice(index, 1);
+    }
+  }
 }

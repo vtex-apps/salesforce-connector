@@ -1,10 +1,9 @@
+import { AxiosInstance } from "axios";
 import { Result } from "../schemas/Result";
-import { getHttpToken, getSoapToken } from "../utils/HttpUtil";
 import { CODE_STATUS_200, CODE_STATUS_201, PATH_ACCOUNT_SALESFORCE, PATH_API_SALESFORCE, PATH_CUSTOMFIELD_SALESFORCE, PATH_FIELDS_ORDER_SALESFORCE, PATH_PRICEBOOK2_SALESFORCE, URI_SALESFORCE } from "../utils/constans";
 
 export default class SalesforceConfigurationService {
-  public createPricebook = async (accessToken: string) => {
-    const http = await getHttpToken(accessToken);
+  public createPricebook = async (http: AxiosInstance) => {
     const newPricebook = {
       Name: "Lista de Precio VTEX",
       Description: "Lista de Precio VTEX",
@@ -24,8 +23,7 @@ export default class SalesforceConfigurationService {
     }
   }
 
-  public createAccount = async (access_token: string): Promise<Result> => {
-    const http = await getHttpToken(access_token);
+  public createAccount = async (http: AxiosInstance): Promise<Result> => {
     const newAccount = {
       Name: "VTEX Account",
       Industry: "VTEX",
@@ -46,8 +44,7 @@ export default class SalesforceConfigurationService {
     }
   }
 
-  public createCustomField = async (access_token: string): Promise<Result> => {
-    const http = await getSoapToken(access_token);
+  public createCustomField = async (access_token: string, http: AxiosInstance): Promise<Result> => {
     const newCustomField = `
       <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
         <s:Header>
@@ -86,9 +83,7 @@ export default class SalesforceConfigurationService {
     }
   }
 
-  public getFielsOrder = async (access_token: string): Promise<Result> => {
-    const http = await getHttpToken(access_token);
-
+  public getFielsOrder = async (http: AxiosInstance): Promise<Result> => {
     const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_FIELDS_ORDER_SALESFORCE}`;
     try {
       const { data, status } = await http.get(url);

@@ -3,7 +3,7 @@ import { Result } from "../schemas/Result";
 import { CODE_STATUS_200, CODE_STATUS_201, CODE_STATUS_204, CODE_STATUS_500 } from "../utils/constans";
 
 export default class CreateEntitiesMasterDataV2Service {
-  public createEntity = async (ctx: Context, http: AxiosInstance): Promise<Result> => {
+  public createEntity = async (accountVtex: string, http: AxiosInstance): Promise<Result> => {
     try {
       const request = [
         {
@@ -59,7 +59,7 @@ export default class CreateEntitiesMasterDataV2Service {
         },
       ]
       request.forEach(async (element) => {
-        const response = await http.put(`http://${ctx.vtex.account}.myvtex.com/api/dataentities/${element.dataEntityName}/schemas/${element.schemaName}`, element.body);
+        const response = await http.put(`http://${accountVtex}.myvtex.com/api/dataentities/${element.dataEntityName}/schemas/${element.schemaName}`, element.body);
         if (response.status == CODE_STATUS_200 || response.status == CODE_STATUS_201 || response.status == CODE_STATUS_204) {
           console.log(`Entity ${element.dataEntityName} registered in MTDT`);
         } else {

@@ -1,13 +1,12 @@
+import { AxiosInstance } from 'axios';
 import { AbandonedCartResponse } from '../schemas/AbandonedCartResponse';
 import { Item } from '../schemas/OrderVtexResponse';
 import { ParameterList } from '../schemas/Parameter';
 import { Result } from '../schemas/Result';
 import { ACCOUNT_ID, CODE_STATUS_200, CODE_STATUS_201, LIST_PRICE_ID, PATH_API_SALESFORCE, PATH_ASSOCIATE_OPPORTUNITY_PRODUCT_SALESFORCE, PATH_OPPORTUNITY_SALESFORCE, URI_SALESFORCE } from '../utils/constans';
-import { getHttpToken } from '../utils/HttpUtil';
 
-export default class salesforceOpportunityService {
-  public createOpportunity = async (request: AbandonedCartResponse, parameters : ParameterList, userSalesforceId: string, accessToken: string) => {
-    const http = await getHttpToken(accessToken);
+export default class SalesforceOpportunityService {
+  public createOpportunity = async (request: AbandonedCartResponse, parameters : ParameterList, userSalesforceId: string, http: AxiosInstance) => {
     const fullDate = new Date(request.rclastsessiondate);
     const date = fullDate.getFullYear() + '-' + (fullDate.getMonth() + 1) + '-' + fullDate.getDate();
     const accountId = parameters.get(ACCOUNT_ID);
@@ -36,8 +35,7 @@ export default class salesforceOpportunityService {
     }
   }
 
-  public associateOpportunityAndProduct = async (opportunityId: string, pricebookEntryId: string, item: Item, access_token: string) : Promise<Result> => {
-    const http = await getHttpToken(access_token);
+  public associateOpportunityAndProduct = async (opportunityId: string, pricebookEntryId: string, item: Item, http: AxiosInstance) : Promise<Result> => {
     const body = {
       OpportunityId: opportunityId,
       PricebookEntryId: pricebookEntryId,

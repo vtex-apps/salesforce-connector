@@ -25,10 +25,8 @@ export async function authenticationHook(ctx: Context, next: () => Promise<any>)
       redirect_uri: `https://${ctx.vtex.host}${PATH_AUTHENTICATION_SALESFORCE}`,
       code: code,
     };
-
     const response = await axios.post(tokenUrl, qs.stringify(tokenParams));
     const accessToken = response.data.access_token;
-
     const parameterAccountSaleforce: Parameter = {
       id: ACCESS_TOKEN_SALEFORCE,
       parameterValue: accessToken,
@@ -36,11 +34,9 @@ export async function authenticationHook(ctx: Context, next: () => Promise<any>)
       groupName: "SALESFORCE",
     }
     await masterDataService.saveUpdateParameter(parameterAccountSaleforce, ctx.vtex.account, httpVTX);
-
     ctx.status = CODE_STATUS_200;
     ctx.body = "Proceso de autenticación exitoso";
   } catch (error) {
-    console.error('error', error)
     ctx.status = CODE_STATUS_500
     ctx.body = error
   }

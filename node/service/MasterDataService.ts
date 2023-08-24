@@ -6,9 +6,9 @@ import { validateResponse } from "../utils/Util";
 import { Parameter } from "../schemas/Parameter";
 
 export default class MasterDataService {
-  public saveUpdateOrder = async (order: OrderSalesforce, ctx: StatusChangeContext, http: AxiosInstance): Promise<Result> => {
+  public saveUpdateOrder = async (order: OrderSalesforce, accountVtex: string, http: AxiosInstance): Promise<Result> => {
     try {
-      const response = await http.put(`http://${ctx.vtex.account}.myvtex.com/api/dataentities/${ENTITY_OX}/documents`, order);
+      const response = await http.put(`http://${accountVtex}.myvtex.com/api/dataentities/${ENTITY_OX}/documents`, order);
       if (response.status == CODE_STATUS_200 || response.status == CODE_STATUS_201 || response.status == CODE_STATUS_204) {
         return Result.TaskOk(response.data);
       } else {

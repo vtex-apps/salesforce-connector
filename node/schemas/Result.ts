@@ -14,33 +14,6 @@ export class Result {
     return this.status == 200;
   }
 
-  error(message:string, data:any):void {
-    this.status = 500;
-    this.message = message;
-    this.data = data;
-  }
-
-  fail(data:any):void {
-    this.status = 500;
-    this.data = data;
-  }
-
-  ok(data:any):void {
-    this.status = 200;
-    this.data = data;
-  }
-
-  result(status:number, message:string, data:any):void {
-    this.status = status;
-    this.message = message;
-    this.data = data;
-  }
-
-  rst(status:number, data:any):void {
-    this.status = status;
-    this.data = data;
-  }
-
   static TaskError(message : string) : Result {
     const result = new Result();
     result.status = 500;

@@ -1,44 +1,11 @@
-import axios, { AxiosInstance } from 'axios';
-import qs from 'qs';
-import { CLIENT_ID, CLIENT_SECRET, CODE_STATUS_201, GRANT_TYPE, PASSWORD, PATH_API_SALESFORCE, PATH_CONTACT_SALESFORCE, PATH_QUERY_SALESFORCE, URI_SALESFORCE, URI_SALESFORCE_AUTH, USERNAME } from '../utils/constans';
+import axios from 'axios';
+import { CODE_STATUS_200, CODE_STATUS_201, CODE_STATUS_204, PATH_API_SALESFORCE, PATH_CONTACT_SALESFORCE, PATH_QUERY_SALESFORCE, URI_SALESFORCE } from '../utils/constans';
 import { Result } from '../schemas/Result';
 import { ClientVtexResponse } from '../schemas/ClientVtexResponse';
 import { AddressVtexResponse } from '../schemas/AddressVtexResponse';
-import { ParameterList } from '../schemas/Parameter';
-import MasterDataService from './MasterDataService';
 
 export default class SalesforceClient {
-  public auth = async (account: string, httpVTX: AxiosInstance) => {
-    const result = new Result();
-    const http = axios.create({
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    });
-    const masterDataService = new MasterDataService();
-    const resultParameters = await masterDataService.getParameters(account, httpVTX);
-    const parameterList = new ParameterList(resultParameters.data);
-    const url = URI_SALESFORCE_AUTH;
-    const data = qs.stringify({
-      grant_type: GRANT_TYPE,
-      client_id: parameterList.get(CLIENT_ID),
-      client_secret: parameterList.get(CLIENT_SECRET),
-      username: parameterList.get(USERNAME),
-      password: parameterList.get(PASSWORD),
-    });
-    try {
-      const response = await http.post(url, data);
-      result.ok(response.data.access_token)
-      return result;
-    }
-    catch (error) {
-      result.error('Ocurrio un error al obtener el token', error)
-      return result;
-    }
-  }
-
   public get = async (email: string, accessToken: string) => {
-    const result = new Result();
     const http = axios.create({
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -50,17 +17,18 @@ export default class SalesforceClient {
     const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT+id,Email+FROM+Contact+WHERE+Email+=+'${email}'`;
     try {
       const response = await http.get(url);
-      result.ok(response.data)
-      return result;
+      if (response.status == CODE_STATUS_200 || response.status == CODE_STATUS_201 || response.status == CODE_STATUS_204) {
+        return Result.TaskOk(response.data);
+      } else {
+        return Result.TaskResult(response.status, "Client could not be queried in salesforce", response.data);
+      }
     }
     catch (error) {
-      result.error('Ocurrio un error al obtener el cliente', error)
-      return result;
+      return Result.TaskError('An error occurred while viewing the client')
     }
   }
 
   public getUser = async (email: string, accessToken: string) => {
-    const result = new Result();
     const http = axios.create({
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -72,17 +40,18 @@ export default class SalesforceClient {
     const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT+id,Email+FROM+User+WHERE+Email+=+'${email}'`;
     try {
       const response = await http.get(url);
-      result.ok(response.data)
-      return result;
+      if (response.status == CODE_STATUS_200 || response.status == CODE_STATUS_201 || response.status == CODE_STATUS_204) {
+        return Result.TaskOk(response.data);
+      } else {
+        return Result.TaskResult(response.status, "User could not be queried in salesforce", response.data);
+      }
     }
     catch (error) {
-      result.error('Ocurrio un error al obtener el cliente', error)
-      return result;
+      return Result.TaskError('An error occurred while viewing the user')
     }
   }
 
   public create = async (clientVtex: ClientVtexResponse, address: AddressVtexResponse, accessToken: string) => {
-    const result = new Result();
     const http = axios.create({
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -105,17 +74,17 @@ export default class SalesforceClient {
     const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_CONTACT_SALESFORCE}`;
     try {
       const response = await http.post(url, data);
-      result.rst(CODE_STATUS_201, response.data)
-      return result;
-    }
-    catch (error) {
-      result.error('Ocurrio un error al crear el cliente', error)
-      return result;
+      if (response.status == CODE_STATUS_200 || response.status == CODE_STATUS_201) {
+        return Result.TaskOk(response.data);
+      } else {
+        return Result.TaskResult(response.status, "Client could not be created in salesforce", response.data);
+      }
+    } catch (error) {
+      return Result.TaskError("An error occurred when creating client in salesforce")
     }
   }
 
   public update = async (clientVtex: ClientVtexResponse, address: AddressVtexResponse, idClientSalesforce: string, accessToken: string) => {
-    const result = new Result();
     const http = axios.create({
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -138,12 +107,13 @@ export default class SalesforceClient {
     const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_CONTACT_SALESFORCE}/${idClientSalesforce}`;
     try {
       const response = await http.patch(url, data);
-      result.ok(response.data)
-      return result;
-    }
-    catch (error) {
-      result.error('Ocurrio un error al actualizar el cliente', error)
-      return result;
+      if (response.status == CODE_STATUS_200 || response.status == CODE_STATUS_201) {
+        return Result.TaskOk(response.data);
+      } else {
+        return Result.TaskResult(response.status, "Client could not be updated in salesforce", response.data);
+      }
+    } catch (error) {
+      return Result.TaskError("An error occurred when updating client in salesforce")
     }
   }
 }
