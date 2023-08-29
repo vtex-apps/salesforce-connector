@@ -19,6 +19,7 @@ import { updateClientHook } from './middlewares/updateClientHook';
 import { abandonedCartHook } from './middlewares/abandonedCartHook';
 import { authenticationHook } from './middlewares/authenticationHook';
 import { configurationHook } from './middlewares/configurationHook';
+import { addCredentialsHook } from './middlewares/addCredentialsHook';
 
 const TIMEOUT_MS = 800
 
@@ -70,6 +71,9 @@ export default new Service({
     }),
     AbandonedCartHook: method({
       POST: [abandonedCartHook],
+    }),
+    AddCredentialsHook: method({
+      POST: [addCredentialsHook],
     }),
     AuthenticationHook: method({
       GET: [authenticationHook],

@@ -14,6 +14,10 @@
       "path": "/v1/vtex/abandoned-cart",
       "public": true
     },
+    "AddCredentialsHook": {
+      "path": "/v1/vtex/add-credentials",
+      "public": true
+    },
     "AuthenticationHook": {
       "path": "/v1/vtex/authenticate",
       "public": true

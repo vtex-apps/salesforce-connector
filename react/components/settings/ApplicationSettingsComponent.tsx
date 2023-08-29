@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Modal, Input } from 'vtex.styleguide';
-import { CLIENT_ID, REDIRECT_URI, URI_CONFIGURATION_SALESFORCE, URI_SALESFORCE_AUTHORIZE } from '../../utils/constans';
+import { CLIENT_ID, REDIRECT_URI, URI_ADD_CREDENTIALS_SALESFORCE, URI_CONFIGURATION_SALESFORCE, URI_SALESFORCE_AUTHORIZE } from '../../utils/constans';
 
 const ApplicationSettingsComponent: React.FC = () => {
   const [data, setData] = useState({
@@ -12,6 +12,7 @@ const ApplicationSettingsComponent: React.FC = () => {
   });
 
   const [responseSettings, setresponseSettings] = useState('');
+  const [responseAddCredentials, setresponseAddCredentials] = useState('');
   
   const handleOpenModal = () => {
     setData({
@@ -35,11 +36,11 @@ const ApplicationSettingsComponent: React.FC = () => {
     });
   }
 
-  const handleSettings = () => {
-    axios.post(URI_CONFIGURATION_SALESFORCE, data)
+  const handleCredentials = () => {
+    axios.post(URI_ADD_CREDENTIALS_SALESFORCE, data)
       .then((response) => {
         console.log(response.data);
-        setresponseSettings("Configuration process completed successfully");
+        setresponseAddCredentials("Credentials have been added successfully");
       })
       .catch((error) => {
         console.error(error);
@@ -53,22 +54,37 @@ const ApplicationSettingsComponent: React.FC = () => {
 
   const handleLogin = () => {
     const authUrl = `${URI_SALESFORCE_AUTHORIZE}?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
-    
-    const authWindow = window.open(authUrl, '_blank', 'width=600,height=600');
-    
-    console.log(authWindow);
+    window.open(authUrl, '_blank', 'width=600,height=600');
+  };
+
+  const handleSettings = () => {
+    axios.post(URI_CONFIGURATION_SALESFORCE, data)
+      .then((response) => {
+        console.log(response.data);
+        setresponseSettings("Configuration process executed successfully");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
     <div>
       <div className='mb6'>
-        <Button onClick={handleLogin}>Login</Button>
+        <Button onClick={handleOpenModal}>Add Credentials Salesforce</Button>
+        <p>{responseAddCredentials}</p>
+      </div>
+
+      <hr />
+
+      <div className='mt6 mb6'>
+        <Button onClick={handleLogin}>Login Salesforce</Button>
       </div>
 
       <hr />
 
       <div className='mt6'>
-        <Button onClick={handleOpenModal}>Add Settings</Button>
+        <Button onClick={handleSettings}>Create Settings Salesforce</Button>
         <p>{responseSettings}</p>
       </div>
 
@@ -84,8 +100,8 @@ const ApplicationSettingsComponent: React.FC = () => {
               </Button>
             </span>
             <span>
-              <Button variation="primary" onClick={handleSettings}>
-                Save Settings
+              <Button variation="primary" onClick={handleCredentials}>
+                Add Credentials
               </Button>
             </span>
           </div>
