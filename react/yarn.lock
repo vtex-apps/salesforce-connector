@@ -112,9 +112,9 @@ fast-json-stable-stringify@^2.0.0:
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.0.0.tgz#d5142c0caee6b1189f87d3a76111064f86c8bbf2"
   integrity sha1-1RQsDK7msRifh9OnYREGT4bIu/I=
 
-"felipedev.salesforce-connector@https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1692894709/public/@types/felipedev.salesforce-connector":
+"felipedev.salesforce-connector@https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1693317988/public/@types/felipedev.salesforce-connector":
   version "0.0.0"
-  resolved "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1692894709/public/@types/felipedev.salesforce-connector#b871095f03afbfa097955708f4b7d50bbd35fc4d"
+  resolved "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1693317988/public/@types/felipedev.salesforce-connector#98d42778c5644277db337d7748cf71d1d7a4f8c1"
 
 follow-redirects@^1.14.4:
   version "1.15.2"

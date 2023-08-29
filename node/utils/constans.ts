@@ -12,7 +12,7 @@ export const PATH_SEARCH_ID = '/search?_fields=_all&id=';
 export const GRANT_TYPE = 'authorization_code';
 export const URI_SALESFORCE_AUTH = 'https://login.salesforce.com/services/oauth2/token';
 export const URI_SALESFORCE = 'https://titamedia-dev-ed.develop.my.salesforce.com';
-export const URI_SALESFORCE_TRIGGER = 'https://salesforce--felipedev.myvtex.com';
+export const WORKSPACE_VTEX = 'salesforcetest--';
 export const PATH_AUTHENTICATION_SALESFORCE = '/v1/vtex/authenticate';
 export const PATH_API_SALESFORCE = '/services/data/v57.0/sobjects'
 export const PATH_QUERY_SALESFORCE = '/services/data/v57.0/query?q='

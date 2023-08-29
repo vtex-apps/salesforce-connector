@@ -23,7 +23,7 @@ export async function orderState(
     console.log(lastState);
     console.log(orderId);
     const httpVTX = await getHttpVTX(ctx.vtex.authToken);
-    const salesforceCliente = new SalesforceClient();
+    const salesforceClient = new SalesforceClient();
     const masterDataService = new MasterDataService();
     const resultParameters = await masterDataService.getParameters(ctx.vtex.account, httpVTX);
     const parameterList = new ParameterList(resultParameters.data);
@@ -32,15 +32,15 @@ export async function orderState(
     const userProfileId = order.clientProfileData.userProfileId;
     const clientVtex = await masterDataClient.getClient(userProfileId, 'V1');
     const address = await masterDataClient.getAddresses(clientVtex.id, 'V1');
-    const clientSalesforce = await salesforceCliente.get(clientVtex.email, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
+    const clientSalesforce = await salesforceClient.get(clientVtex.email, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
     let clientId = '';
     if (clientSalesforce.data.records.length !== 0 && clientVtex.email === clientSalesforce.data.records[0].Email) {
       clientId = clientSalesforce.data.records[0].Id;
-      const updateContact = await salesforceCliente.update(clientVtex, address, clientSalesforce.data.records[0].Id, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
+      const updateContact = await salesforceClient.update(clientVtex, address, clientSalesforce.data.records[0].Id, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
       ctx.state = CODE_STATUS_200;
       ctx.body = updateContact.data;
     } else {
-      const createContact = await salesforceCliente.create(clientVtex, address, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
+      const createContact = await salesforceClient.create(clientVtex, address, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
       clientId = createContact.data.id;
     }
     const orderService = new OrderService();

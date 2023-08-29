@@ -1,7 +1,7 @@
 import type { IOContext, InstanceOptions } from '@vtex/api'
 import { ExternalClient } from '@vtex/api'
 import { AxiosInstance } from 'axios'
-import { ADDRESS_ENTITY_V1, ADDRESS_ENTITY_V2, CLIENT_ENTITY_V1, CLIENT_ENTITY_V2, CODE_STATUS_200, CODE_STATUS_201, CODE_STATUS_204, CODE_STATUS_500, PATH_ACTION_TRIGGER, PATH_API_DATAENTITIES, PATH_SEARCH_ID, PATH_SEARCH_USERID, TRIGGER_NAME, URI_SALESFORCE_TRIGGER } from '../utils/constans'
+import { ADDRESS_ENTITY_V1, ADDRESS_ENTITY_V2, CLIENT_ENTITY_V1, CLIENT_ENTITY_V2, CODE_STATUS_200, CODE_STATUS_201, CODE_STATUS_204, CODE_STATUS_500, PATH_ACTION_TRIGGER, PATH_API_DATAENTITIES, PATH_SEARCH_ID, PATH_SEARCH_USERID, TRIGGER_NAME, WORKSPACE_VTEX } from '../utils/constans'
 import { Result } from '../schemas/Result'
 import { ClientVtexResponse } from '../schemas/ClientVtexResponse'
 import { AddressVtexResponse } from '../schemas/AddressVtexResponse'
@@ -78,7 +78,7 @@ export default class MasterDataClient extends ExternalClient {
           "condition": "id<>00000000",
           "action": {
             "type": "http",
-            "uri": `${URI_SALESFORCE_TRIGGER}${PATH_ACTION_TRIGGER}`,
+            "uri": `https://${WORKSPACE_VTEX}${this.context.account}.myvtex.com${PATH_ACTION_TRIGGER}`,
             "method": "POST",
             "headers": {
               "content-type": "application/json"

@@ -3855,9 +3855,9 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
-"felipedev.salesforce-connector@https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1692894709/public/@types/felipedev.salesforce-connector":
+"felipedev.salesforce-connector@https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1693317988/public/@types/felipedev.salesforce-connector":
   version "0.0.0"
-  resolved "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1692894709/public/@types/felipedev.salesforce-connector#b871095f03afbfa097955708f4b7d50bbd35fc4d"
+  resolved "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1693317988/public/@types/felipedev.salesforce-connector#98d42778c5644277db337d7748cf71d1d7a4f8c1"
 
 file-uri-to-path@1.0.0:
   version "1.0.0"
@@ -7811,15 +7811,15 @@ typed-array-length@^1.0.4:
     for-each "^0.3.3"
     is-typed-array "^1.1.9"
 
+typescript@3.9.7:
+  version "3.9.7"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
+  integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
+
 typescript@^3.3.3333:
   version "3.9.10"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.10.tgz#70f3910ac7a51ed6bef79da7800690b19bf778b8"
   integrity sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==
-
-typescript@^5.2.2:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.2.2.tgz#5ebb5e5a5b75f085f22bc3f8460fba308310fa78"
-  integrity sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"

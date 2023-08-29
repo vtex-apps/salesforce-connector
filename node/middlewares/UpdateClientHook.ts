@@ -19,19 +19,18 @@ export async function updateClientHook(ctx: Context, next: () => Promise<any>) {
     const masterDataService = new MasterDataService();
     const resultParameters = await masterDataService.getParameters(ctx.vtex.account, httpVTX);
     const parameterList = new ParameterList(resultParameters.data);
-    const salesforceCliente = new SalesforceClient();
-    const clientSalesforce = await salesforceCliente.get(clientVtex.email, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
+    const salesforceClient = new SalesforceClient();
+    const clientSalesforce = await salesforceClient.get(clientVtex.email, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
     if (clientSalesforce.data.records.length !== 0 && clientVtex.email === clientSalesforce.data.records[0].Email) {
-      const updateContact = await salesforceCliente.update(clientVtex, address, clientSalesforce.data.records[0].Id, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
+      const updateContact = await salesforceClient.update(clientVtex, address, clientSalesforce.data.records[0].Id, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
       ctx.status = CODE_STATUS_200;
       ctx.body = updateContact;
     } else {
-      const createContact = await salesforceCliente.create(clientVtex, address, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
+      const createContact = await salesforceClient.create(clientVtex, address, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
       ctx.status = CODE_STATUS_201;
       ctx.body = createContact;
     }
   } catch (error) {
-    console.error('error', error)
     ctx.status = CODE_STATUS_500
     ctx.body = error
   }
