@@ -7,7 +7,7 @@
     "@types/react-intl": "^2.3.17",
     "@vtex/tsconfig": "^0.4.4",
     "apollo-client": "^2.4.7",
-    "felipedev.salesforce-connector": "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1693317988/public/@types/felipedev.salesforce-connector",
+    "felipedev.salesforce-connector": "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/felipedev.salesforce-connector@0.0.1+build1693324705/public/@types/felipedev.salesforce-connector",
     "graphql": "^14.0.2",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",

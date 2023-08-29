@@ -4,7 +4,6 @@ import { AxiosInstance } from 'axios'
 import { ADDRESS_ENTITY_V1, ADDRESS_ENTITY_V2, CLIENT_ENTITY_V1, CLIENT_ENTITY_V2, CODE_STATUS_200, CODE_STATUS_201, CODE_STATUS_204, CODE_STATUS_500, PATH_ACTION_TRIGGER, PATH_API_DATAENTITIES, PATH_SEARCH_ID, PATH_SEARCH_USERID, TRIGGER_NAME, WORKSPACE_VTEX } from '../utils/constans'
 import { Result } from '../schemas/Result'
 import { ClientVtexResponse } from '../schemas/ClientVtexResponse'
-import { AddressVtexResponse } from '../schemas/AddressVtexResponse'
 
 export default class MasterDataClient extends ExternalClient {
   constructor(context: IOContext, options?: InstanceOptions) {
@@ -41,14 +40,22 @@ export default class MasterDataClient extends ExternalClient {
   public async getAddresses(clientId: string, version: string) {
     const path = version === 'V1' ? `${ADDRESS_ENTITY_V1}${PATH_SEARCH_USERID}${clientId}` : `${ADDRESS_ENTITY_V2}${PATH_SEARCH_ID}${clientId}`;
     const response = await this.http.getRaw(path)
-    const addressVtexResponse: AddressVtexResponse = {
+    if (response.data.length === 0) {
+      return {
+        street: '',
+        city: '',
+        state: '',
+        postalCode: '',
+        country: '',
+      }
+    }
+    return {
       street: response.data[0].street,
       city: response.data[0].city,
       state: response.data[0].state,
       postalCode: response.data[0].postalCode,
       country: response.data[0].country,
     }
-    return addressVtexResponse;
   }
 
   public async createTrigger(http: AxiosInstance) {
