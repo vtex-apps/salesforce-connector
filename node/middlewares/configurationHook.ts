@@ -1,21 +1,13 @@
 import { ParameterList } from "../schemas/Parameter";
 import ConfigurationService from "../service/ConfigurationService";
-import CreateEntitiesMasterDataV2Service from "../service/CreateEntitiesMasterDataV2Service";
 import MasterDataService from "../service/MasterDataService";
 import SalesforceConfigurationService from "../service/SalesforceConfigurationService";
 import { getHttpToken, getHttpVTX } from "../utils/HttpUtil";
 import { CODE_STATUS_200, CODE_STATUS_500 } from "../utils/constans";
 
 export async function configurationHook(ctx: Context, next: () => Promise<any>) {
-  const {
-    clients: { masterDataClient },
-  } = ctx
-
   try {
     const httpVTX = await getHttpVTX(ctx.vtex.authToken);
-    await masterDataClient.createTrigger(httpVTX);
-    const createEntitiesMasterDataV2Hook = new CreateEntitiesMasterDataV2Service();
-    await createEntitiesMasterDataV2Hook.createEntity(ctx.vtex.account, httpVTX);
     const masterDataService = new MasterDataService();
     const resultParameters = await masterDataService.getParameters(ctx.vtex.account, httpVTX);
     const parameterList = new ParameterList(resultParameters.data);

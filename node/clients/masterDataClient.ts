@@ -33,6 +33,7 @@ export default class MasterDataClient extends ExternalClient {
       email: response.data[0].email,
       firstName: response.data[0].firstName,
       lastName: response.data[0].lastName,
+      birthDate: response.data[0].birthDate,
     }
     return clientVtexResponse
   }

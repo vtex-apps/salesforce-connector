@@ -81,8 +81,10 @@ export default class OrderService {
         } else { // product found
           console.log('Product Found');
           const idProduct = itemsFound.records[0].Id;
+          console.log(idProduct);
           let priceBookEntryId = '';
           const resultPriceBookEntry = await masterDataService.getPriceBookEntry(idProduct, accountVtex, httpVTX);
+          console.log(resultPriceBookEntry.data);
           if (resultPriceBookEntry.isOk()) { // PriceBookEntryFound
             const data: PriceBookEntryOrderSalesforce = resultPriceBookEntry.data[0];
             priceBookEntryId = data.priceBookEntryId;

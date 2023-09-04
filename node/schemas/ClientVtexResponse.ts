@@ -6,4 +6,5 @@ export interface ClientVtexResponse {
   email: string;
   firstName: string;
   lastName: string;
+  birthDate: string;
 }

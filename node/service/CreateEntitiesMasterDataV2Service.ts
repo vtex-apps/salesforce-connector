@@ -1,19 +1,16 @@
 import { AxiosInstance } from "axios";
 import { Result } from "../schemas/Result";
-import { CODE_STATUS_200, CODE_STATUS_201, CODE_STATUS_204, CODE_STATUS_500 } from "../utils/constans";
+import { CODE_STATUS_200, CODE_STATUS_201, CODE_STATUS_204, CODE_STATUS_500, ENTITY_ORDER_V2, ENTITY_PARAMETER_V2, ENTITY_PRICEBOOKENTRY_V2 } from "../utils/constans";
 
 export default class CreateEntitiesMasterDataV2Service {
   public createEntity = async (accountVtex: string, http: AxiosInstance): Promise<Result> => {
     try {
       const request = [
         {
-          "dataEntityName": "Parameter",
+          "dataEntityName": ENTITY_PARAMETER_V2,
           "schemaName": "parameterSchema",
           "body": {
             "properties": {
-              "idParameter": {
-                "type": "string"
-              },
               "description": {
                 "type": "string"
               },
@@ -27,7 +24,7 @@ export default class CreateEntitiesMasterDataV2Service {
           }
         },
         {
-          "dataEntityName": "OrderSalesforce",
+          "dataEntityName": ENTITY_ORDER_V2,
           "schemaName": "orderSalesforceSchema",
           "body": {
             "properties": {
@@ -44,14 +41,11 @@ export default class CreateEntitiesMasterDataV2Service {
           }
         },
         {
-          "dataEntityName": "PricebookEntry",
+          "dataEntityName": ENTITY_PRICEBOOKENTRY_V2,
           "schemaName": "pricebookEntrySchema",
           "body": {
             "properties": {
               "priceBookEntryId": {
-                "type": "string"
-              },
-              "productId": {
                 "type": "string"
               }
             }

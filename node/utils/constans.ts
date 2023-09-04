@@ -45,3 +45,6 @@ export const ACCESS_TOKEN_SALEFORCE = "ACCESS_TOKEN_SALEFORCE";
 export const ENTITY_OX = 'OX'; //Entities Order Salesforce
 export const ENTITY_PX = 'PX'; //Entities Product PriceBook Entry
 export const ENTITY_PM = 'PM'; //Entities Parameter
+export const ENTITY_PARAMETER_V2 = 'Parameter';
+export const ENTITY_ORDER_V2 = 'OrderSalesforce';
+export const ENTITY_PRICEBOOKENTRY_V2 = 'PricebookEntry';

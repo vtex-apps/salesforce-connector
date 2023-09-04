@@ -21,7 +21,7 @@ export default class ConfigurationService {
           id: LIST_PRICE_ID,
           parameterValue: resultPriceBook.data.id,
           description: "Identificador de la lista de precios estandar",
-          groupName: "PRICEBOOK",
+          groupName: "SALEFORCE",
         }
         await masterDataService.saveUpdateParameter(priceBook, ctx.vtex.account, httpVTX);
       }
@@ -31,7 +31,7 @@ export default class ConfigurationService {
           id: ACCOUNT_ID,
           parameterValue: resultAccount.data.id,
           description: "Identificador de la cuenta",
-          groupName: "ACCOUNT",
+          groupName: "SALEFORCE",
         }
         await masterDataService.saveUpdateParameter(account, ctx.vtex.account, httpVTX);
       }
