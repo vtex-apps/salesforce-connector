@@ -6,20 +6,17 @@ import {
   IOContext,
   method,
 } from '@vtex/api'
-import {
-  LRUCache,
-  Service,
-} from '@vtex/api'
-import * as dotenv from "dotenv";
-dotenv.config();
+import { LRUCache, Service } from '@vtex/api'
+import * as dotenv from 'dotenv'
+dotenv.config()
 
-import { Clients } from './clients';
-import { orderState } from './middlewares/orderState';
-import { updateClientHook } from './middlewares/updateClientHook';
-import { abandonedCartHook } from './middlewares/abandonedCartHook';
-import { authenticationHook } from './middlewares/authenticationHook';
-import { configurationHook } from './middlewares/configurationHook';
-import { addCredentialsHook } from './middlewares/addCredentialsHook';
+import { Clients } from './clients'
+import { orderState } from './middlewares/orderState'
+import { updateClientHook } from './middlewares/UpdateClientHook'
+import { abandonedCartHook } from './middlewares/AbandonedCartHook'
+import { authenticationHook } from './middlewares/authenticationHook'
+import { configurationHook } from './middlewares/configurationHook'
+import { addCredentialsHook } from './middlewares/addCredentialsHook'
 
 const TIMEOUT_MS = 800
 
@@ -52,7 +49,7 @@ declare global {
       lastState: string
       currentChangeDate: string
       lastChangeDate: string
-    },
+    }
   }
 
   interface State extends RecorderState {

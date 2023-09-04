@@ -1,19 +1,41 @@
-import { Result } from "../schemas/Result";
-import { Item, OrderVtexResponse } from "../schemas/OrderVtexResponse";
-import { ParameterList } from "../schemas/Parameter";
-import { ACCOUNT_ID, CODE_STATUS_200, CODE_STATUS_201, LIST_PRICE_ID, PATH_API_SALESFORCE, PATH_ASSOCIATE_ORDER_PRODUCT_SALESFORCE, PATH_ORDER_SALESFORCE, PATH_PRICEBOOKENTRY_SALESFORCE, PATH_PRODUCT2_SALESFORCE, PATH_QUERY_SALESFORCE, URI_SALESFORCE } from "../utils/constans";
-import { StatusOrderSalesForce } from "../utils/StatusOrder";
-import { AxiosInstance } from "axios";
+import { Result } from '../schemas/Result'
+import { Item, OrderVtexResponse } from '../schemas/orderVtexResponse'
+import { ParameterList } from '../schemas/Parameter'
+import {
+  ACCOUNT_ID,
+  CODE_STATUS_200,
+  CODE_STATUS_201,
+  LIST_PRICE_ID,
+  PATH_API_SALESFORCE,
+  PATH_ASSOCIATE_ORDER_PRODUCT_SALESFORCE,
+  PATH_ORDER_SALESFORCE,
+  PATH_PRICEBOOKENTRY_SALESFORCE,
+  PATH_PRODUCT2_SALESFORCE,
+  PATH_QUERY_SALESFORCE,
+  URI_SALESFORCE,
+} from '../utils/constans'
+import { StatusOrderSalesForce } from '../utils/StatusOrder'
+import { AxiosInstance } from 'axios'
 
 export default class SalesforceOrderService {
-  public createOrder = async (order: OrderVtexResponse, clientSalesforceId: string, http: AxiosInstance, parameter: ParameterList): Promise<Result> => {
-    const fullDate = new Date(order.creationDate);
-    const date = fullDate.getFullYear() + '-' + (fullDate.getMonth() + 1) + '-' + fullDate.getDate();
-    const accountId = parameter.get(ACCOUNT_ID);
+  public createOrder = async (
+    order: OrderVtexResponse,
+    clientSalesforceId: string,
+    http: AxiosInstance,
+    parameter: ParameterList
+  ): Promise<Result> => {
+    const fullDate = new Date(order.creationDate)
+    const date =
+      fullDate.getFullYear() +
+      '-' +
+      (fullDate.getMonth() + 1) +
+      '-' +
+      fullDate.getDate()
+    const accountId = parameter.get(ACCOUNT_ID)
     if (accountId === undefined) {
       return Result.TaskError(`Parameter not found: ${ACCOUNT_ID}`)
     }
-    const listPriceId = parameter.get(LIST_PRICE_ID);
+    const listPriceId = parameter.get(LIST_PRICE_ID)
     if (listPriceId === undefined) {
       return Result.TaskError(`Parameter not found: ${LIST_PRICE_ID}`)
     }
@@ -32,36 +54,58 @@ export default class SalesforceOrderService {
       ShippingCountry: order.address.country,
       ShippingPostalCode: order.address.postalCode,
       AccountId: accountId,
-      Pricebook2Id: listPriceId
-    };
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_ORDER_SALESFORCE}`;
+      Pricebook2Id: listPriceId,
+    }
+    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_ORDER_SALESFORCE}`
     try {
-      const { data, status } = await http.post(url, body);
-      if (status == CODE_STATUS_200 || status == CODE_STATUS_201) {
-        return Result.TaskOk(data);
+      const { data, status } = await http.post(url, body)
+      if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
+        return Result.TaskOk(data)
       } else {
-        return Result.TaskResult(status, "order could not be created in salesforce", data);
+        return Result.TaskResult(
+          status,
+          'order could not be created in salesforce',
+          data
+        )
       }
     } catch (error) {
-      return Result.TaskResult(500, "an error occurred while processing order", error)
+      return Result.TaskResult(
+        500,
+        'an error occurred while processing order',
+        error
+      )
     }
   }
 
-  public getProductByExternalId = async (itemId: string, http: AxiosInstance): Promise<Result> => {
-    const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT Id, Name FROM Product2 WHERE ExternalId = '${itemId}'`;
+  public getProductByExternalId = async (
+    itemId: string,
+    http: AxiosInstance
+  ): Promise<Result> => {
+    const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT Id, Name FROM Product2 WHERE ExternalId = '${itemId}'`
     try {
-      const { data, status } = await http.get(url);
-      if (status == CODE_STATUS_200) {
-        return Result.TaskOk(data);
+      const { data, status } = await http.get(url)
+      if (status === CODE_STATUS_200) {
+        return Result.TaskOk(data)
       } else {
-        return Result.TaskResult(status, "product could not be queried in salesforce", data);
+        return Result.TaskResult(
+          status,
+          'product could not be queried in salesforce',
+          data
+        )
       }
     } catch (error) {
-      return Result.TaskResult(500, "an error occurred while viewing the product", error)
+      return Result.TaskResult(
+        500,
+        'an error occurred while viewing the product',
+        error
+      )
     }
   }
 
-  public createProduct = async (item: Item, http: AxiosInstance): Promise<Result> => {
+  public createProduct = async (
+    item: Item,
+    http: AxiosInstance
+  ): Promise<Result> => {
     const body = {
       Name: item.name,
       Description: item.name,
@@ -70,105 +114,177 @@ export default class SalesforceOrderService {
       QuantityUnitOfMeasure: item.measurementUnit,
       DisplayUrl: item.imageUrl,
       IsActive: true,
-    };
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_PRODUCT2_SALESFORCE}`;
+    }
+    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_PRODUCT2_SALESFORCE}`
     try {
-      const { data, status } = await http.post(url, body);
-      if (status == CODE_STATUS_200 || status == CODE_STATUS_201) {
-        return Result.TaskOk(data);
+      const { data, status } = await http.post(url, body)
+      if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
+        return Result.TaskOk(data)
       } else {
-        return Result.TaskResult(status, "product could not be created in salesforce", data);
+        return Result.TaskResult(
+          status,
+          'product could not be created in salesforce',
+          data
+        )
       }
     } catch (error) {
-      return Result.TaskResult(500, "an error occurred when creating product in salesforce", error)
+      return Result.TaskResult(
+        500,
+        'an error occurred when creating product in salesforce',
+        error
+      )
     }
   }
 
-  public createPricebookEntry = async (productId: string, priceBookId: string, item: Item, http: AxiosInstance): Promise<Result> => {
+  public createPricebookEntry = async (
+    productId: string,
+    priceBookId: string,
+    item: Item,
+    http: AxiosInstance
+  ): Promise<Result> => {
     const body = {
       Product2Id: productId,
       Pricebook2Id: priceBookId,
-      UnitPrice: item.sellingPrice / 100
+      UnitPrice: item.sellingPrice / 100,
     }
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_PRICEBOOKENTRY_SALESFORCE}`;
+    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_PRICEBOOKENTRY_SALESFORCE}`
     try {
-      const { data, status } = await http.post(url, body);
-      if (status == CODE_STATUS_200 || status == CODE_STATUS_201) {
-        return Result.TaskOk(data);
+      const { data, status } = await http.post(url, body)
+      if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
+        return Result.TaskOk(data)
       } else {
-        return Result.TaskResult(status, "PricebookEntry could not be created in salesforce", data);
+        return Result.TaskResult(
+          status,
+          'PricebookEntry could not be created in salesforce',
+          data
+        )
       }
     } catch (error) {
-      return Result.TaskResult(500, "an error occurred when creating PricebookEntry in salesforce", error)
+      return Result.TaskResult(
+        500,
+        'an error occurred when creating PricebookEntry in salesforce',
+        error
+      )
     }
   }
 
-  public associateOrderAndProduct = async (orderId: string, pricebookEntryId: string, item: Item, http: AxiosInstance): Promise<Result> => {
+  public associateOrderAndProduct = async (
+    orderId: string,
+    pricebookEntryId: string,
+    item: Item,
+    http: AxiosInstance
+  ): Promise<Result> => {
     const body = {
       OrderId: orderId,
       PricebookEntryId: pricebookEntryId,
       quantity: item.quantity,
-      unitPrice: item.sellingPrice / 100
+      unitPrice: item.sellingPrice / 100,
     }
 
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_ASSOCIATE_ORDER_PRODUCT_SALESFORCE}`;
+    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_ASSOCIATE_ORDER_PRODUCT_SALESFORCE}`
     try {
-      const { data, status } = await http.post(url, body);
-      if (status == CODE_STATUS_200 || status == CODE_STATUS_201) {
-        return Result.TaskOk(data);
+      const { data, status } = await http.post(url, body)
+      if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
+        return Result.TaskOk(data)
       } else {
-        return Result.TaskResult(status, "OrderItem could not be created in salesforce", data);
+        return Result.TaskResult(
+          status,
+          'OrderItem could not be created in salesforce',
+          data
+        )
       }
     } catch (error) {
-      return Result.TaskResult(500, "an error occurred when creating OrderItem in salesforce", error)
+      return Result.TaskResult(
+        500,
+        'an error occurred when creating OrderItem in salesforce',
+        error
+      )
     }
   }
 
-  public updateUnitPricePricebookEntry = async (pricebookEntryId: string, item: Item, http: AxiosInstance): Promise<Result> => {
+  public updateUnitPricePricebookEntry = async (
+    pricebookEntryId: string,
+    item: Item,
+    http: AxiosInstance
+  ): Promise<Result> => {
     const body = {
-      UnitPrice: item.sellingPrice / 100
+      UnitPrice: item.sellingPrice / 100,
     }
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_PRICEBOOKENTRY_SALESFORCE}/${pricebookEntryId}`;
+    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_PRICEBOOKENTRY_SALESFORCE}/${pricebookEntryId}`
     try {
-      const { data, status } = await http.patch(url, body);
-      if (status == CODE_STATUS_200 || status == CODE_STATUS_201) {
-        return Result.TaskOk(data);
+      const { data, status } = await http.patch(url, body)
+      if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
+        return Result.TaskOk(data)
       } else {
-        return Result.TaskResult(status, "PricebookEntry could not be updating in salesforce", data);
+        return Result.TaskResult(
+          status,
+          'PricebookEntry could not be updating in salesforce',
+          data
+        )
       }
     } catch (error) {
-      return Result.TaskResult(500, "an error occurred when updating PricebookEntry in salesforce", error)
+      return Result.TaskResult(
+        500,
+        'an error occurred when updating PricebookEntry in salesforce',
+        error
+      )
     }
   }
 
-  public getOrderById = async (orderId: string, http: AxiosInstance): Promise<Result> => {
-    const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT Id, Name FROM Order WHERE PoNumber = '${orderId}'`;
+  public getOrderById = async (
+    orderId: string,
+    http: AxiosInstance
+  ): Promise<Result> => {
+    const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT Id, Name FROM Order WHERE PoNumber = '${orderId}'`
     try {
-      const { data, status } = await http.get(url);
-      if (status == CODE_STATUS_200) {
-        return Result.TaskOk(data);
+      const { data, status } = await http.get(url)
+      if (status === CODE_STATUS_200) {
+        return Result.TaskOk(data)
       } else {
-        return Result.TaskResult(status, "order could not be queried in salesforce", data);
+        return Result.TaskResult(
+          status,
+          'order could not be queried in salesforce',
+          data
+        )
       }
     } catch (error) {
-      return Result.TaskResult(500, "an error occurred while viewing the order", error)
+      return Result.TaskResult(
+        500,
+        'an error occurred while viewing the order',
+        error
+      )
     }
   }
 
-  public updateStatusOrder = async (orderId: string, status: string, http: AxiosInstance): Promise<Result> => {
+  public updateStatusOrder = async (
+    orderId: string,
+    status: string,
+    http: AxiosInstance
+  ): Promise<Result> => {
     const body = {
-      Order_Status__c: status
+      Order_Status__c: status,
     }
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_ORDER_SALESFORCE}/${orderId}`;
+    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_ORDER_SALESFORCE}/${orderId}`
     try {
-      const { data, status } = await http.patch(url, body);
-      if (status == CODE_STATUS_200 || status == CODE_STATUS_201) {
-        return Result.TaskOk(data);
+      const { data, responseStatus } = await http.patch(url, body)
+      if (
+        responseStatus === CODE_STATUS_200 ||
+        responseStatus === CODE_STATUS_201
+      ) {
+        return Result.TaskOk(data)
       } else {
-        return Result.TaskResult(status, "updateStatusOrder could not be updating in salesforce", data);
+        return Result.TaskResult(
+          responseStatus,
+          'updateStatusOrder could not be updating in salesforce',
+          data
+        )
       }
     } catch (error) {
-      return Result.TaskResult(500, "an error occurred when updating updateStatusOrder in salesforce", error)
+      return Result.TaskResult(
+        500,
+        'an error occurred when updating updateStatusOrder in salesforce',
+        error
+      )
     }
   }
 }
