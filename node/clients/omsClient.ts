@@ -1,6 +1,6 @@
 import type { IOContext, InstanceOptions } from '@vtex/api'
 import { ExternalClient } from '@vtex/api'
-import { Item, OrderVtexResponse } from '../schemas/orderVtexResponse';
+import { Item, OrderVtexResponse } from '../schemas/orderVtexResponse'
 
 export default class OMS extends ExternalClient {
   constructor(context: IOContext, options?: InstanceOptions) {
@@ -10,10 +10,10 @@ export default class OMS extends ExternalClient {
       {
         ...options,
         headers: {
-           VtexIdClientAutCookie:
-             context.adminUserAuthToken ??
-             context.storeUserAuthToken ??
-             context.authToken,
+          VtexIdClientAutCookie:
+            context.adminUserAuthToken ??
+            context.storeUserAuthToken ??
+            context.authToken,
         },
       }
     )
@@ -21,7 +21,6 @@ export default class OMS extends ExternalClient {
 
   public async getOrder(orderId: string) {
     const response = await this.http.getRaw(`/${orderId}`)
-    // TODO: change any to Item type.
     const items = response.data.items.map((item: Item) => {
       return {
         id: item.id,
@@ -33,26 +32,27 @@ export default class OMS extends ExternalClient {
         price: item.price,
         imageUrl: item.imageUrl,
         refId: item.refId,
-        sellingPrice: item.sellingPrice
+        sellingPrice: item.sellingPrice,
       }
-    });
-    const totalsShipping = response.data.totals.find( (total: { id: string; }) => total.id === 'Shipping');
-    console.log(totalsShipping);
+    })
+    const totalsShipping = response.data.totals.find(
+      (total: { id: string }) => total.id === 'Shipping'
+    )
+    console.log(totalsShipping)
 
-    // TODO nullability could be tested just with if (totalShipping && totalShipping.value)
-    if(totalsShipping && totalsShipping.value) {
+    if (totalsShipping && totalsShipping.value) {
       items.push({
         id: 'SHIPPING-CODE',
         productId: 'SHIPPING-CODE',
         uniqueId: 'SHIPPING-CODE',
         name: 'Item Shipping',
         quantity: 1,
-        measurementUnit: "un",
+        measurementUnit: 'un',
         price: totalsShipping.value,
         imageUrl: '',
         refId: 'SHIPPING-CODE',
-        sellingPrice: totalsShipping.value
-      });
+        sellingPrice: totalsShipping.value,
+      })
     }
     const orderVtexResponse: OrderVtexResponse = {
       orderId: response.data.orderId,
@@ -75,8 +75,8 @@ export default class OMS extends ExternalClient {
         state: response.data.shippingData.address.state,
         country: response.data.shippingData.address.country,
         postalCode: response.data.shippingData.address.postalCode,
-      }
+      },
     }
-    return orderVtexResponse;
+    return orderVtexResponse
   }
 }

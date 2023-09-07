@@ -1,9 +1,11 @@
 import { json } from "co-body";
-import SalesforceClient from "../clients/salesforceClient";
+import SalesforceClient from "../service/SalesforceClientService";
 import { CODE_STATUS_200, CODE_STATUS_201, CODE_STATUS_500 } from "../utils/constans";
+import MasterDataService from "../service/MasterDataService";
+import { ParameterList } from "../schemas/Parameter";
+import { getHttpVTX } from "../utils/HttpUtil";
 
-//TODO: Change 'any' type
-export async function UpdateClientHook(ctx: Context, next: () => Promise<any>) {
+export async function updateClientHook(ctx: Context, next: () => Promise<any>) {
   const {
     clients: { masterDataClient },
     req,
@@ -11,29 +13,24 @@ export async function UpdateClientHook(ctx: Context, next: () => Promise<any>) {
 
   try {
     const args = await json(req);
-    /**
-     * TODO: Delete if
-     * Use ternary conditional
-     */
     const clientVtex = args.version === 'V1' ? await masterDataClient.getClient(args.userId, args.version) : await masterDataClient.getClient(args.id, args.version);
     const address = await masterDataClient.getAddresses(args.id, args.version);
-    
-    const salesforceCliente = new SalesforceClient();
-    const responseAuth = await salesforceCliente.auth();
-    const clientSalesforce = await salesforceCliente.get(clientVtex.email, responseAuth.data);
-
-    //TODO: use && to improve this block getting rid of seconde 'else' statement
+    const httpVTX = await getHttpVTX(ctx.vtex.authToken);
+    const masterDataService = new MasterDataService();
+    const resultParameters = await masterDataService.getParameters(ctx.vtex.account, httpVTX);
+    const parameterList = new ParameterList(resultParameters.data);
+    const salesforceClient = new SalesforceClient();
+    const clientSalesforce = await salesforceClient.get(clientVtex.email, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
     if (clientSalesforce.data.records.length !== 0 && clientVtex.email === clientSalesforce.data.records[0].Email) {
-      const updateContact = await salesforceCliente.update(clientVtex, address, clientSalesforce.data.records[0].Id, responseAuth.data);
+      const updateContact = await salesforceClient.update(clientVtex, address, clientSalesforce.data.records[0].Id, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
       ctx.status = CODE_STATUS_200;
       ctx.body = updateContact;
     } else {
-      const createContact = await salesforceCliente.create(clientVtex, address, responseAuth.data);
+      const createContact = await salesforceClient.create(clientVtex, address, parameterList.get('ACCESS_TOKEN_SALEFORCE') || '');
       ctx.status = CODE_STATUS_201;
       ctx.body = createContact;
     }
   } catch (error) {
-    console.error('error', error)
     ctx.status = CODE_STATUS_500
     ctx.body = error
   }

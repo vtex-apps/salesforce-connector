@@ -1,10 +1,9 @@
+import { AxiosInstance } from "axios";
 import { Result } from "../schemas/Result";
-import { getHttpToken, getSoapToken } from "../utils/HttpUtil";
 import { CODE_STATUS_200, CODE_STATUS_201, PATH_ACCOUNT_SALESFORCE, PATH_API_SALESFORCE, PATH_CUSTOMFIELD_SALESFORCE, PATH_FIELDS_ORDER_SALESFORCE, PATH_PRICEBOOK2_SALESFORCE, URI_SALESFORCE } from "../utils/constans";
 
 export default class SalesforceConfigurationService {
-  public createPricebook = async (accessToken: string) => {
-    const http = await getHttpToken(accessToken);
+  public createPricebook = async (http: AxiosInstance) => {
     const newPricebook = {
       Name: "Lista de Precio VTEX",
       Description: "Lista de Precio VTEX",
@@ -13,7 +12,7 @@ export default class SalesforceConfigurationService {
     const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_PRICEBOOK2_SALESFORCE}`;
     try {
       const { data, status } = await http.post(url, newPricebook);
-      if (status == CODE_STATUS_200 || status == CODE_STATUS_201) {
+      if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
         return Result.TaskOk(data);
       } else {
         return Result.TaskResult(status, "Pricebook could not be created in salesforce", data);
@@ -24,8 +23,7 @@ export default class SalesforceConfigurationService {
     }
   }
 
-  public createAccount = async (access_token: string): Promise<Result> => {
-    const http = await getHttpToken(access_token);
+  public createAccount = async (http: AxiosInstance): Promise<Result> => {
     const newAccount = {
       Name: "VTEX Account",
       Industry: "VTEX",
@@ -36,7 +34,7 @@ export default class SalesforceConfigurationService {
     const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_ACCOUNT_SALESFORCE}`;
     try {
       const { data, status } = await http.post(url, newAccount);
-      if (status == CODE_STATUS_200 || status == CODE_STATUS_201) {
+      if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
         return Result.TaskOk(data);
       } else {
         return Result.TaskResult(status, "Account could not be created in salesforce", data);
@@ -46,8 +44,7 @@ export default class SalesforceConfigurationService {
     }
   }
 
-  public createCustomField = async (access_token: string): Promise<Result> => {
-    const http = await getSoapToken(access_token);
+  public createCustomField = async (access_token: string, http: AxiosInstance): Promise<Result> => {
     const newCustomField = `
       <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
         <s:Header>
@@ -76,7 +73,7 @@ export default class SalesforceConfigurationService {
     const url = `${URI_SALESFORCE}${PATH_CUSTOMFIELD_SALESFORCE}`;
     try {
       const { data, status } = await http.post(url, newCustomField);
-      if (status == CODE_STATUS_200 || status == CODE_STATUS_201) {
+      if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
         return Result.TaskOk(data);
       } else {
         return Result.TaskResult(status, "Custom field could not be created in salesforce", data);
@@ -86,13 +83,11 @@ export default class SalesforceConfigurationService {
     }
   }
 
-  public getFielsOrder = async (access_token: string): Promise<Result> => {
-    const http = await getHttpToken(access_token);
-
+  public getFielsOrder = async (http: AxiosInstance): Promise<Result> => {
     const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_FIELDS_ORDER_SALESFORCE}`;
     try {
       const { data, status } = await http.get(url);
-      if( status == CODE_STATUS_200){
+      if( status === CODE_STATUS_200){
         return Result.TaskOk(data);
       }else{
         return Result.TaskResult(status, "Order fields could not be queried in salesforce", data);

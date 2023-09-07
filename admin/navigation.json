@@ -1,0 +1,12 @@
+{
+  "section": "accountSettings",
+  "titleId": "admin-salesforce-settings.label-group",
+  "subSection": "Salesforce Settings",
+  "searchKeyWordsHelpers": "admin-salesforce-settings.navigation.keywords",
+  "subSectionItems": [
+    {
+      "labelId": "admin-salesforce-settings.label-group",
+      "path": "/admin/salesforce-settings"
+    }
+  ]
+}
