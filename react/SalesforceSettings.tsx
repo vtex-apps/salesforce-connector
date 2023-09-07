@@ -3,19 +3,19 @@ import { FormattedMessage } from 'react-intl'
 import { Layout, PageHeader, PageBlock } from 'vtex.styleguide'
 
 import './styles.global.css'
-import ApplicationSettingsComponent from './components/settings/ApplicationSettingsComponent'
+import SalesforceSettingsComponent from './components/settings/SalesforceSettingsComponent'
 
 const ApplicationSettings = () => {
   return (
     <Layout fullWidth={true}
       pageHeader={
         <PageHeader
-          title={<FormattedMessage id="admin-application-settings.title" />}
+          title={<FormattedMessage id="admin-salesforce-settings.title" />}
         />
       }
     >
        <PageBlock variation="full">
-        <ApplicationSettingsComponent></ApplicationSettingsComponent>
+        <SalesforceSettingsComponent></SalesforceSettingsComponent>
        </PageBlock>
     </Layout>
   )

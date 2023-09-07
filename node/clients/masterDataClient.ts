@@ -129,9 +129,9 @@ export default class MasterDataClient extends ExternalClient {
     try {
       const response = await http.put(endpoint, triggerConfig)
       if (
-        response.status == CODE_STATUS_200 ||
-        response.status == CODE_STATUS_201 ||
-        response.status == CODE_STATUS_204
+        response.status === CODE_STATUS_200 ||
+        response.status === CODE_STATUS_201 ||
+        response.status === CODE_STATUS_204
       ) {
         return Result.TaskOk('Trigger created or updated successfully')
       } else {

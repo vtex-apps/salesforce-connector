@@ -9,7 +9,7 @@ export default class MasterDataService {
   public saveUpdateOrder = async (order: OrderSalesforce, accountVtex: string, http: AxiosInstance): Promise<Result> => {
     try {
       const response = await http.put(`http://${accountVtex}.myvtex.com/api/dataentities/${ENTITY_ORDER_V2}/documents`, order);
-      if (response.status == CODE_STATUS_200 || response.status == CODE_STATUS_201 || response.status == CODE_STATUS_204) {
+      if (response.status === CODE_STATUS_200 || response.status === CODE_STATUS_201 || response.status === CODE_STATUS_204) {
         return Result.TaskOk(response.data);
       } else {
         return Result.TaskResult(response.status, "could not be registered Order in MTDT", response.data);
@@ -22,7 +22,7 @@ export default class MasterDataService {
   public saveUpdateParameter = async (parameter: Parameter, account: string, http: AxiosInstance): Promise<Result> => {
     try {
       const response = await http.put(`http://${account}.myvtex.com/api/dataentities/${ENTITY_PARAMETER_V2}/documents`, parameter);
-      if (response.status == CODE_STATUS_200 || response.status == CODE_STATUS_201 || response.status == CODE_STATUS_204) {
+      if (response.status === CODE_STATUS_200 || response.status === CODE_STATUS_201 || response.status === CODE_STATUS_204) {
         return Result.TaskOk(response.data);
       } else {
         return Result.TaskResult(response.status, "could not be registered Parameters in MTDT", response.data);
@@ -35,7 +35,7 @@ export default class MasterDataService {
   public saveUpdatePriceBookEntry = async (pricebookEntry: PriceBookEntryOrderSalesforce, account: string, http: AxiosInstance): Promise<Result> => {
     try {
       const response = await http.put(`http://${account}.myvtex.com/api/dataentities/${ENTITY_PRICEBOOKENTRY_V2}/documents`, pricebookEntry);
-      if (response.status == CODE_STATUS_200 || response.status == CODE_STATUS_201 || response.status == CODE_STATUS_204) {
+      if (response.status === CODE_STATUS_200 || response.status === CODE_STATUS_201 || response.status === CODE_STATUS_204) {
         return Result.TaskOk(response.data);
       } else {
         return Result.TaskResult(response.status, "could not be registered PriceBookEntry in MTDT", response.data);

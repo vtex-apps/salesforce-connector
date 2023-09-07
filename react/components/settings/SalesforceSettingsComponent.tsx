@@ -1,90 +1,98 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { Button, Modal, Input } from 'vtex.styleguide';
-import { CLIENT_ID, REDIRECT_URI, URI_ADD_CREDENTIALS_SALESFORCE, URI_CONFIGURATION_SALESFORCE, URI_SALESFORCE_AUTHORIZE } from '../../utils/constans';
+import axios from 'axios'
+import React, { useState } from 'react'
+import { Button, Modal, Input } from 'vtex.styleguide'
+import {
+  CLIENT_ID,
+  REDIRECT_URI,
+  URI_ADD_CREDENTIALS_SALESFORCE,
+  URI_CONFIGURATION_SALESFORCE,
+  URI_SALESFORCE_AUTHORIZE,
+} from '../../utils/constans'
 
-const ApplicationSettingsComponent: React.FC = () => {
+const SalesforceSettingsComponent: React.FC = () => {
   const [data, setData] = useState({
     isModalOpen: false,
     accountSalesforce: '',
     clientId: '',
-    clientSecret: ''
-  });
+    clientSecret: '',
+  })
 
-  const [responseSettings, setresponseSettings] = useState('');
-  const [responseAddCredentials, setresponseAddCredentials] = useState('');
-  
+  const [responseSettings, setresponseSettings] = useState('')
+  const [responseAddCredentials, setresponseAddCredentials] = useState('')
+
   const handleOpenModal = () => {
     setData({
       ...data,
-      isModalOpen: true
+      isModalOpen: true,
     })
   }
 
   const handleCloseModal = () => {
     setData({
       ...data,
-      isModalOpen: false
+      isModalOpen: false,
     })
   }
 
-  const handleInputChange = (e: { target: { name: string; value: string; }; }) => {
-    const { name, value } = e.target;
+  const handleInputChange = (e: {
+    target: { name: string; value: string }
+  }) => {
+    const { name, value } = e.target
     setData({
       ...data,
-      [name]: value
-    });
+      [name]: value,
+    })
   }
 
   const handleCredentials = () => {
-    axios.post(URI_ADD_CREDENTIALS_SALESFORCE, data)
-      .then((response) => {
-        console.log(response.data);
-        setresponseAddCredentials("Credentials have been added successfully");
+    axios
+      .post(URI_ADD_CREDENTIALS_SALESFORCE, data)
+      .then(() => {
+        setresponseAddCredentials('Credentials have been added successfully')
       })
       .catch((error) => {
-        console.error(error);
-      });
-    
+        console.error(error)
+      })
+
     setData({
       ...data,
-      isModalOpen: false
-    });
-  };
+      isModalOpen: false,
+    })
+  }
 
   const handleLogin = () => {
-    const authUrl = `${URI_SALESFORCE_AUTHORIZE}?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
-    window.open(authUrl, '_blank', 'width=600,height=600');
-  };
+    const authUrl = `${URI_SALESFORCE_AUTHORIZE}?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`
+    window.open(authUrl, '_blank', 'width=600,height=600')
+  }
 
   const handleSettings = () => {
-    axios.post(URI_CONFIGURATION_SALESFORCE, data)
-      .then((response) => {
-        console.log(response.data);
-        setresponseSettings("Configuration process executed successfully");
+    axios
+      .post(URI_CONFIGURATION_SALESFORCE, data)
+      .then(() => {
+        setresponseSettings('Configuration process executed successfully')
       })
       .catch((error) => {
-        console.error(error);
-      });
-  };
+        console.error(error)
+      })
+  }
 
   return (
     <div>
-      <div className='mb6'>
-        <Button onClick={handleOpenModal}>Add Credentials Salesforce</Button>
+      <div className="mb6">
+        <Button onClick={handleOpenModal}>Add Salesforce Credentials</Button>
         <p>{responseAddCredentials}</p>
       </div>
 
       <hr />
 
-      <div className='mt6 mb6'>
+      <div className="mt6 mb6">
         <Button onClick={handleLogin}>Login Salesforce</Button>
       </div>
 
       <hr />
 
-      <div className='mt6'>
-        <Button onClick={handleSettings}>Create Settings Salesforce</Button>
+      <div className="mt6">
+        <Button onClick={handleSettings}>Create Salesforce Settings</Button>
         <p>{responseSettings}</p>
       </div>
 
@@ -106,9 +114,10 @@ const ApplicationSettingsComponent: React.FC = () => {
             </span>
           </div>
         }
-        onClose={handleCloseModal}>
+        onClose={handleCloseModal}
+      >
         <div>
-        <div className="w-100 mv6">
+          <div className="w-100 mv6">
             <Input
               type="text"
               name="accountSalesforce"
@@ -144,4 +153,4 @@ const ApplicationSettingsComponent: React.FC = () => {
   )
 }
 
-export default ApplicationSettingsComponent;
+export default SalesforceSettingsComponent
