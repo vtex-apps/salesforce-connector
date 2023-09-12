@@ -1,6 +1,6 @@
 import { json } from 'co-body'
 
-import { ACCESS_TOKEN_SALEFORCE, CODE_STATUS_500 } from '../utils/constans'
+import { CODE_STATUS_500 } from '../utils/constans'
 import SalesforceClient from '../service/SalesforceClientService'
 import SalesforceOpportunityService from '../service/SalesforceOpportunityService'
 import { getHttpToken, getHttpVTX } from '../utils/HttpUtil'
@@ -24,16 +24,11 @@ export async function abandonedCartHook(
     )
 
     const parameterList = new ParameterList(resultParameters.data)
+    const http = await getHttpToken(parameterList)
     const salesforceClient = new SalesforceClient()
-    const userSalesforce = await salesforceClient.getUser(
-      args.email,
-      parameterList.get(ACCESS_TOKEN_SALEFORCE) || ''
-    )
+    const userSalesforce = await salesforceClient.getUser(args.email, http)
 
     const userSalesforceId = userSalesforce.data.records[0].Id
-    const http = await getHttpToken(
-      parameterList.get(ACCESS_TOKEN_SALEFORCE) || ''
-    )
 
     const salesforceOpportunity = new SalesforceOpportunityService()
     const resultCreateOpportunity = await salesforceOpportunity.createOpportunity(
@@ -47,7 +42,6 @@ export async function abandonedCartHook(
     const resultProcessOpportunity = await opportunityService.processOpporunity(
       args,
       resultCreateOpportunity.data.id,
-      parameterList.get(ACCESS_TOKEN_SALEFORCE) || '',
       parameterList,
       ctx.vtex.authToken,
       ctx.vtex.account

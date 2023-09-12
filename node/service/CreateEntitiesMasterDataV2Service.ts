@@ -1,4 +1,5 @@
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'axios'
+
 import { Result } from '../schemas/Result'
 import {
   CODE_STATUS_200,
@@ -63,11 +64,13 @@ export default class CreateEntitiesMasterDataV2Service {
           },
         },
       ]
+
       request.forEach(async (element) => {
         const response = await http.put(
           `http://${accountVtex}.myvtex.com/api/dataentities/${element.dataEntityName}/schemas/${element.schemaName}`,
           element.body
         )
+
         if (
           response.status === CODE_STATUS_200 ||
           response.status === CODE_STATUS_201 ||
@@ -82,6 +85,7 @@ export default class CreateEntitiesMasterDataV2Service {
           )
         }
       })
+
       return Result.TaskOk('Entities registered in MTDT')
     } catch (error) {
       return Result.TaskResult(

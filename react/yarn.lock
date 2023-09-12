@@ -112,7 +112,6 @@ fast-json-stable-stringify@^2.0.0:
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.0.0.tgz#d5142c0caee6b1189f87d3a76111064f86c8bbf2"
   integrity sha1-1RQsDK7msRifh9OnYREGT4bIu/I=
 
-
 follow-redirects@^1.14.4:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
@@ -268,6 +267,10 @@ typescript@3.9.7:
 "vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.134.1/public/@types/vtex.render-runtime":
   version "8.134.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.134.1/public/@types/vtex.render-runtime#da48779c477fbef1521010718b0f779ee1ae1ffe"
+
+"vtex.salesforce-connector@https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/vtex.salesforce-connector@1.0.2+build1694557438/public/@types/vtex.salesforce-connector":
+  version "0.0.0"
+  resolved "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/vtex.salesforce-connector@1.0.2+build1694557438/public/@types/vtex.salesforce-connector#ba29af091bc463d17dec86ef06d1b337d3e6ee52"
 
 "vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.146.9/public/@types/vtex.styleguide":
   version "9.146.9"
