@@ -1,6 +1,7 @@
 import type { IOContext, InstanceOptions } from '@vtex/api'
 import { ExternalClient } from '@vtex/api'
-import { Item, OrderVtexResponse } from '../schemas/orderVtexResponse'
+
+import type { Item, OrderVtexResponse } from '../schemas/orderVtexResponse'
 
 export default class OMS extends ExternalClient {
   constructor(context: IOContext, options?: InstanceOptions) {
@@ -35,12 +36,12 @@ export default class OMS extends ExternalClient {
         sellingPrice: item.sellingPrice,
       }
     })
+
     const totalsShipping = response.data.totals.find(
       (total: { id: string }) => total.id === 'Shipping'
     )
-    console.log(totalsShipping)
 
-    if (totalsShipping && totalsShipping.value) {
+    if (totalsShipping?.value) {
       items.push({
         id: 'SHIPPING-CODE',
         productId: 'SHIPPING-CODE',
@@ -54,13 +55,14 @@ export default class OMS extends ExternalClient {
         sellingPrice: totalsShipping.value,
       })
     }
+
     const orderVtexResponse: OrderVtexResponse = {
       orderId: response.data.orderId,
       sequence: response.data.sequence,
       status: response.data.status,
       value: response.data.value,
       creationDate: response.data.creationDate,
-      items: items,
+      items,
       clientProfileData: {
         id: response.data.clientProfileData.id,
         firtsName: response.data.clientProfileData.firstName,
@@ -77,6 +79,7 @@ export default class OMS extends ExternalClient {
         postalCode: response.data.shippingData.address.postalCode,
       },
     }
+
     return orderVtexResponse
   }
 }

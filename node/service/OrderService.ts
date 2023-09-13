@@ -179,6 +179,8 @@ export default class OrderService {
             return Result.TaskError(resultCreateOrderItem.message)
           }
         }
+
+        return Result.TaskOk('')
       })
 
       return Result.TaskOk('')

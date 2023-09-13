@@ -143,6 +143,8 @@ export default class OpportunityService {
             return Result.TaskError(resultCreateOpportunityItem.message)
           }
         }
+
+        return Result.TaskOk('')
       })
 
       return Result.TaskOk('')
