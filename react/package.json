@@ -1,6 +1,6 @@
 {
   "name": "vtex.admin-example",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "devDependencies": {
     "@types/node": "^11.12.1",
     "@types/react": "^16.8.10",
