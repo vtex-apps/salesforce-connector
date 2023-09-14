@@ -1,8 +1,8 @@
 {
   "name": "salesforce-connector",
-  "vendor": "felipedev",
-  "version": "1.0.0",
-  "title": "Service Example",
+  "vendor": "vtex",
+  "version": "1.0.2",
+  "title": "Salesforce Connector",
   "description": "Reference app for VTEX IO Services",
   "mustUpdateAt": "2018-01-04",
   "categories": [],
@@ -16,9 +16,7 @@
     "admin": "0.x",
     "messages": "1.x"
   },
-  "scripts": {
-    "prereleasy": "bash lint.sh"
-  },
+  "scripts": {},
   "credentialType": "absolute",
   "policies": [
     {

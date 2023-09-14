@@ -1,6 +1,8 @@
+import type { AxiosInstance } from 'axios'
+
 import { Result } from '../schemas/Result'
-import { Item, OrderVtexResponse } from '../schemas/orderVtexResponse'
-import { ParameterList } from '../schemas/Parameter'
+import type { Item, OrderVtexResponse } from '../schemas/orderVtexResponse'
+import type { ParameterList } from '../schemas/Parameter'
 import {
   ACCOUNT_ID,
   CODE_STATUS_200,
@@ -12,33 +14,33 @@ import {
   PATH_PRICEBOOKENTRY_SALESFORCE,
   PATH_PRODUCT2_SALESFORCE,
   PATH_QUERY_SALESFORCE,
-  URI_SALESFORCE,
 } from '../utils/constans'
 import { StatusOrderSalesForce } from '../utils/StatusOrder'
-import { AxiosInstance } from 'axios'
 
 export default class SalesforceOrderService {
   public createOrder = async (
     order: OrderVtexResponse,
     clientSalesforceId: string,
     http: AxiosInstance,
-    parameter: ParameterList
+    parameterList: ParameterList
   ): Promise<Result> => {
     const fullDate = new Date(order.creationDate)
-    const date =
-      fullDate.getFullYear() +
-      '-' +
-      (fullDate.getMonth() + 1) +
-      '-' +
-      fullDate.getDate()
-    const accountId = parameter.get(ACCOUNT_ID)
+    const date = `${fullDate.getFullYear()}-${
+      fullDate.getMonth() + 1
+    }-${fullDate.getDate()}`
+
+    const accountId = parameterList.get(ACCOUNT_ID)
+
     if (accountId === undefined) {
       return Result.TaskError(`Parameter not found: ${ACCOUNT_ID}`)
     }
-    const listPriceId = parameter.get(LIST_PRICE_ID)
+
+    const listPriceId = parameterList.get(LIST_PRICE_ID)
+
     if (listPriceId === undefined) {
       return Result.TaskError(`Parameter not found: ${LIST_PRICE_ID}`)
     }
+
     const body = {
       Description: `Order VTEX #${order.orderId}`,
       Status: StatusOrderSalesForce.DRAFT,
@@ -56,18 +58,21 @@ export default class SalesforceOrderService {
       AccountId: accountId,
       Pricebook2Id: listPriceId,
     }
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_ORDER_SALESFORCE}`
+
+    const url = `${PATH_API_SALESFORCE}${PATH_ORDER_SALESFORCE}`
+
     try {
       const { data, status } = await http.post(url, body)
+
       if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
         return Result.TaskOk(data)
-      } else {
-        return Result.TaskResult(
-          status,
-          'order could not be created in salesforce',
-          data
-        )
       }
+
+      return Result.TaskResult(
+        status,
+        'order could not be created in salesforce',
+        data
+      )
     } catch (error) {
       return Result.TaskResult(
         500,
@@ -81,18 +86,20 @@ export default class SalesforceOrderService {
     itemId: string,
     http: AxiosInstance
   ): Promise<Result> => {
-    const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT Id, Name FROM Product2 WHERE ExternalId = '${itemId}'`
+    const url = `${PATH_QUERY_SALESFORCE}SELECT Id, Name FROM Product2 WHERE ExternalId = '${itemId}'`
+
     try {
       const { data, status } = await http.get(url)
+
       if (status === CODE_STATUS_200) {
         return Result.TaskOk(data)
-      } else {
-        return Result.TaskResult(
-          status,
-          'product could not be queried in salesforce',
-          data
-        )
       }
+
+      return Result.TaskResult(
+        status,
+        'product could not be queried in salesforce',
+        data
+      )
     } catch (error) {
       return Result.TaskResult(
         500,
@@ -115,18 +122,21 @@ export default class SalesforceOrderService {
       DisplayUrl: item.imageUrl,
       IsActive: true,
     }
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_PRODUCT2_SALESFORCE}`
+
+    const url = `${PATH_API_SALESFORCE}${PATH_PRODUCT2_SALESFORCE}`
+
     try {
       const { data, status } = await http.post(url, body)
+
       if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
         return Result.TaskOk(data)
-      } else {
-        return Result.TaskResult(
-          status,
-          'product could not be created in salesforce',
-          data
-        )
       }
+
+      return Result.TaskResult(
+        status,
+        'product could not be created in salesforce',
+        data
+      )
     } catch (error) {
       return Result.TaskResult(
         500,
@@ -147,18 +157,21 @@ export default class SalesforceOrderService {
       Pricebook2Id: priceBookId,
       UnitPrice: item.sellingPrice / 100,
     }
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_PRICEBOOKENTRY_SALESFORCE}`
+
+    const url = `${PATH_API_SALESFORCE}${PATH_PRICEBOOKENTRY_SALESFORCE}`
+
     try {
       const { data, status } = await http.post(url, body)
+
       if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
         return Result.TaskOk(data)
-      } else {
-        return Result.TaskResult(
-          status,
-          'PricebookEntry could not be created in salesforce',
-          data
-        )
       }
+
+      return Result.TaskResult(
+        status,
+        'PricebookEntry could not be created in salesforce',
+        data
+      )
     } catch (error) {
       return Result.TaskResult(
         500,
@@ -181,18 +194,20 @@ export default class SalesforceOrderService {
       unitPrice: item.sellingPrice / 100,
     }
 
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_ASSOCIATE_ORDER_PRODUCT_SALESFORCE}`
+    const url = `${PATH_API_SALESFORCE}${PATH_ASSOCIATE_ORDER_PRODUCT_SALESFORCE}`
+
     try {
       const { data, status } = await http.post(url, body)
+
       if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
         return Result.TaskOk(data)
-      } else {
-        return Result.TaskResult(
-          status,
-          'OrderItem could not be created in salesforce',
-          data
-        )
       }
+
+      return Result.TaskResult(
+        status,
+        'OrderItem could not be created in salesforce',
+        data
+      )
     } catch (error) {
       return Result.TaskResult(
         500,
@@ -210,18 +225,21 @@ export default class SalesforceOrderService {
     const body = {
       UnitPrice: item.sellingPrice / 100,
     }
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_PRICEBOOKENTRY_SALESFORCE}/${pricebookEntryId}`
+
+    const url = `${PATH_API_SALESFORCE}${PATH_PRICEBOOKENTRY_SALESFORCE}/${pricebookEntryId}`
+
     try {
       const { data, status } = await http.patch(url, body)
+
       if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
         return Result.TaskOk(data)
-      } else {
-        return Result.TaskResult(
-          status,
-          'PricebookEntry could not be updating in salesforce',
-          data
-        )
       }
+
+      return Result.TaskResult(
+        status,
+        'PricebookEntry could not be updating in salesforce',
+        data
+      )
     } catch (error) {
       return Result.TaskResult(
         500,
@@ -235,18 +253,20 @@ export default class SalesforceOrderService {
     orderId: string,
     http: AxiosInstance
   ): Promise<Result> => {
-    const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT Id, Name FROM Order WHERE PoNumber = '${orderId}'`
+    const url = `${PATH_QUERY_SALESFORCE}SELECT Id, Name FROM Order WHERE PoNumber = '${orderId}'`
+
     try {
       const { data, status } = await http.get(url)
+
       if (status === CODE_STATUS_200) {
         return Result.TaskOk(data)
-      } else {
-        return Result.TaskResult(
-          status,
-          'order could not be queried in salesforce',
-          data
-        )
       }
+
+      return Result.TaskResult(
+        status,
+        'order could not be queried in salesforce',
+        data
+      )
     } catch (error) {
       return Result.TaskResult(
         500,
@@ -258,27 +278,27 @@ export default class SalesforceOrderService {
 
   public updateStatusOrder = async (
     orderId: string,
-    status: string,
+    currentState: string,
     http: AxiosInstance
   ): Promise<Result> => {
     const body = {
-      Order_Status__c: status,
+      Order_Status__c: currentState,
     }
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_ORDER_SALESFORCE}/${orderId}`
+
+    const url = `${PATH_API_SALESFORCE}${PATH_ORDER_SALESFORCE}/${orderId}`
+
     try {
-      const { data, responseStatus } = await http.patch(url, body)
-      if (
-        responseStatus === CODE_STATUS_200 ||
-        responseStatus === CODE_STATUS_201
-      ) {
+      const { data, status } = await http.patch(url, body)
+
+      if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
         return Result.TaskOk(data)
-      } else {
-        return Result.TaskResult(
-          responseStatus,
-          'updateStatusOrder could not be updating in salesforce',
-          data
-        )
       }
+
+      return Result.TaskResult(
+        status,
+        'updateStatusOrder could not be updating in salesforce',
+        data
+      )
     } catch (error) {
       return Result.TaskResult(
         500,

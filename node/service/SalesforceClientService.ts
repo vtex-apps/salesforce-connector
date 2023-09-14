@@ -1,4 +1,5 @@
-import axios from 'axios'
+import type { AxiosInstance } from 'axios'
+
 import {
   CODE_STATUS_200,
   CODE_STATUS_201,
@@ -6,68 +7,55 @@ import {
   PATH_API_SALESFORCE,
   PATH_CONTACT_SALESFORCE,
   PATH_QUERY_SALESFORCE,
-  URI_SALESFORCE,
 } from '../utils/constans'
 import { Result } from '../schemas/Result'
-import { ClientVtexResponse } from '../schemas/ClientVtexResponse'
-import { AddressVtexResponse } from '../schemas/AddressVtexResponse'
+import type { ClientVtexResponse } from '../schemas/ClientVtexResponse'
+import type { AddressVtexResponse } from '../schemas/AddressVtexResponse'
 
 export default class SalesforceClient {
-  public get = async (email: string, accessToken: string) => {
-    const http = axios.create({
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Cache-Control': 'no-cache',
-        'X-Vtex-Use-Https': 'true',
-        'Content-Type': 'application/json',
-      },
-    })
-    const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT+id,Email+FROM+Contact+WHERE+Email+=+'${email}'`
+  public get = async (email: string, http: AxiosInstance) => {
+    const url = `${PATH_QUERY_SALESFORCE}SELECT+id,Email+FROM+Contact+WHERE+Email+=+'${email}'`
+
     try {
       const response = await http.get(url)
+
       if (
         response.status === CODE_STATUS_200 ||
         response.status === CODE_STATUS_201 ||
         response.status === CODE_STATUS_204
       ) {
         return Result.TaskOk(response.data)
-      } else {
-        return Result.TaskResult(
-          response.status,
-          'Client could not be queried in salesforce',
-          response.data
-        )
       }
+
+      return Result.TaskResult(
+        response.status,
+        'Client could not be queried in salesforce',
+        response.data
+      )
     } catch (error) {
       return Result.TaskError('An error occurred while viewing the client')
     }
   }
 
-  public getUser = async (email: string, accessToken: string) => {
-    const http = axios.create({
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Cache-Control': 'no-cache',
-        'X-Vtex-Use-Https': 'true',
-        'Content-Type': 'application/json',
-      },
-    })
-    const url = `${URI_SALESFORCE}${PATH_QUERY_SALESFORCE}SELECT+id,Email+FROM+User+WHERE+Email+=+'${email}'`
+  public getUser = async (email: string, http: AxiosInstance) => {
+    const url = `${PATH_QUERY_SALESFORCE}SELECT+id,Email+FROM+User+WHERE+Email+=+'${email}'`
+
     try {
       const response = await http.get(url)
+
       if (
         response.status === CODE_STATUS_200 ||
         response.status === CODE_STATUS_201 ||
         response.status === CODE_STATUS_204
       ) {
         return Result.TaskOk(response.data)
-      } else {
-        return Result.TaskResult(
-          response.status,
-          'User could not be queried in salesforce',
-          response.data
-        )
       }
+
+      return Result.TaskResult(
+        response.status,
+        'User could not be queried in salesforce',
+        response.data
+      )
     } catch (error) {
       return Result.TaskError('An error occurred while viewing the user')
     }
@@ -76,16 +64,8 @@ export default class SalesforceClient {
   public create = async (
     clientVtex: ClientVtexResponse,
     address: AddressVtexResponse,
-    accessToken: string
+    http: AxiosInstance
   ) => {
-    const http = axios.create({
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Cache-Control': 'no-cache',
-        'X-Vtex-Use-Https': 'true',
-        'Content-Type': 'application/json',
-      },
-    })
     const data = {
       FirstName: clientVtex.firstName,
       LastName: clientVtex.lastName,
@@ -93,27 +73,30 @@ export default class SalesforceClient {
       HomePhone: clientVtex.homePhone,
       Phone: clientVtex.phone,
       Birthdate: clientVtex.birthDate,
-      MailingStreet: address ? address.street : '',
-      MailingCity: address ? address.city : '',
-      MailingState: address ? address.state : '',
-      MailingPostalCode: address ? address.postalCode : '',
-      MailingCountry: address ? address.country : '',
+      MailingStreet: address.street,
+      MailingCity: address.city,
+      MailingState: address.state,
+      MailingPostalCode: address.postalCode,
+      MailingCountry: address.country,
     }
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_CONTACT_SALESFORCE}`
+
+    const url = `${PATH_API_SALESFORCE}${PATH_CONTACT_SALESFORCE}`
+
     try {
       const response = await http.post(url, data)
+
       if (
         response.status === CODE_STATUS_200 ||
         response.status === CODE_STATUS_201
       ) {
         return Result.TaskOk(response.data)
-      } else {
-        return Result.TaskResult(
-          response.status,
-          'Client could not be created in salesforce',
-          response.data
-        )
       }
+
+      return Result.TaskResult(
+        response.status,
+        'Client could not be created in salesforce',
+        response.data
+      )
     } catch (error) {
       return Result.TaskError(
         'An error occurred when creating client in salesforce'
@@ -125,16 +108,8 @@ export default class SalesforceClient {
     clientVtex: ClientVtexResponse,
     address: AddressVtexResponse,
     idClientSalesforce: string,
-    accessToken: string
+    http: AxiosInstance
   ) => {
-    const http = axios.create({
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Cache-Control': 'no-cache',
-        'X-Vtex-Use-Https': 'true',
-        'Content-Type': 'application/json',
-      },
-    })
     const data = {
       FirstName: clientVtex.firstName,
       LastName: clientVtex.lastName,
@@ -142,27 +117,30 @@ export default class SalesforceClient {
       HomePhone: clientVtex.homePhone,
       Phone: clientVtex.phone,
       Birthdate: clientVtex.birthDate,
-      MailingStreet: address ? address.street : '',
-      MailingCity: address ? address.city : '',
-      MailingState: address ? address.state : '',
-      MailingPostalCode: address ? address.postalCode : '',
-      MailingCountry: address ? address.country : '',
+      MailingStreet: address.street,
+      MailingCity: address.city,
+      MailingState: address.state,
+      MailingPostalCode: address.postalCode,
+      MailingCountry: address.country,
     }
-    const url = `${URI_SALESFORCE}${PATH_API_SALESFORCE}${PATH_CONTACT_SALESFORCE}/${idClientSalesforce}`
+
+    const url = `${PATH_API_SALESFORCE}${PATH_CONTACT_SALESFORCE}/${idClientSalesforce}`
+
     try {
       const response = await http.patch(url, data)
+
       if (
         response.status === CODE_STATUS_200 ||
         response.status === CODE_STATUS_201
       ) {
         return Result.TaskOk(response.data)
-      } else {
-        return Result.TaskResult(
-          response.status,
-          'Client could not be updated in salesforce',
-          response.data
-        )
       }
+
+      return Result.TaskResult(
+        response.status,
+        'Client could not be updated in salesforce',
+        response.data
+      )
     } catch (error) {
       return Result.TaskError(
         'An error occurred when updating client in salesforce'

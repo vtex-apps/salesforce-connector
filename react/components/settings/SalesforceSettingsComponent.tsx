@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { Button, Modal, Input } from 'vtex.styleguide'
+
 import {
   CLIENT_ID,
   REDIRECT_URI,
@@ -38,6 +39,7 @@ const SalesforceSettingsComponent: React.FC = () => {
     target: { name: string; value: string }
   }) => {
     const { name, value } = e.target
+
     setData({
       ...data,
       [name]: value,
@@ -61,7 +63,10 @@ const SalesforceSettingsComponent: React.FC = () => {
   }
 
   const handleLogin = () => {
-    const authUrl = `${URI_SALESFORCE_AUTHORIZE}?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`
+    const { host } = window.location
+
+    const authUrl = `${URI_SALESFORCE_AUTHORIZE}?response_type=code&client_id=${CLIENT_ID}&redirect_uri=https://${host}${REDIRECT_URI}`
+
     window.open(authUrl, '_blank', 'width=600,height=600')
   }
 

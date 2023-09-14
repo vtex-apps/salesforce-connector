@@ -1,21 +1,26 @@
-import { updateClientHook } from "../../middlewares/updateClientHook";
-import { Parameter } from "../../schemas/Parameter";
-import { Result } from "../../schemas/Result";
-import { ACCESS_TOKEN_SALEFORCE } from "../../utils/constans";
+import { updateClientHook } from '../../middlewares/UpdateClientHook'
+import type { Parameter } from '../../schemas/Parameter'
+import { Result } from '../../schemas/Result'
+import { ACCESS_TOKEN_SALEFORCE } from '../../utils/constans'
 
-let mockMasterDataService: any;
-let mockSalesforceClient: any;
+let mockMasterDataService: any
+let mockSalesforceClient: any
 
-jest.mock('../../service/MasterDataService', () => jest.fn().mockImplementation(() => mockMasterDataService));
-jest.mock('../../service/SalesforceClientService', () => jest.fn().mockImplementation(() => mockSalesforceClient));
+jest.mock('../../service/MasterDataService', () =>
+  jest.fn().mockImplementation(() => mockMasterDataService)
+)
+jest.mock('../../service/SalesforceClientService', () =>
+  jest.fn().mockImplementation(() => mockSalesforceClient)
+)
 
 jest.mock('co-body', () => ({
   json: jest.fn().mockReturnValue({ email: 'email' }),
-}));
+}))
 
 describe('orderState', () => {
-  let ctx: any;
-  let parameters: Parameter[] = [];
+  let ctx: any
+  const parameters: Parameter[] = []
+
   beforeEach(() => {
     ctx = {
       vtex: {
@@ -33,43 +38,52 @@ describe('orderState', () => {
           }),
         },
       },
+      req: {
+        version: 'V1',
+      },
     }
     const parameterToken = {
       id: ACCESS_TOKEN_SALEFORCE,
       parameterValue: 'token',
     }
-    parameters.push(parameterToken);
-  });
-  
+
+    parameters.push(parameterToken)
+  })
+
   test('Update client in Salesforce', async () => {
     mockMasterDataService = {
-      getParameters: jest.fn().mockResolvedValue(Result.TaskOk(parameters))
+      getParameters: jest.fn().mockResolvedValue(Result.TaskOk(parameters)),
     }
     mockSalesforceClient = {
       get: jest.fn().mockResolvedValue({
         data: {
-          records: [{
-            Id: '123456',
-            Email: 'email',
-          }],
+          records: [
+            {
+              Id: '123456',
+              Email: 'email',
+            },
+          ],
         },
       }),
       update: jest.fn().mockResolvedValue({
         data: {
-          records: [{
-            Id: '123456',
-            Email: 'email',
-          }],
+          records: [
+            {
+              Id: '123456',
+              Email: 'email',
+            },
+          ],
         },
       }),
-    };
-    const response = await updateClientHook(ctx, () => Promise.resolve());
-    expect(response).toBeUndefined();
-  });
+    }
+    const response = await updateClientHook(ctx, () => Promise.resolve())
+
+    expect(response).toBeUndefined()
+  })
 
   test('Create client when not found in Salesforce', async () => {
     mockMasterDataService = {
-      getParameters: jest.fn().mockResolvedValue(Result.TaskOk(parameters))
+      getParameters: jest.fn().mockResolvedValue(Result.TaskOk(parameters)),
     }
     mockSalesforceClient = {
       get: jest.fn().mockResolvedValue({
@@ -79,22 +93,26 @@ describe('orderState', () => {
       }),
       create: jest.fn().mockResolvedValue({
         data: {
-          records: [{
-            Id: '123456',
-            Email: 'email',
-          }],
+          records: [
+            {
+              Id: '123456',
+              Email: 'email',
+            },
+          ],
         },
       }),
-    };
-    const response = await updateClientHook(ctx, () => Promise.resolve());
-    expect(response).toBeUndefined();
-  });
+    }
+    const response = await updateClientHook(ctx, () => Promise.resolve())
+
+    expect(response).toBeUndefined()
+  })
 
   test('Error to update client in Salesforce', async () => {
     mockMasterDataService = {
-      getParameters: jest.fn().mockRejectedValue(Result.TaskError('error'))
+      getParameters: jest.fn().mockRejectedValue(Result.TaskError('error')),
     }
-    const response = await updateClientHook(ctx, () => Promise.resolve());
-    expect(response).toBeUndefined();
-  });
-});
+    const response = await updateClientHook(ctx, () => Promise.resolve())
+
+    expect(response).toBeUndefined()
+  })
+})

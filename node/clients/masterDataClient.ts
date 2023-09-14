@@ -1,6 +1,7 @@
 import type { IOContext, InstanceOptions } from '@vtex/api'
 import { ExternalClient } from '@vtex/api'
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'axios'
+
 import {
   ADDRESS_ENTITY_V1,
   ADDRESS_ENTITY_V2,
@@ -14,11 +15,11 @@ import {
   PATH_API_DATAENTITIES,
   PATH_SEARCH_ID,
   PATH_SEARCH_USERID,
+  PROTOCOL,
   TRIGGER_NAME,
-  WORKSPACE_VTEX,
 } from '../utils/constans'
 import { Result } from '../schemas/Result'
-import { ClientVtexResponse } from '../schemas/ClientVtexResponse'
+import type { ClientVtexResponse } from '../schemas/ClientVtexResponse'
 
 export default class MasterDataClient extends ExternalClient {
   constructor(context: IOContext, options?: InstanceOptions) {
@@ -42,6 +43,7 @@ export default class MasterDataClient extends ExternalClient {
       version === 'V1'
         ? `${CLIENT_ENTITY_V1}${PATH_SEARCH_USERID}${clientId}`
         : `${CLIENT_ENTITY_V2}${PATH_SEARCH_ID}${clientId}`
+
     const response = await this.http.getRaw(path)
     const clientVtexResponse: ClientVtexResponse = {
       id: response.data[0].id,
@@ -53,6 +55,7 @@ export default class MasterDataClient extends ExternalClient {
       lastName: response.data[0].lastName,
       birthDate: response.data[0].birthDate,
     }
+
     return clientVtexResponse
   }
 
@@ -61,7 +64,9 @@ export default class MasterDataClient extends ExternalClient {
       version === 'V1'
         ? `${ADDRESS_ENTITY_V1}${PATH_SEARCH_USERID}${clientId}`
         : `${ADDRESS_ENTITY_V2}${PATH_SEARCH_ID}${clientId}`
+
     const response = await this.http.getRaw(path)
+
     if (response.data.length === 0) {
       return {
         street: '',
@@ -71,6 +76,7 @@ export default class MasterDataClient extends ExternalClient {
         country: '',
       }
     }
+
     return {
       street: response.data[0].street,
       city: response.data[0].city,
@@ -107,7 +113,7 @@ export default class MasterDataClient extends ExternalClient {
           condition: 'id<>00000000',
           action: {
             type: 'http',
-            uri: `https://${WORKSPACE_VTEX}${this.context.account}.myvtex.com${PATH_ACTION_TRIGGER}`,
+            uri: `${PROTOCOL}${this.context.account}.myvtex.com${PATH_ACTION_TRIGGER}`,
             method: 'POST',
             headers: {
               'content-type': 'application/json',
@@ -126,19 +132,21 @@ export default class MasterDataClient extends ExternalClient {
         },
       ],
     }
+
     try {
       const response = await http.put(endpoint, triggerConfig)
+
       if (
         response.status === CODE_STATUS_200 ||
         response.status === CODE_STATUS_201 ||
         response.status === CODE_STATUS_204
       ) {
         return Result.TaskOk('Trigger created or updated successfully')
-      } else {
-        return Result.TaskOk(
-          'Trigger was already created in MTDT and had no modifications'
-        )
       }
+
+      return Result.TaskOk(
+        'Trigger was already created in MTDT and had no modifications'
+      )
     } catch (error) {
       return Result.TaskResult(
         CODE_STATUS_500,
