@@ -28,7 +28,7 @@ export default class OpportunityService {
         return Result.TaskError(`Parameter not found: ${LIST_PRICE_ID}`)
       }
 
-      opportunity.items.forEach(async (item) => {
+      for (const item of opportunity.items) {
         const resultGetProduct = await salesforceOrderService.getProductByExternalId(
           item.id,
           http
@@ -143,9 +143,7 @@ export default class OpportunityService {
             return Result.TaskError(resultCreateOpportunityItem.message)
           }
         }
-
-        return Result.TaskOk('')
-      })
+      }
 
       return Result.TaskOk('')
     } catch (error) {

@@ -73,11 +73,11 @@ export default class SalesforceClient {
       HomePhone: clientVtex.homePhone,
       Phone: clientVtex.phone,
       Birthdate: clientVtex.birthDate,
-      MailingStreet: address ? address.street : '',
-      MailingCity: address ? address.city : '',
-      MailingState: address ? address.state : '',
-      MailingPostalCode: address ? address.postalCode : '',
-      MailingCountry: address ? address.country : '',
+      MailingStreet: address.street,
+      MailingCity: address.city,
+      MailingState: address.state,
+      MailingPostalCode: address.postalCode,
+      MailingCountry: address.country,
     }
 
     const url = `${PATH_API_SALESFORCE}${PATH_CONTACT_SALESFORCE}`
@@ -117,11 +117,11 @@ export default class SalesforceClient {
       HomePhone: clientVtex.homePhone,
       Phone: clientVtex.phone,
       Birthdate: clientVtex.birthDate,
-      MailingStreet: address ? address.street : '',
-      MailingCity: address ? address.city : '',
-      MailingState: address ? address.state : '',
-      MailingPostalCode: address ? address.postalCode : '',
-      MailingCountry: address ? address.country : '',
+      MailingStreet: address.street,
+      MailingCity: address.city,
+      MailingState: address.state,
+      MailingPostalCode: address.postalCode,
+      MailingCountry: address.country,
     }
 
     const url = `${PATH_API_SALESFORCE}${PATH_CONTACT_SALESFORCE}/${idClientSalesforce}`

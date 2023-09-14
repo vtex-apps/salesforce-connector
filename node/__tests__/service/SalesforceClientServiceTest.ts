@@ -1,19 +1,19 @@
-import { AddressVtexResponse } from "../../schemas/AddressVtexResponse";
-import { ClientVtexResponse } from "../../schemas/ClientVtexResponse";
-import SalesforceClient from "../../service/SalesforceClientService";
+import type { AxiosInstance } from 'axios'
+import axios from 'axios'
 
-let mockAxios: any = {};
-
-jest.mock('axios', () => ({
-  create: jest.fn(() => (mockAxios))
-}));
+import type { AddressVtexResponse } from '../../schemas/AddressVtexResponse'
+import type { ClientVtexResponse } from '../../schemas/ClientVtexResponse'
+import SalesforceClient from '../../service/SalesforceClientService'
 
 describe('SalesforceClient', () => {
-  let service: SalesforceClient;
-  let client: ClientVtexResponse;
-  let address: AddressVtexResponse;
+  let service: SalesforceClient
+  let client: ClientVtexResponse
+  let address: AddressVtexResponse
+  let mockAxiosInstance: AxiosInstance
+
   beforeEach(() => {
-    service = new SalesforceClient();
+    service = new SalesforceClient()
+    mockAxiosInstance = axios.create()
     client = {
       id: 'id',
       firstName: 'firstName',
@@ -22,206 +22,162 @@ describe('SalesforceClient', () => {
       email: 'email',
       phone: 'phone',
       homePhone: 'homePhone',
-    };
+      birthDate: 'birthDate',
+    }
     address = {
       street: 'street',
       city: 'city',
       state: 'state',
       postalCode: 'postalCode',
       country: 'country',
-    };
-  });
+    }
+  })
   describe('get', () => {
     test('Get client in Salesforce', async () => {
-      mockAxios = {
-        get: jest.fn(() => Promise.resolve({
-          status: 200,
-          message: 'OK',
-          data: 'Get client in Salesforce'
-        })),
-      };
-      const response = await service.get('', '');
+      jest.spyOn(mockAxiosInstance, 'get').mockResolvedValue({ status: 200 })
+      const response = await service.get('', mockAxiosInstance)
+
       expect(response).toEqual({
         status: 200,
         message: 'OK',
-        data: 'Get client in Salesforce'
-      });
-    });
+        data: undefined,
+      })
+    })
 
     test('Failure to get client in Salesforce', async () => {
-      mockAxios = {
-        get: jest.fn(() => Promise.resolve({
-          status: 404,
-          message: 'Not Found',
-          data: 'Not found client in Salesforce'
-        })),
-      };
-      const response = await service.get('', '');
+      jest.spyOn(mockAxiosInstance, 'get').mockResolvedValue({ status: 404 })
+      const response = await service.get('', mockAxiosInstance)
+
       expect(response).toEqual({
         status: 404,
         message: 'Client could not be queried in salesforce',
-        data: 'Not found client in Salesforce'
-      });
-    });
+        data: undefined,
+      })
+    })
 
     test('Error to get client in Salesforce', async () => {
-      mockAxios = {
-        get: jest.fn(() => Promise.reject({
-          status: 500,
-          message: 'Error',
-          data: 'Error to get client in Salesforce'
-        })),
-      };
-      const response = await service.get('', '');
+      jest.spyOn(mockAxiosInstance, 'get').mockRejectedValue({ status: 500 })
+      const response = await service.get('', mockAxiosInstance)
+
       expect(response).toEqual({
         status: 500,
         message: 'An error occurred while viewing the client',
-        data: undefined
-      });
-    });
+        data: undefined,
+      })
+    })
 
     test('Get user in Salesforce', async () => {
-      mockAxios = {
-        get: jest.fn(() => Promise.resolve({
-          status: 200,
-          message: 'OK',
-          data: 'Get user in Salesforce'
-        })),
-      };
-      const response = await service.getUser('', '');
+      jest.spyOn(mockAxiosInstance, 'get').mockResolvedValue({ status: 200 })
+      const response = await service.getUser('', mockAxiosInstance)
+
       expect(response).toEqual({
         status: 200,
         message: 'OK',
-        data: 'Get user in Salesforce'
-      });
-    });
+        data: undefined,
+      })
+    })
 
     test('Failure to get user in Salesforce', async () => {
-      mockAxios = {
-        get: jest.fn(() => Promise.resolve({
-          status: 404,
-          message: 'Not Found',
-          data: 'Not found user in Salesforce'
-        })),
-      };
-      const response = await service.getUser('', '');
+      jest.spyOn(mockAxiosInstance, 'get').mockResolvedValue({ status: 404 })
+      const response = await service.getUser('', mockAxiosInstance)
+
       expect(response).toEqual({
         status: 404,
         message: 'User could not be queried in salesforce',
-        data: 'Not found user in Salesforce'
-      });
-    });
+        data: undefined,
+      })
+    })
 
     test('Error to get user in Salesforce', async () => {
-      mockAxios = {
-        get: jest.fn(() => Promise.reject({
-          status: 500,
-          message: 'Error',
-          data: 'Error to get user in Salesforce'
-        })),
-      };
-      const response = await service.getUser('', '');
+      jest.spyOn(mockAxiosInstance, 'get').mockRejectedValue({ status: 500 })
+      const response = await service.getUser('', mockAxiosInstance)
+
       expect(response).toEqual({
         status: 500,
         message: 'An error occurred while viewing the user',
-        data: undefined
-      });
-    });
+        data: undefined,
+      })
+    })
 
     test('create client in Salesforce', async () => {
-      mockAxios = {
-        post: jest.fn(() => Promise.resolve({
-          status: 201,
-          message: 'OK',
-          data: 'Create client in Salesforce'
-        })),
-      };
-      const response = await service.create(client, address, 'token');
+      jest.spyOn(mockAxiosInstance, 'post').mockResolvedValue({ status: 201 })
+      const response = await service.create(client, address, mockAxiosInstance)
+
       expect(response).toEqual({
         status: 200,
         message: 'OK',
-        data: 'Create client in Salesforce'
-      });
-    });
+        data: undefined,
+      })
+    })
 
     test('Failure to create client in Salesforce', async () => {
-      mockAxios = {
-        post: jest.fn(() => Promise.resolve({
-          status: 500,
-          message: '',
-          data: 'Could not be created in salesforce'
-        })),
-      };
-      const response = await service.create(client, address, 'token');
+      jest.spyOn(mockAxiosInstance, 'post').mockResolvedValue({ status: 500 })
+      const response = await service.create(client, address, mockAxiosInstance)
+
       expect(response).toEqual({
         status: 500,
         message: 'Client could not be created in salesforce',
-        data: 'Could not be created in salesforce'
-      });
-    });
+        data: undefined,
+      })
+    })
 
     test('Error to create client in Salesforce', async () => {
-      mockAxios = {
-        post: jest.fn(() => Promise.reject({
-          status: 500,
-          message: 'Error',
-          data: 'Error to create client in Salesforce'
-        })),
-      };
-      const response = await service.create(client, address, 'token');
+      jest.spyOn(mockAxiosInstance, 'post').mockRejectedValue({ status: 500 })
+      const response = await service.create(client, address, mockAxiosInstance)
+
       expect(response).toEqual({
         status: 500,
         message: 'An error occurred when creating client in salesforce',
-        data: undefined
-      });
-    });
+        data: undefined,
+      })
+    })
 
     test('update client in Salesforce', async () => {
-      mockAxios = {
-        patch: jest.fn(() => Promise.resolve({
-          status: 200,
-          message: 'OK',
-          data: 'Update client in Salesforce'
-        })),
-      };
-      const response = await service.update(client, address, 'id', 'token');
+      jest.spyOn(mockAxiosInstance, 'patch').mockResolvedValue({ status: 200 })
+      const response = await service.update(
+        client,
+        address,
+        'id',
+        mockAxiosInstance
+      )
+
       expect(response).toEqual({
         status: 200,
         message: 'OK',
-        data: 'Update client in Salesforce'
-      });
-    });
+        data: undefined,
+      })
+    })
 
     test('Failure to update client in Salesforce', async () => {
-      mockAxios = {
-        patch: jest.fn(() => Promise.resolve({
-          status: 500,
-          message: '',
-          data: 'Could not be updated in salesforce'
-        })),
-      };
-      const response = await service.update(client, address, 'id', 'token');
+      jest.spyOn(mockAxiosInstance, 'patch').mockResolvedValue({ status: 500 })
+      const response = await service.update(
+        client,
+        address,
+        'id',
+        mockAxiosInstance
+      )
+
       expect(response).toEqual({
         status: 500,
         message: 'Client could not be updated in salesforce',
-        data: 'Could not be updated in salesforce'
-      });
-    });
+        data: undefined,
+      })
+    })
 
     test('Error to update client in Salesforce', async () => {
-      mockAxios = {
-        patch: jest.fn(() => Promise.reject({
-          status: 500,
-          message: 'Error',
-          data: 'Error to update client in Salesforce'
-        })),
-      };
-      const response = await service.update(client, address, 'id', 'token');
+      jest.spyOn(mockAxiosInstance, 'patch').mockRejectedValue({ status: 500 })
+      const response = await service.update(
+        client,
+        address,
+        'id',
+        mockAxiosInstance
+      )
+
       expect(response).toEqual({
         status: 500,
         message: 'An error occurred when updating client in salesforce',
-        data: undefined
-      });
-    });
-  });
-});
+        data: undefined,
+      })
+    })
+  })
+})

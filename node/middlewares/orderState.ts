@@ -94,7 +94,6 @@ export async function orderState(
       ctx.body = result.data
     }
   } catch (error) {
-    console.error('error', error)
     ctx.state = CODE_STATUS_500
     ctx.body = error
   }

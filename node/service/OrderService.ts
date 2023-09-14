@@ -61,7 +61,7 @@ export default class OrderService {
         return Result.TaskError(resultSave.message)
       }
 
-      order.items.forEach(async (item) => {
+      for (const item of order.items) {
         const resultGetProduct = await salesforceOrderService.getProductByExternalId(
           item.id,
           http
@@ -179,9 +179,7 @@ export default class OrderService {
             return Result.TaskError(resultCreateOrderItem.message)
           }
         }
-
-        return Result.TaskOk('')
-      })
+      }
 
       return Result.TaskOk('')
     } catch (error) {
