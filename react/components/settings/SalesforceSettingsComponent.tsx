@@ -3,10 +3,10 @@ import React, { useState } from 'react'
 import { Button, Modal, Input } from 'vtex.styleguide'
 
 import {
-  CLIENT_ID,
   REDIRECT_URI,
   URI_ADD_CREDENTIALS_SALESFORCE,
   URI_CONFIGURATION_SALESFORCE,
+  URI_GET_PARAMETERS,
   URI_SALESFORCE_AUTHORIZE,
 } from '../../utils/constans'
 
@@ -21,10 +21,12 @@ const SalesforceSettingsComponent: React.FC = () => {
   const [responseSettings, setresponseSettings] = useState('')
   const [responseAddCredentials, setresponseAddCredentials] = useState('')
 
-  const handleOpenModal = () => {
+  const handleOpenModal = async () => {
+    const params = await axios.get(URI_GET_PARAMETERS)
+
     setData({
-      ...data,
       isModalOpen: true,
+      ...params.data,
     })
   }
 
@@ -65,7 +67,7 @@ const SalesforceSettingsComponent: React.FC = () => {
   const handleLogin = () => {
     const { host } = window.location
 
-    const authUrl = `${URI_SALESFORCE_AUTHORIZE}?response_type=code&client_id=${CLIENT_ID}&redirect_uri=https://${host}${REDIRECT_URI}`
+    const authUrl = `${URI_SALESFORCE_AUTHORIZE}?response_type=code&client_id=${data.clientId}&redirect_uri=https://${host}${REDIRECT_URI}`
 
     window.open(authUrl, '_blank', 'width=600,height=600')
   }
@@ -125,6 +127,7 @@ const SalesforceSettingsComponent: React.FC = () => {
           <div className="w-100 mv6">
             <Input
               type="text"
+              value={data ? data.accountSalesforce : ''}
               name="accountSalesforce"
               placeholder="Account Salesforce"
               size="large"
@@ -135,6 +138,7 @@ const SalesforceSettingsComponent: React.FC = () => {
           <div className="w-100 mv6">
             <Input
               type="text"
+              value={data ? data.clientId : ''}
               name="clientId"
               placeholder="Client Id"
               size="large"
@@ -144,7 +148,8 @@ const SalesforceSettingsComponent: React.FC = () => {
           </div>
           <div className="w-100 mv6">
             <Input
-              type="text"
+              type="password"
+              value={data ? data.clientSecret : ''}
               name="clientSecret"
               placeholder="Client Secret"
               size="large"

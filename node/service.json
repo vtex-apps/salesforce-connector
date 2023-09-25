@@ -25,12 +25,22 @@
     "ConfigurationHook": {
       "path": "/v1/vtex/configuration",
       "public": true
+    },
+    "GetParametersHook": {
+      "path": "/v1/vtex/get-parameters",
+      "public": true
     }
   },
   "events": {
     "orderState": {
       "sender": "vtex.orders-broadcast",
-      "topics": ["payment-approved", "canceled", "ready-for-handling", "handling", "invoiced"]
+      "topics": [
+        "payment-approved",
+        "canceled",
+        "ready-for-handling",
+        "handling",
+        "invoiced"
+      ]
     }
   }
 }
