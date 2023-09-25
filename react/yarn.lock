@@ -268,9 +268,9 @@ typescript@3.9.7:
   version "8.134.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.134.1/public/@types/vtex.render-runtime#da48779c477fbef1521010718b0f779ee1ae1ffe"
 
-"vtex.salesforce-connector@https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/vtex.salesforce-connector@1.0.3+build1695677619/public/@types/vtex.salesforce-connector":
+"vtex.salesforce-connector@https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/vtex.salesforce-connector@1.0.3+build1695678308/public/@types/vtex.salesforce-connector":
   version "0.0.0"
-  resolved "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/vtex.salesforce-connector@1.0.3+build1695677619/public/@types/vtex.salesforce-connector#1c9e761dc6f978a93428c2f077f3bf602e3721f0"
+  resolved "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/vtex.salesforce-connector@1.0.3+build1695678308/public/@types/vtex.salesforce-connector#e796b133754d59e87a3a16be099f283b6b987805"
 
 "vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.146.9/public/@types/vtex.styleguide":
   version "9.146.9"
