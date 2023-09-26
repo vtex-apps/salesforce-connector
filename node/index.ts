@@ -1,14 +1,12 @@
-import {
+import type {
   ClientsConfig,
   ServiceContext,
   RecorderState,
   EventContext,
   IOContext,
-  method,
 } from '@vtex/api'
-import { LRUCache, Service } from '@vtex/api'
+import { method, LRUCache, Service } from '@vtex/api'
 import * as dotenv from 'dotenv'
-dotenv.config()
 
 import { Clients } from './clients'
 import { orderState } from './middlewares/orderState'
@@ -17,6 +15,9 @@ import { abandonedCartHook } from './middlewares/AbandonedCartHook'
 import { authenticationHook } from './middlewares/authenticationHook'
 import { configurationHook } from './middlewares/configurationHook'
 import { addCredentialsHook } from './middlewares/addCredentialsHook'
+import { getParametersHook } from './middlewares/getParametersHook'
+
+dotenv.config()
 
 const TIMEOUT_MS = 800
 
@@ -77,6 +78,9 @@ export default new Service({
     }),
     ConfigurationHook: method({
       POST: [configurationHook],
+    }),
+    GetParametersHook: method({
+      GET: [getParametersHook],
     }),
   },
 })
