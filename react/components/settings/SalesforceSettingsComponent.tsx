@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Modal, Input } from 'vtex.styleguide'
 
 import {
@@ -21,12 +21,24 @@ const SalesforceSettingsComponent: React.FC = () => {
   const [responseSettings, setresponseSettings] = useState('')
   const [responseAddCredentials, setresponseAddCredentials] = useState('')
 
-  const handleOpenModal = async () => {
-    const params = await axios.get(URI_GET_PARAMETERS)
+  useEffect(() => {
+    axios
+      .get(URI_GET_PARAMETERS)
+      .then((response) => {
+        setData({
+          ...response.data,
+          isModalOpen: false,
+        })
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [])
 
+  const handleOpenModal = () => {
     setData({
+      ...data,
       isModalOpen: true,
-      ...params.data,
     })
   }
 
