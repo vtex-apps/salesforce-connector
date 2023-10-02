@@ -1,7 +1,7 @@
 {
   "name": "salesforce-connector",
   "vendor": "vtex",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "title": "Salesforce Connector",
   "description": "Reference app for VTEX IO Services",
   "mustUpdateAt": "2018-01-04",
