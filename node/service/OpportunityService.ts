@@ -5,6 +5,7 @@ import { Result } from '../schemas/Result'
 import { getHttpToken, getHttpVTX } from '../utils/HttpUtil'
 import { LIST_PRICE_ID } from '../utils/constans'
 import MasterDataService from './MasterDataService'
+import SalesforceClient from './SalesforceClientService'
 import SalesforceOpportunityService from './SalesforceOpportunityService'
 import SalesforceOrderService from './SalesforceOrderService'
 
@@ -22,7 +23,12 @@ export default class OpportunityService {
       const masterDataService = new MasterDataService()
       const salesforceOpportunity = new SalesforceOpportunityService()
       const listPriceId = parameterList.get(LIST_PRICE_ID)
-      const http = await getHttpToken(parameterList)
+      const salesforceClientService = new SalesforceClient()
+      const resultLogin = await salesforceClientService.login(parameterList)
+      const http = await getHttpToken(
+        parameterList,
+        resultLogin.data.access_token
+      )
 
       if (listPriceId === undefined) {
         return Result.TaskError(`Parameter not found: ${LIST_PRICE_ID}`)

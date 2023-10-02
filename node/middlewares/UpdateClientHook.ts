@@ -32,7 +32,13 @@ export async function updateClientHook(ctx: Context, next: () => Promise<any>) {
     )
 
     const parameterList = new ParameterList(resultParameters.data)
-    const http = await getHttpToken(parameterList)
+    const salesforceClientService = new SalesforceClient()
+    const resultLogin = await salesforceClientService.login(parameterList)
+    const http = await getHttpToken(
+      parameterList,
+      resultLogin.data.access_token
+    )
+
     const salesforceClient = new SalesforceClient()
     const clientSalesforce = await salesforceClient.get(clientVtex.email, http)
 

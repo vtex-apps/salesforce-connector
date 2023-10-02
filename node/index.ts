@@ -12,7 +12,6 @@ import { Clients } from './clients'
 import { orderState } from './middlewares/orderState'
 import { updateClientHook } from './middlewares/UpdateClientHook'
 import { abandonedCartHook } from './middlewares/AbandonedCartHook'
-import { authenticationHook } from './middlewares/authenticationHook'
 import { configurationHook } from './middlewares/configurationHook'
 import { addCredentialsHook } from './middlewares/addCredentialsHook'
 import { getParametersHook } from './middlewares/getParametersHook'
@@ -72,9 +71,6 @@ export default new Service({
     }),
     AddCredentialsHook: method({
       POST: [addCredentialsHook],
-    }),
-    AuthenticationHook: method({
-      GET: [authenticationHook],
     }),
     ConfigurationHook: method({
       POST: [configurationHook],

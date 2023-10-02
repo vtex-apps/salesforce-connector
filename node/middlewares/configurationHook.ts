@@ -1,6 +1,7 @@
 import { ParameterList } from '../schemas/Parameter'
 import ConfigurationService from '../service/ConfigurationService'
 import MasterDataService from '../service/MasterDataService'
+import SalesforceClient from '../service/SalesforceClientService'
 import SalesforceConfigurationService from '../service/SalesforceConfigurationService'
 import { getHttpToken, getHttpVTX } from '../utils/HttpUtil'
 import { CODE_STATUS_200, CODE_STATUS_500 } from '../utils/constans'
@@ -18,7 +19,12 @@ export async function configurationHook(
     )
 
     const parameterList = new ParameterList(resultParameters.data)
-    const http = await getHttpToken(parameterList)
+    const salesforceClientService = new SalesforceClient()
+    const resultLogin = await salesforceClientService.login(parameterList)
+    const http = await getHttpToken(
+      parameterList,
+      resultLogin.data.access_token
+    )
 
     const salesforceConfigurationService = new SalesforceConfigurationService()
     const resultCustomFieldExists = await salesforceConfigurationService.getFielsOrder(

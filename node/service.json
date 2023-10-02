@@ -18,10 +18,6 @@
       "path": "/v1/vtex/add-credentials",
       "public": true
     },
-    "AuthenticationHook": {
-      "path": "/v1/vtex/authenticate",
-      "public": true
-    },
     "ConfigurationHook": {
       "path": "/v1/vtex/configuration",
       "public": true

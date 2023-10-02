@@ -11,6 +11,7 @@ import { getHttpToken, getHttpVTX } from '../utils/HttpUtil'
 import { StatusOrder } from '../utils/StatusOrder'
 import { getCurrentDate } from '../utils/Util'
 import MasterDataService from './MasterDataService'
+import SalesforceClient from './SalesforceClientService'
 
 export default class OrderService {
   public processOrder = async (
@@ -25,7 +26,12 @@ export default class OrderService {
       const salesforceOrderService = new SalesforceOrderService()
       const masterDataService = new MasterDataService()
       const listPriceId = parameterList.get(LIST_PRICE_ID)
-      const http = await getHttpToken(parameterList)
+      const salesforceClientService = new SalesforceClient()
+      const resultLogin = await salesforceClientService.login(parameterList)
+      const http = await getHttpToken(
+        parameterList,
+        resultLogin.data.access_token
+      )
 
       if (listPriceId === undefined) {
         return Result.TaskError(`Parameter not found: ${LIST_PRICE_ID}`)
