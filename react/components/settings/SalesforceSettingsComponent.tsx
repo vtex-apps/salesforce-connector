@@ -3,11 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { Button, Modal, Input } from 'vtex.styleguide'
 
 import {
-  REDIRECT_URI,
   URI_ADD_CREDENTIALS_SALESFORCE,
   URI_CONFIGURATION_SALESFORCE,
   URI_GET_PARAMETERS,
-  URI_SALESFORCE_AUTHORIZE,
 } from '../../utils/constans'
 
 const SalesforceSettingsComponent: React.FC = () => {
@@ -76,14 +74,6 @@ const SalesforceSettingsComponent: React.FC = () => {
     })
   }
 
-  const handleLogin = () => {
-    const { host } = window.location
-
-    const authUrl = `${URI_SALESFORCE_AUTHORIZE}?response_type=code&client_id=${data.clientId}&redirect_uri=https://${host}${REDIRECT_URI}`
-
-    window.open(authUrl, '_blank', 'width=600,height=600')
-  }
-
   const handleSettings = () => {
     axios
       .post(URI_CONFIGURATION_SALESFORCE, data)
@@ -100,12 +90,6 @@ const SalesforceSettingsComponent: React.FC = () => {
       <div className="mb6">
         <Button onClick={handleOpenModal}>Add Salesforce Credentials</Button>
         <p>{responseAddCredentials}</p>
-      </div>
-
-      <hr />
-
-      <div className="mt6 mb6">
-        <Button onClick={handleLogin}>Login Salesforce</Button>
       </div>
 
       <hr />

@@ -27,7 +27,12 @@ export async function orderState(
     )
 
     const parameterList = new ParameterList(resultParameters.data)
-    const http = await getHttpToken(parameterList)
+    const salesforceClientService = new SalesforceClient()
+    const resultLogin = await salesforceClientService.login(parameterList)
+    const http = await getHttpToken(
+      parameterList,
+      resultLogin.data.access_token
+    )
 
     const order = await omsClient.getOrder(orderId)
     const { userProfileId } = order.clientProfileData

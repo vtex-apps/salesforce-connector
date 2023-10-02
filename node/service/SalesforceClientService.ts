@@ -1,18 +1,62 @@
 import type { AxiosInstance } from 'axios'
+import axios from 'axios'
 
 import {
+  ACCOUNT_SALESFORCE,
+  CLIENT_ID,
+  CLIENT_SECRET,
   CODE_STATUS_200,
   CODE_STATUS_201,
   CODE_STATUS_204,
+  DOMAIN_SALESFORCE,
+  GRANT_TYPE,
   PATH_API_SALESFORCE,
   PATH_CONTACT_SALESFORCE,
   PATH_QUERY_SALESFORCE,
+  PATH_SALESFORCE_AUTH,
+  PROTOCOL,
 } from '../utils/constans'
 import { Result } from '../schemas/Result'
 import type { ClientVtexResponse } from '../schemas/ClientVtexResponse'
 import type { AddressVtexResponse } from '../schemas/AddressVtexResponse'
+import type { ParameterList } from '../schemas/Parameter'
 
 export default class SalesforceClient {
+  public login = async (parameterList: ParameterList) => {
+    const url = `${PROTOCOL}${parameterList.get(
+      ACCOUNT_SALESFORCE
+    )}${DOMAIN_SALESFORCE}${PATH_SALESFORCE_AUTH}`
+
+    const clientId = parameterList.get(CLIENT_ID)
+    const clientSecret = parameterList.get(CLIENT_SECRET)
+
+    const params = new URLSearchParams()
+
+    params.append('grant_type', GRANT_TYPE)
+    params.append('client_id', clientId ?? '')
+    params.append('client_secret', clientSecret ?? '')
+
+    try {
+      const response = await axios.post(url, params)
+
+      if (
+        response.status === CODE_STATUS_200 ||
+        response.status === CODE_STATUS_201 ||
+        response.status === CODE_STATUS_204
+      ) {
+        return Result.TaskOk(response.data)
+      }
+
+      return Result.TaskResult(
+        response.status,
+        'Could not login to salesforce',
+        response.data
+      )
+    } catch (error) {
+      return Result.TaskError('An error occurred while logging in')
+    }
+  }
+
   public get = async (email: string, http: AxiosInstance) => {
     const url = `${PATH_QUERY_SALESFORCE}SELECT+id,Email+FROM+Contact+WHERE+Email+=+'${email}'`
 

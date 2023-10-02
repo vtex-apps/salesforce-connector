@@ -10,9 +10,8 @@ export const PATH_SEARCH_USERID = '/search?_fields=_all&userId='
 export const PATH_SEARCH_ID = '/search?_fields=_all&id='
 /** Constans Salesforce */
 export const PROTOCOL = 'https://'
-export const GRANT_TYPE = 'authorization_code'
-export const URI_SALESFORCE_AUTH =
-  'https://login.salesforce.com/services/oauth2/token'
+export const GRANT_TYPE = 'client_credentials'
+export const PATH_SALESFORCE_AUTH = '/services/oauth2/token'
 export const DOMAIN_SALESFORCE = '.my.salesforce.com'
 export const PATH_AUTHENTICATION_SALESFORCE = '/v1/vtex/authenticate'
 export const PATH_API_SALESFORCE = '/services/data/v57.0/sobjects'

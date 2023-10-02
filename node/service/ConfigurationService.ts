@@ -3,6 +3,7 @@ import { Result } from '../schemas/Result'
 import { getHttpToken, getHttpVTX, getSoapToken } from '../utils/HttpUtil'
 import { ACCOUNT_ID, LIST_PRICE_ID } from '../utils/constans'
 import MasterDataService from './MasterDataService'
+import SalesforceClient from './SalesforceClientService'
 import SalesforceConfigurationService from './SalesforceConfigurationService'
 
 export default class ConfigurationService {
@@ -16,8 +17,18 @@ export default class ConfigurationService {
       const httpVTX = await getHttpVTX(ctx.vtex.authToken)
       const listPriceId = parameterList.get(LIST_PRICE_ID)
       const accountId = parameterList.get(ACCOUNT_ID)
-      const http = await getHttpToken(parameterList)
-      const httpSoap = await getSoapToken(parameterList)
+      const salesforceClientService = new SalesforceClient()
+      const resultLogin = await salesforceClientService.login(parameterList)
+      const http = await getHttpToken(
+        parameterList,
+        resultLogin.data.access_token
+      )
+
+      const httpSoap = await getSoapToken(
+        parameterList,
+        resultLogin.data.access_token
+      )
+
       const salesforceConfigurationService = new SalesforceConfigurationService()
 
       if (listPriceId === undefined) {
