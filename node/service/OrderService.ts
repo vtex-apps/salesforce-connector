@@ -7,7 +7,7 @@ import type { ParameterList } from '../schemas/Parameter'
 import { Result } from '../schemas/Result'
 import SalesforceOrderService from './SalesforceOrderService'
 import { LIST_PRICE_ID } from '../utils/constans'
-import { getHttpToken, getHttpVTX } from '../utils/HttpUtil'
+import { getHttpLogin, getHttpToken, getHttpVTX } from '../utils/HttpUtil'
 import { StatusOrder } from '../utils/StatusOrder'
 import { getCurrentDate } from '../utils/Util'
 import MasterDataService from './MasterDataService'
@@ -27,7 +27,12 @@ export default class OrderService {
       const masterDataService = new MasterDataService()
       const listPriceId = parameterList.get(LIST_PRICE_ID)
       const salesforceClientService = new SalesforceClient()
-      const resultLogin = await salesforceClientService.login(parameterList)
+      const httpLogin = await getHttpLogin(parameterList)
+      const resultLogin = await salesforceClientService.login(
+        parameterList,
+        httpLogin
+      )
+
       const http = await getHttpToken(
         parameterList,
         resultLogin.data.access_token

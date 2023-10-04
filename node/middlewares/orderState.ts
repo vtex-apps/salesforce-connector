@@ -1,7 +1,7 @@
 import SalesforceClient from '../service/SalesforceClientService'
 import { ParameterList } from '../schemas/Parameter'
 import SalesforceOrderService from '../service/SalesforceOrderService'
-import { getHttpToken, getHttpVTX } from '../utils/HttpUtil'
+import { getHttpLogin, getHttpToken, getHttpVTX } from '../utils/HttpUtil'
 import { CODE_STATUS_200, CODE_STATUS_500 } from '../utils/constans'
 import OrderService from '../service/OrderService'
 import MasterDataService from '../service/MasterDataService'
@@ -28,7 +28,12 @@ export async function orderState(
 
     const parameterList = new ParameterList(resultParameters.data)
     const salesforceClientService = new SalesforceClient()
-    const resultLogin = await salesforceClientService.login(parameterList)
+    const httpLogin = await getHttpLogin(parameterList)
+    const resultLogin = await salesforceClientService.login(
+      parameterList,
+      httpLogin
+    )
+
     const http = await getHttpToken(
       parameterList,
       resultLogin.data.access_token

@@ -51,6 +51,9 @@ describe('abandonedCartHook', () => {
       getParameters: jest.fn().mockResolvedValue(Result.TaskOk(parameters)),
     }
     mockSalesforceClientService = {
+      login: jest
+        .fn()
+        .mockResolvedValue(Result.TaskOk({ access_token: 'token' })),
       getUser: jest
         .fn()
         .mockResolvedValue(Result.TaskOk({ records: [{ Id: 'id' }] })),

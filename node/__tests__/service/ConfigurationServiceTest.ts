@@ -9,11 +9,17 @@ jest.mock('co-body', () => ({
 }))
 
 let mockSalesforceConfigurationService: any
+let mockSalesforceClientService: any
 let mockMasterDataService: any
 
 jest.mock('../../service/SalesforceConfigurationService', () =>
   jest.fn().mockImplementation(() => mockSalesforceConfigurationService)
 )
+
+jest.mock('../../service/SalesforceClientService', () =>
+  jest.fn().mockImplementation(() => mockSalesforceClientService)
+)
+
 jest.mock('../../service/MasterDataService', () =>
   jest.fn().mockImplementation(() => mockMasterDataService)
 )
@@ -48,6 +54,11 @@ describe('ConfigurationService', () => {
       createAccount: jest.fn().mockReturnValue(Result.TaskOk({})),
       createCustomField: jest.fn().mockReturnValue({}),
     }
+    mockSalesforceClientService = {
+      login: jest
+        .fn()
+        .mockResolvedValue(Result.TaskOk({ access_token: 'token' })),
+    }
     mockMasterDataService = {
       saveUpdateParameter: jest.fn().mockReturnValue({}),
     }
@@ -76,6 +87,19 @@ describe('ConfigurationService', () => {
       data: 'Configuration completed successfully',
       status: 200,
       message: 'OK',
+    })
+  })
+
+  test('Error to execute success proccess configuration', async () => {
+    mockSalesforceClientService = {
+      login: jest.fn().mockRejectedValue(Result.TaskError('error')),
+    }
+    const response = await service.proccessConfiguration(ctx, parameterList, 0)
+
+    expect(response).toEqual({
+      status: 500,
+      message: 'an error occurred while processing the configuration',
+      data: Result.TaskResult(500, 'error', undefined),
     })
   })
 })

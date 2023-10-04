@@ -3,7 +3,7 @@ import ConfigurationService from '../service/ConfigurationService'
 import MasterDataService from '../service/MasterDataService'
 import SalesforceClient from '../service/SalesforceClientService'
 import SalesforceConfigurationService from '../service/SalesforceConfigurationService'
-import { getHttpToken, getHttpVTX } from '../utils/HttpUtil'
+import { getHttpLogin, getHttpToken, getHttpVTX } from '../utils/HttpUtil'
 import { CODE_STATUS_200, CODE_STATUS_500 } from '../utils/constans'
 
 export async function configurationHook(
@@ -20,7 +20,12 @@ export async function configurationHook(
 
     const parameterList = new ParameterList(resultParameters.data)
     const salesforceClientService = new SalesforceClient()
-    const resultLogin = await salesforceClientService.login(parameterList)
+    const httpLogin = await getHttpLogin(parameterList)
+    const resultLogin = await salesforceClientService.login(
+      parameterList,
+      httpLogin
+    )
+
     const http = await getHttpToken(
       parameterList,
       resultLogin.data.access_token

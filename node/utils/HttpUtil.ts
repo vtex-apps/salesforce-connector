@@ -47,3 +47,14 @@ export async function getSoapToken(
     },
   })
 }
+
+export async function getHttpLogin(
+  parameterList: ParameterList
+): Promise<AxiosInstance> {
+  return axios.create({
+    baseURL: `${PROTOCOL}${parameterList.get(
+      ACCOUNT_SALESFORCE
+    )}${DOMAIN_SALESFORCE}`,
+    validateStatus: () => true,
+  })
+}

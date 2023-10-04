@@ -1,6 +1,11 @@
 import type { Parameter, ParameterList } from '../schemas/Parameter'
 import { Result } from '../schemas/Result'
-import { getHttpToken, getHttpVTX, getSoapToken } from '../utils/HttpUtil'
+import {
+  getHttpLogin,
+  getHttpToken,
+  getHttpVTX,
+  getSoapToken,
+} from '../utils/HttpUtil'
 import { ACCOUNT_ID, LIST_PRICE_ID } from '../utils/constans'
 import MasterDataService from './MasterDataService'
 import SalesforceClient from './SalesforceClientService'
@@ -18,7 +23,12 @@ export default class ConfigurationService {
       const listPriceId = parameterList.get(LIST_PRICE_ID)
       const accountId = parameterList.get(ACCOUNT_ID)
       const salesforceClientService = new SalesforceClient()
-      const resultLogin = await salesforceClientService.login(parameterList)
+      const httpLogin = await getHttpLogin(parameterList)
+      const resultLogin = await salesforceClientService.login(
+        parameterList,
+        httpLogin
+      )
+
       const http = await getHttpToken(
         parameterList,
         resultLogin.data.access_token
