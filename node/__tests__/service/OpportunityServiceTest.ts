@@ -50,10 +50,6 @@ describe('OpportunityService', () => {
       email: 'email',
       carttag: 'carttag',
       rclastsessiondate: 'rclastsessiondate',
-      rclastcartvalue: 0,
-      additionalfields: {
-        firstname: 'firstname',
-      },
       items: [item],
     }
     const parameterListPrice = {

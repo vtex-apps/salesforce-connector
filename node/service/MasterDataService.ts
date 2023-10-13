@@ -166,4 +166,44 @@ export default class MasterDataService {
       )
     }
   }
+
+  public getSku = async (
+    skuId: string,
+    account: string,
+    http: AxiosInstance
+  ): Promise<Result> => {
+    try {
+      const { data, status } = await http.get(
+        `http://${account}.myvtex.com/api/catalog/pvt/stockkeepingunit/${skuId}`
+      )
+
+      if (status === 200) {
+        return Result.TaskOk(data)
+      }
+
+      return Result.TaskResult(404, 'not found Sku in MTDT', data)
+    } catch (error) {
+      return Result.TaskResult(500, 'an error has occurred in Sku', error)
+    }
+  }
+
+  public getProduct = async (
+    productId: number,
+    account: string,
+    http: AxiosInstance
+  ): Promise<Result> => {
+    try {
+      const { data, status } = await http.get(
+        `http://${account}.myvtex.com/api/catalog/pvt/product/${productId}`
+      )
+
+      if (status === 200) {
+        return Result.TaskOk(data)
+      }
+
+      return Result.TaskResult(404, 'not found Product in MTDT', data)
+    } catch (error) {
+      return Result.TaskResult(500, 'an error has occurred in Product', error)
+    }
+  }
 }

@@ -1,11 +1,10 @@
-import { Item } from './orderVtexResponse'
+import type { Item } from './orderVtexResponse'
 
 export interface AbandonedCartResponse {
   email: string
-  carttag: string
+  firstName: string
+  lastName: string
   rclastsessiondate: string
-  rclastcartvalue: number
-  additionalfields: Fields
   items: Item[]
 }
 
