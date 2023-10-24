@@ -36,17 +36,32 @@ export async function configurationHook(
       http
     )
 
-    const nameField = resultCustomFieldExists.data.fields.filter(
+    const orderStatusField = resultCustomFieldExists.data.fields.filter(
       (field: any) => field.name === 'Order_Status__c'
     )
 
+    const paymentMethodField = resultCustomFieldExists.data.fields.filter(
+      (field: any) => field.name === 'Payment_Method__c'
+    )
+
+    const discountField = resultCustomFieldExists.data.fields.filter(
+      (field: any) => field.name === 'Discount__c'
+    )
+
+    const promotionNameField = resultCustomFieldExists.data.fields.filter(
+      (field: any) => field.name === 'Promotion__c'
+    )
+
+    const fields = [
+      orderStatusField.length,
+      paymentMethodField.length,
+      discountField.length,
+      promotionNameField.length,
+    ]
+
     const configurationService = new ConfigurationService()
 
-    await configurationService.proccessConfiguration(
-      ctx,
-      parameterList,
-      nameField.length
-    )
+    await configurationService.proccessConfiguration(ctx, parameterList, fields)
     ctx.status = CODE_STATUS_200
     ctx.body = 'OK'
   } catch (error) {

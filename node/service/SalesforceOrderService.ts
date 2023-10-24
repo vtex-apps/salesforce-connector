@@ -41,10 +41,21 @@ export default class SalesforceOrderService {
       return Result.TaskError(`Parameter not found: ${LIST_PRICE_ID}`)
     }
 
+    let count = 0
+
+    order.items.forEach(async (item: Item) => {
+      if (item.priceTags && item.priceTags.length > 0) {
+        count++
+      }
+    })
+
     const body = {
       Description: `Order VTEX #${order.orderId}`,
       Status: StatusOrderSalesForce.DRAFT,
       Order_Status__c: order.status,
+      Payment_Method__c: order.paymentSystemName,
+      Discount__c: order.discounts,
+      Promotion__c: count > 0 ? 'Con promociones' : 'Sin promociones',
       PoDate: date,
       EffectiveDate: date,
       PoNumber: order.orderId,

@@ -15,7 +15,7 @@ export default class ConfigurationService {
   public proccessConfiguration = async (
     ctx: Context,
     parameterList: ParameterList,
-    nameField: number
+    fields: number[]
   ): Promise<Result> => {
     try {
       const masterDataService = new MasterDataService()
@@ -79,10 +79,15 @@ export default class ConfigurationService {
         )
       }
 
-      if (nameField === 0) {
+      if (
+        fields[0] === 0 ||
+        fields[1] === 0 ||
+        fields[2] === 0 ||
+        fields[3] === 0
+      ) {
         await salesforceConfigurationService.createCustomField(
           httpSoap,
-          parameterList
+          resultLogin.data.access_token
         )
       }
 

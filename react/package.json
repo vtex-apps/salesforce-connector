@@ -14,7 +14,7 @@
     "react-intl": "^2.7.2",
     "typescript": "3.9.7",
     "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.134.2/public/@types/vtex.render-runtime",
-    "vtex.salesforce-connector": "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/vtex.salesforce-connector@1.0.4+build1696966904/public/@types/vtex.salesforce-connector",
+    "vtex.salesforce-connector": "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/vtex.salesforce-connector@2.0.1+build1698185254/public/@types/vtex.salesforce-connector",
     "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.146.9/public/@types/vtex.styleguide"
   },
   "dependencies": {

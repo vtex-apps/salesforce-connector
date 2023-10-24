@@ -3,7 +3,9 @@ export interface OrderVtexResponse {
   sequence: string
   status: string
   value: number
+  discounts: number
   creationDate: string
+  paymentSystemName: string
   items: Item[]
   clientProfileData: ClientProfileData
   address: Address
@@ -20,6 +22,15 @@ export interface Item {
   imageUrl: string
   refId: string
   sellingPrice: number
+  priceTags: PriceTag[]
+}
+
+export interface PriceTag {
+  name: string
+  value: number
+  isPercentual: boolean
+  identifier: string
+  rawValue: number
 }
 
 export interface ClientProfileData {
