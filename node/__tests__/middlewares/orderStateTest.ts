@@ -64,6 +64,9 @@ describe('orderState', () => {
       getParameters: jest.fn().mockResolvedValue(Result.TaskOk(parameters)),
     }
     mockSalesforceClient = {
+      login: jest
+        .fn()
+        .mockResolvedValue(Result.TaskOk({ access_token: 'token' })),
       get: jest.fn().mockResolvedValue({
         data: {
           records: [
@@ -109,6 +112,9 @@ describe('orderState', () => {
       getParameters: jest.fn().mockResolvedValue(Result.TaskOk(parameters)),
     }
     mockSalesforceClient = {
+      login: jest
+        .fn()
+        .mockResolvedValue(Result.TaskOk({ access_token: 'token' })),
       get: jest.fn().mockResolvedValue({
         data: {
           records: [],
@@ -149,6 +155,9 @@ describe('orderState', () => {
       getParameters: jest.fn().mockResolvedValue(Result.TaskOk(parameters)),
     }
     mockSalesforceClient = {
+      login: jest
+        .fn()
+        .mockResolvedValue(Result.TaskOk({ access_token: 'token' })),
       get: jest.fn().mockResolvedValue({
         data: {
           records: [],

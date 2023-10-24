@@ -8,7 +8,7 @@ import {
 } from '../utils/constans'
 import MasterDataService from '../service/MasterDataService'
 import { ParameterList } from '../schemas/Parameter'
-import { getHttpToken, getHttpVTX } from '../utils/HttpUtil'
+import { getHttpLogin, getHttpToken, getHttpVTX } from '../utils/HttpUtil'
 
 export async function updateClientHook(ctx: Context, next: () => Promise<any>) {
   const {
@@ -33,7 +33,12 @@ export async function updateClientHook(ctx: Context, next: () => Promise<any>) {
 
     const parameterList = new ParameterList(resultParameters.data)
     const salesforceClientService = new SalesforceClient()
-    const resultLogin = await salesforceClientService.login(parameterList)
+    const httpLogin = await getHttpLogin(parameterList)
+    const resultLogin = await salesforceClientService.login(
+      parameterList,
+      httpLogin
+    )
+
     const http = await getHttpToken(
       parameterList,
       resultLogin.data.access_token

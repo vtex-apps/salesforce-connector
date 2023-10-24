@@ -1,6 +1,11 @@
 import type { Parameter, ParameterList } from '../schemas/Parameter'
 import { Result } from '../schemas/Result'
-import { getHttpToken, getHttpVTX, getSoapToken } from '../utils/HttpUtil'
+import {
+  getHttpLogin,
+  getHttpToken,
+  getHttpVTX,
+  getSoapToken,
+} from '../utils/HttpUtil'
 import { ACCOUNT_ID, LIST_PRICE_ID } from '../utils/constans'
 import MasterDataService from './MasterDataService'
 import SalesforceClient from './SalesforceClientService'
@@ -10,7 +15,7 @@ export default class ConfigurationService {
   public proccessConfiguration = async (
     ctx: Context,
     parameterList: ParameterList,
-    nameField: number
+    fields: number[]
   ): Promise<Result> => {
     try {
       const masterDataService = new MasterDataService()
@@ -18,7 +23,12 @@ export default class ConfigurationService {
       const listPriceId = parameterList.get(LIST_PRICE_ID)
       const accountId = parameterList.get(ACCOUNT_ID)
       const salesforceClientService = new SalesforceClient()
-      const resultLogin = await salesforceClientService.login(parameterList)
+      const httpLogin = await getHttpLogin(parameterList)
+      const resultLogin = await salesforceClientService.login(
+        parameterList,
+        httpLogin
+      )
+
       const http = await getHttpToken(
         parameterList,
         resultLogin.data.access_token
@@ -69,10 +79,15 @@ export default class ConfigurationService {
         )
       }
 
-      if (nameField === 0) {
+      if (
+        fields[0] === 0 ||
+        fields[1] === 0 ||
+        fields[2] === 0 ||
+        fields[3] === 0
+      ) {
         await salesforceConfigurationService.createCustomField(
           httpSoap,
-          parameterList
+          resultLogin.data.access_token
         )
       }
 

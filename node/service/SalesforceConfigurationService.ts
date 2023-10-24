@@ -2,7 +2,6 @@ import type { AxiosInstance } from 'axios'
 
 import { Result } from '../schemas/Result'
 import {
-  ACCESS_TOKEN_SALEFORCE,
   CODE_STATUS_200,
   CODE_STATUS_201,
   PATH_ACCOUNT_SALESFORCE,
@@ -11,7 +10,6 @@ import {
   PATH_FIELDS_ORDER_SALESFORCE,
   PATH_PRICEBOOK2_SALESFORCE,
 } from '../utils/constans'
-import type { ParameterList } from '../schemas/Parameter'
 
 export default class SalesforceConfigurationService {
   public createPricebook = async (http: AxiosInstance) => {
@@ -77,16 +75,16 @@ export default class SalesforceConfigurationService {
 
   public createCustomField = async (
     http: AxiosInstance,
-    parameterList: ParameterList
+    access_token: string
   ): Promise<Result> => {
-    const newCustomField = `
+    const orderStatusField = `
       <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
         <s:Header>
           <h:SessionHeader xmlns:h="http://soap.sforce.com/2006/04/metadata" 
             xmlns="http://soap.sforce.com/2006/04/metadata" 
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-            <sessionId>${parameterList.get(ACCESS_TOKEN_SALEFORCE)}</sessionId>
+            <sessionId>${access_token}</sessionId>
           </h:SessionHeader>
         </s:Header>
         <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -94,7 +92,7 @@ export default class SalesforceConfigurationService {
           <createMetadata xmlns="http://soap.sforce.com/2006/04/metadata">
             <metadata xsi:type="CustomField">
               <fullName>Order.Order_Status__c</fullName>
-              <label>Order Status</label>
+              <label>Estado de la orden</label>
               <type>Text</type>
               <length>50</length>
               <required>true</required>
@@ -104,20 +102,107 @@ export default class SalesforceConfigurationService {
       </s:Envelope>
     `
 
+    const paymentMethodField = `
+      <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+        <s:Header>
+          <h:SessionHeader xmlns:h="http://soap.sforce.com/2006/04/metadata" 
+            xmlns="http://soap.sforce.com/2006/04/metadata" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <sessionId>${access_token}</sessionId>
+          </h:SessionHeader>
+        </s:Header>
+        <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+          <createMetadata xmlns="http://soap.sforce.com/2006/04/metadata">
+            <metadata xsi:type="CustomField">
+              <fullName>Order.Payment_Method__c</fullName>
+              <label>Medio de pago</label>
+              <type>Text</type>
+              <length>50</length>
+              <required>true</required>
+            </metadata>
+          </createMetadata>
+        </s:Body>
+      </s:Envelope>
+    `
+
+    const discountField = `
+      <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+        <s:Header>
+          <h:SessionHeader xmlns:h="http://soap.sforce.com/2006/04/metadata" 
+            xmlns="http://soap.sforce.com/2006/04/metadata" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <sessionId>${access_token}</sessionId>
+          </h:SessionHeader>
+        </s:Header>
+        <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+          <createMetadata xmlns="http://soap.sforce.com/2006/04/metadata">
+            <metadata xsi:type="CustomField">
+              <fullName>Order.Discount__c</fullName>
+              <label>Descuento</label>
+              <type>Currency</type>
+              <precision>18</precision>
+              <scale>2</scale>
+              <required>true</required>
+            </metadata>
+          </createMetadata>
+        </s:Body>
+      </s:Envelope>
+    `
+
+    const promotionNameField = `
+      <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+        <s:Header>
+          <h:SessionHeader xmlns:h="http://soap.sforce.com/2006/04/metadata" 
+            xmlns="http://soap.sforce.com/2006/04/metadata" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <sessionId>${access_token}</sessionId>
+          </h:SessionHeader>
+        </s:Header>
+        <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+          <createMetadata xmlns="http://soap.sforce.com/2006/04/metadata">
+            <metadata xsi:type="CustomField">
+              <fullName>Order.Promotion__c</fullName>
+              <label>Promoción</label>
+              <type>Text</type>
+              <length>50</length>
+              <required>true</required>
+            </metadata>
+          </createMetadata>
+        </s:Body>
+      </s:Envelope>
+    `
+
+    const fields = [
+      orderStatusField,
+      paymentMethodField,
+      discountField,
+      promotionNameField,
+    ]
+
     const url = `${PATH_CUSTOMFIELD_SALESFORCE}`
 
     try {
-      const { data, status } = await http.post(url, newCustomField)
+      fields.forEach(async (field) => {
+        const { data, status } = await http.post(url, field)
 
-      if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
-        return Result.TaskOk(data)
-      }
+        if (status === CODE_STATUS_200 || status === CODE_STATUS_201) {
+          return Result.TaskOk(data)
+        }
 
-      return Result.TaskResult(
-        status,
-        'Custom field could not be created in salesforce',
-        data
-      )
+        return Result.TaskResult(
+          status,
+          'Custom field could not be created in salesforce',
+          data
+        )
+      })
+
+      return Result.TaskOk('Custom fields created successfully')
     } catch (error) {
       return Result.TaskResult(
         500,

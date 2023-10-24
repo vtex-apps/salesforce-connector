@@ -7,12 +7,16 @@ import { ACCOUNT_ID, LIST_PRICE_ID } from '../../utils/constans'
 
 let mockSalesforceOrderService: any
 let mockMasterDataService: any
+let mockSalesforceClientService: any
 
 jest.mock('../../service/SalesforceOrderService', () =>
   jest.fn().mockImplementation(() => mockSalesforceOrderService)
 )
 jest.mock('../../service/MasterDataService', () =>
   jest.fn().mockImplementation(() => mockMasterDataService)
+)
+jest.mock('../../service/SalesforceClientService', () =>
+  jest.fn().mockImplementation(() => mockSalesforceClientService)
 )
 
 describe('OrderService', () => {
@@ -94,6 +98,11 @@ describe('OrderService', () => {
         saveUpdatePriceBookEntry: jest
           .fn()
           .mockResolvedValue(Result.TaskOk({})),
+      }
+      mockSalesforceClientService = {
+        login: jest
+          .fn()
+          .mockResolvedValue(Result.TaskOk({ access_token: 'token' })),
       }
       const response = await service.processOrder(
         order,

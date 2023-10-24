@@ -34,11 +34,16 @@ export default class OMS extends ExternalClient {
         imageUrl: item.imageUrl,
         refId: item.refId,
         sellingPrice: item.sellingPrice,
+        priceTags: item.priceTags,
       }
     })
 
     const totalsShipping = response.data.totals.find(
       (total: { id: string }) => total.id === 'Shipping'
+    )
+
+    const discounts = response.data.totals.find(
+      (discount: { id: string }) => discount.id === 'Discounts'
     )
 
     if (totalsShipping?.value) {
@@ -61,7 +66,10 @@ export default class OMS extends ExternalClient {
       sequence: response.data.sequence,
       status: response.data.status,
       value: response.data.value,
+      discounts: discounts?.value ?? 0,
       creationDate: response.data.creationDate,
+      paymentSystemName:
+        response.data.paymentData.transactions[0].payments[0].paymentSystemName,
       items,
       clientProfileData: {
         id: response.data.clientProfileData.id,

@@ -9,18 +9,22 @@ import { Result } from '../../schemas/Result'
 let mockSalesforceOrderService: any
 let mockSalesforceOpportunityService: any
 let mockMasterDataService: any
+let mockSalesforceClient: any
 
-jest.mock('../../service/SalesforceOrderService', () => {
-  return jest.fn().mockImplementation(() => mockSalesforceOrderService)
-})
+jest.mock('../../service/SalesforceOrderService', () =>
+  jest.fn().mockImplementation(() => mockSalesforceOrderService)
+)
 
-jest.mock('../../service/SalesforceOpportunityService', () => {
-  return jest.fn().mockImplementation(() => mockSalesforceOpportunityService)
-})
+jest.mock('../../service/SalesforceOpportunityService', () =>
+  jest.fn().mockImplementation(() => mockSalesforceOpportunityService)
+)
 
-jest.mock('../../service/masterDataService', () => {
-  return jest.fn().mockImplementation(() => mockMasterDataService)
-})
+jest.mock('../../service/masterDataService', () =>
+  jest.fn().mockImplementation(() => mockMasterDataService)
+)
+jest.mock('../../service/SalesforceClientService', () =>
+  jest.fn().mockImplementation(() => mockSalesforceClient)
+)
 
 describe('OpportunityService', () => {
   let service: OpportunityService
@@ -46,10 +50,6 @@ describe('OpportunityService', () => {
       email: 'email',
       carttag: 'carttag',
       rclastsessiondate: 'rclastsessiondate',
-      rclastcartvalue: 0,
-      additionalfields: {
-        firstname: 'firstname',
-      },
       items: [item],
     }
     const parameterListPrice = {
@@ -85,6 +85,13 @@ describe('OpportunityService', () => {
           .fn()
           .mockResolvedValue(Result.TaskOk({})),
       }
+
+      mockSalesforceClient = {
+        login: jest
+          .fn()
+          .mockResolvedValue(Result.TaskOk({ access_token: 'token' })),
+      }
+
       const response = await service.processOpporunity(
         opportunity,
         '',

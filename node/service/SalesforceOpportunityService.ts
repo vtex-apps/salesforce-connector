@@ -29,11 +29,10 @@ export default class SalesforceOpportunityService {
     const accountId = parameterList.get(ACCOUNT_ID)
     const listPriceId = parameterList.get(LIST_PRICE_ID)
     const body = {
-      Name: request.carttag,
-      Description: `Abandoned cart -> ${request.carttag}}`,
+      Name: `${request.firstName} ${request.lastName}`,
+      Description: `Abandoned cart by ${request.firstName} ${request.lastName}`,
       StageName: 'Abandoned Cart',
       CloseDate: date,
-      Amount: request.rclastcartvalue,
       Pricebook2Id: listPriceId,
       AccountId: accountId,
       OwnerId: userSalesforceId,

@@ -6,6 +6,7 @@ import { ACCESS_TOKEN_SALEFORCE } from '../../utils/constans'
 let mockCreateEntitiesMasterDataV2Service: any
 let mockMasterDataService: any
 let mockSalesforceConfigurationService: any
+let mockSalesforceClient: any
 
 jest.mock('../../service/CreateEntitiesMasterDataV2Service', () =>
   jest.fn().mockImplementation(() => mockCreateEntitiesMasterDataV2Service)
@@ -15,6 +16,9 @@ jest.mock('../../service/MasterDataService', () =>
 )
 jest.mock('../../service/SalesforceConfigurationService', () =>
   jest.fn().mockImplementation(() => mockSalesforceConfigurationService)
+)
+jest.mock('../../service/SalesforceClientService', () =>
+  jest.fn().mockImplementation(() => mockSalesforceClient)
 )
 
 describe('configurationHook', () => {
@@ -53,6 +57,11 @@ describe('configurationHook', () => {
         .mockResolvedValue(
           Result.TaskOk({ fields: [{ name: 'Order_Status__c' }] })
         ),
+    }
+    mockSalesforceClient = {
+      login: jest
+        .fn()
+        .mockResolvedValue(Result.TaskOk({ access_token: 'token' })),
     }
     const response = await configurationHook(ctx, () => Promise.resolve())
 
