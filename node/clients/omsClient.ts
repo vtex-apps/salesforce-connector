@@ -34,7 +34,6 @@ export default class OMS extends ExternalClient {
         imageUrl: item.imageUrl,
         refId: item.refId,
         sellingPrice: item.sellingPrice,
-        priceTags: item.priceTags,
       }
     })
 
@@ -67,6 +66,8 @@ export default class OMS extends ExternalClient {
       status: response.data.status,
       value: response.data.value,
       discounts: discounts?.value ?? 0,
+      ratesAndBenefitsData:
+        response.data.ratesAndBenefitsData.rateAndBenefitsIdentifiers,
       creationDate: response.data.creationDate,
       paymentSystemName:
         response.data.paymentData.transactions[0].payments[0].paymentSystemName,

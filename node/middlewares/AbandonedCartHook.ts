@@ -67,7 +67,6 @@ export async function abandonedCartHook(
         imageUrl: '',
         refId: resultProduct.data.RefId,
         sellingPrice: 0,
-        priceTags: [],
       })
     })
 

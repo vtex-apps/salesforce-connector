@@ -141,7 +141,7 @@ export default class SalesforceConfigurationService {
           xmlns:xsd="http://www.w3.org/2001/XMLSchema">
           <createMetadata xmlns="http://soap.sforce.com/2006/04/metadata">
             <metadata xsi:type="CustomField">
-              <fullName>Order.Discount__c</fullName>
+              <fullName>Order.Discounts__c</fullName>
               <label>Descuento</label>
               <type>Currency</type>
               <precision>18</precision>
@@ -167,10 +167,9 @@ export default class SalesforceConfigurationService {
           xmlns:xsd="http://www.w3.org/2001/XMLSchema">
           <createMetadata xmlns="http://soap.sforce.com/2006/04/metadata">
             <metadata xsi:type="CustomField">
-              <fullName>Order.Promotion__c</fullName>
-              <label>Promoción</label>
-              <type>Text</type>
-              <length>50</length>
+              <fullName>Order.Promotions__c</fullName>
+              <label>Promociones y asociaciones</label>
+              <type>TextArea</type>
               <required>true</required>
             </metadata>
           </createMetadata>

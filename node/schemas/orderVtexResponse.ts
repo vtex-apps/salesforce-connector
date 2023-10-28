@@ -4,11 +4,16 @@ export interface OrderVtexResponse {
   status: string
   value: number
   discounts: number
+  ratesAndBenefitsData: RatesAndBenefitsData[]
   creationDate: string
   paymentSystemName: string
   items: Item[]
   clientProfileData: ClientProfileData
   address: Address
+}
+
+export interface RatesAndBenefitsData {
+  name: string
 }
 
 export interface Item {
@@ -22,15 +27,6 @@ export interface Item {
   imageUrl: string
   refId: string
   sellingPrice: number
-  priceTags: PriceTag[]
-}
-
-export interface PriceTag {
-  name: string
-  value: number
-  isPercentual: boolean
-  identifier: string
-  rawValue: number
 }
 
 export interface ClientProfileData {
