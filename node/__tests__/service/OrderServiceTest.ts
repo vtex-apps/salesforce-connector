@@ -31,7 +31,14 @@ describe('OrderService', () => {
       sequence: '0',
       status: 'status',
       value: 0,
+      discounts: 0,
+      ratesAndBenefitsData: [
+        {
+          name: 'name',
+        },
+      ],
       creationDate: 'creationDate',
+      paymentSystemName: 'paymentSystemName',
       items: [
         {
           id: 'id',

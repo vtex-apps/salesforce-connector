@@ -48,7 +48,8 @@ describe('OpportunityService', () => {
 
     opportunity = {
       email: 'email',
-      carttag: 'carttag',
+      firstName: 'firstName',
+      lastName: 'lastName',
       rclastsessiondate: 'rclastsessiondate',
       items: [item],
     }
