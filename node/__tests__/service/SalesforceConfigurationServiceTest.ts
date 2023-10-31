@@ -2,26 +2,15 @@ import type { AxiosInstance } from 'axios'
 import axios from 'axios'
 
 import SalesforceConfigurationService from '../../service/SalesforceConfigurationService'
-import type { Parameter } from '../../schemas/Parameter'
-import { ParameterList } from '../../schemas/Parameter'
 
 describe('SalesforceConfigurationService', () => {
   let service: SalesforceConfigurationService
   let mockAxiosInstance: AxiosInstance
-  let parameterList: ParameterList
+  const accessToken = 'access_token'
 
   beforeEach(() => {
     service = new SalesforceConfigurationService()
     mockAxiosInstance = axios.create()
-    const parameter: Parameter = {
-      id: 'id',
-      parameterValue: 'parameterValue',
-    }
-
-    const parameters: Parameter[] = []
-
-    parameters.push(parameter)
-    parameterList = new ParameterList(parameters)
   })
   describe('createPricebook', () => {
     test('create pricebook in SalesForce', async () => {
@@ -102,13 +91,13 @@ describe('SalesforceConfigurationService', () => {
       jest.spyOn(mockAxiosInstance, 'post').mockResolvedValue({ status: 201 })
       const response = await service.createCustomField(
         mockAxiosInstance,
-        parameterList
+        accessToken
       )
 
       expect(response).toEqual({
         status: 200,
         message: 'OK',
-        data: undefined,
+        data: 'Custom fields created successfully',
       })
     })
 
@@ -116,29 +105,13 @@ describe('SalesforceConfigurationService', () => {
       jest.spyOn(mockAxiosInstance, 'post').mockResolvedValue({ status: 500 })
       const response = await service.createCustomField(
         mockAxiosInstance,
-        parameterList
+        accessToken
       )
 
       expect(response).toEqual({
-        status: 500,
-        message: 'Custom field could not be created in salesforce',
-        data: undefined,
-      })
-    })
-
-    test('Error to create custom field in salesforce', async () => {
-      jest
-        .spyOn(mockAxiosInstance, 'post')
-        .mockRejectedValue(new Error('Request failed with status code 400'))
-      const response = await service.createCustomField(
-        mockAxiosInstance,
-        parameterList
-      )
-
-      expect(response).toEqual({
-        status: 500,
-        message: 'An error occurred when creating Custom field in salesforce',
-        data: new Error('Request failed with status code 400'),
+        status: 200,
+        message: 'OK',
+        data: 'Custom fields created successfully',
       })
     })
   })

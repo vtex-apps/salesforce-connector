@@ -48,15 +48,15 @@ export async function configurationHook(
       (field: any) => field.name === 'Discount__c'
     )
 
-    const promotionNameField = resultCustomFieldExists.data.fields.filter(
-      (field: any) => field.name === 'Promotion__c'
+    const promotionsNameField = resultCustomFieldExists.data.fields.filter(
+      (field: any) => field.name === 'Promotions__c'
     )
 
     const fields = [
       orderStatusField.length,
       paymentMethodField.length,
       discountField.length,
-      promotionNameField.length,
+      promotionsNameField.length,
     ]
 
     const configurationService = new ConfigurationService()

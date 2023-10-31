@@ -28,6 +28,7 @@ describe('ConfigurationService', () => {
   let service: ConfigurationService
   let ctx: any
   let parameterList: ParameterList
+  const fields = [1, 1, 1]
 
   beforeEach(() => {
     service = new ConfigurationService()
@@ -62,7 +63,11 @@ describe('ConfigurationService', () => {
     mockMasterDataService = {
       saveUpdateParameter: jest.fn().mockReturnValue({}),
     }
-    const response = await service.proccessConfiguration(ctx, parameterList, 0)
+    const response = await service.proccessConfiguration(
+      ctx,
+      parameterList,
+      fields
+    )
 
     expect(response).toEqual({
       data: 'Configuration completed successfully',
@@ -81,7 +86,11 @@ describe('ConfigurationService', () => {
     mockMasterDataService = {
       saveUpdateParameter: jest.fn().mockReturnValue({}),
     }
-    const response = await service.proccessConfiguration(ctx, parameterList, 0)
+    const response = await service.proccessConfiguration(
+      ctx,
+      parameterList,
+      fields
+    )
 
     expect(response).toEqual({
       data: 'Configuration completed successfully',
@@ -94,7 +103,11 @@ describe('ConfigurationService', () => {
     mockSalesforceClientService = {
       login: jest.fn().mockRejectedValue(Result.TaskError('error')),
     }
-    const response = await service.proccessConfiguration(ctx, parameterList, 0)
+    const response = await service.proccessConfiguration(
+      ctx,
+      parameterList,
+      fields
+    )
 
     expect(response).toEqual({
       status: 500,

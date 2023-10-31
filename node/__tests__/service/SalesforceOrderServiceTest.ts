@@ -22,7 +22,14 @@ describe('SalesforceOrderService', () => {
       sequence: '',
       status: '',
       value: 0,
+      discounts: 0,
+      ratesAndBenefitsData: [
+        {
+          name: 'name',
+        },
+      ],
       creationDate: '',
+      paymentSystemName: '',
       items: [],
       clientProfileData: {
         id: '',

@@ -19,7 +19,8 @@ describe('SalesforceOpportunityService', () => {
     mockAxiosInstance = axios.create()
     request = {
       email: 'email',
-      carttag: 'carttag',
+      firstName: 'firstName',
+      lastName: 'lastName',
       rclastsessiondate: 'rclastsessiondate',
       items: [],
     }
