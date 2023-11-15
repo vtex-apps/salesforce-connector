@@ -37,19 +37,23 @@ export async function configurationHook(
     )
 
     const orderStatusField = resultCustomFieldExists.data.fields.filter(
-      (field: any) => field.name === 'Order_Status__c'
+      (field: { name: string }) => field.name === 'Order_Status__c'
     )
 
     const paymentMethodField = resultCustomFieldExists.data.fields.filter(
-      (field: any) => field.name === 'Payment_Method__c'
+      (field: { name: string }) => field.name === 'Payment_Method__c'
     )
 
     const discountField = resultCustomFieldExists.data.fields.filter(
-      (field: any) => field.name === 'Discount__c'
+      (field: { name: string }) => field.name === 'Discount__c'
     )
 
     const promotionsNameField = resultCustomFieldExists.data.fields.filter(
-      (field: any) => field.name === 'Promotions__c'
+      (field: { name: string }) => field.name === 'Promotions__c'
+    )
+
+    const createdBy = resultCustomFieldExists.data.fields.filter(
+      (field: { name: string }) => field.name === 'Created_By__c'
     )
 
     const fields = [
@@ -57,6 +61,7 @@ export async function configurationHook(
       paymentMethodField.length,
       discountField.length,
       promotionsNameField.length,
+      createdBy.length,
     ]
 
     const configurationService = new ConfigurationService()
