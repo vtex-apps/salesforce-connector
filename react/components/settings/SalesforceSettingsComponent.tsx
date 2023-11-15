@@ -5,6 +5,7 @@ import { Button, Modal, Input } from 'vtex.styleguide'
 import {
   URI_ADD_CREDENTIALS_SALESFORCE,
   URI_CONFIGURATION_SALESFORCE,
+  URI_GET_CONFIGURATION,
   URI_GET_PARAMETERS,
 } from '../../utils/constans'
 
@@ -27,6 +28,18 @@ const SalesforceSettingsComponent: React.FC = () => {
           ...response.data,
           isModalOpen: false,
         })
+        setresponseAddCredentials('Credentials have been added successfully')
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+
+    axios
+      .get(URI_GET_CONFIGURATION)
+      .then((response) => {
+        if (response.data === true) {
+          setresponseSettings('Configuration process executed successfully')
+        }
       })
       .catch((error) => {
         console.error(error)
@@ -123,7 +136,7 @@ const SalesforceSettingsComponent: React.FC = () => {
           <div className="w-100 mv6">
             <Input
               type="text"
-              value={data ? data.accountSalesforce : ''}
+              value={data.accountSalesforce || ''}
               name="accountSalesforce"
               placeholder="Account Salesforce"
               size="large"
@@ -134,7 +147,7 @@ const SalesforceSettingsComponent: React.FC = () => {
           <div className="w-100 mv6">
             <Input
               type="text"
-              value={data ? data.clientId : ''}
+              value={data.clientId || ''}
               name="clientId"
               placeholder="Client Id"
               size="large"
@@ -145,7 +158,7 @@ const SalesforceSettingsComponent: React.FC = () => {
           <div className="w-100 mv6">
             <Input
               type="password"
-              value={data ? data.clientSecret : ''}
+              value={data.clientSecret || ''}
               name="clientSecret"
               placeholder="Client Secret"
               size="large"

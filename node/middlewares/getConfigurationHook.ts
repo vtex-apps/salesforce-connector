@@ -1,12 +1,16 @@
 import { ParameterList } from '../schemas/Parameter'
-import ConfigurationService from '../service/ConfigurationService'
 import MasterDataService from '../service/MasterDataService'
 import SalesforceClient from '../service/SalesforceClientService'
 import SalesforceConfigurationService from '../service/SalesforceConfigurationService'
 import { getHttpLogin, getHttpToken, getHttpVTX } from '../utils/HttpUtil'
-import { CODE_STATUS_200, CODE_STATUS_500 } from '../utils/constans'
+import {
+  ACCOUNT_ID,
+  CODE_STATUS_200,
+  CODE_STATUS_500,
+  LIST_PRICE_ID,
+} from '../utils/constans'
 
-export async function configurationHook(
+export async function getConfigurationHook(
   ctx: Context,
   next: () => Promise<void>
 ) {
@@ -36,40 +40,32 @@ export async function configurationHook(
       http
     )
 
-    const orderStatusField = resultCustomFieldExists.data.fields.filter(
-      (field: { name: string }) => field.name === 'Order_Status__c'
-    )
+    let response = false
 
-    const paymentMethodField = resultCustomFieldExists.data.fields.filter(
-      (field: { name: string }) => field.name === 'Payment_Method__c'
-    )
-
-    const discountField = resultCustomFieldExists.data.fields.filter(
-      (field: { name: string }) => field.name === 'Discounts__c'
-    )
-
-    const promotionsNameField = resultCustomFieldExists.data.fields.filter(
-      (field: { name: string }) => field.name === 'Promotions__c'
-    )
-
-    const createdBy = resultCustomFieldExists.data.fields.filter(
-      (field: { name: string }) => field.name === 'Created_By__c'
-    )
-
-    const fields = [
-      orderStatusField.length,
-      paymentMethodField.length,
-      discountField.length,
-      promotionsNameField.length,
-      createdBy.length,
-    ]
-
-    const configurationService = new ConfigurationService()
-
-    await configurationService.proccessConfiguration(ctx, parameterList, fields)
+    if (
+      parameterList.get(LIST_PRICE_ID) &&
+      parameterList.get(ACCOUNT_ID) &&
+      resultCustomFieldExists.data.fields.filter(
+        (field: { name: string }) => field.name === 'Order_Status__c'
+      ) &&
+      resultCustomFieldExists.data.fields.filter(
+        (field: { name: string }) => field.name === 'Payment_Method__c'
+      ) &&
+      resultCustomFieldExists.data.fields.filter(
+        (field: { name: string }) => field.name === 'Discounts__c'
+      ) &&
+      resultCustomFieldExists.data.fields.filter(
+        (field: { name: string }) => field.name === 'Promotions__c'
+      ) &&
+      resultCustomFieldExists.data.fields.filter(
+        (field: { name: string }) => field.name === 'Created_By__c'
+      )
+    ) {
+      response = true
+    }
 
     ctx.status = CODE_STATUS_200
-    ctx.body = 'OK'
+    ctx.body = response
   } catch (error) {
     ctx.status = CODE_STATUS_500
     ctx.body = error

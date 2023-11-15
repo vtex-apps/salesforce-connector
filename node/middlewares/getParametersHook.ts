@@ -11,7 +11,7 @@ import {
 
 export async function getParametersHook(
   ctx: Context,
-  next: () => Promise<any>
+  next: () => Promise<void>
 ) {
   try {
     const httpVTX = await getHttpVTX(ctx.vtex.authToken)
