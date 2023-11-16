@@ -28,7 +28,7 @@ describe('ConfigurationService', () => {
   let service: ConfigurationService
   let ctx: any
   let parameterList: ParameterList
-  const fields = [1, 1, 1]
+  const fields = [1, 1, 1, 1, 0]
 
   beforeEach(() => {
     service = new ConfigurationService()

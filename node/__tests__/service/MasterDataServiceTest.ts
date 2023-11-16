@@ -312,4 +312,106 @@ describe('MasterDataService', () => {
       })
     })
   })
+
+  describe('getSku', () => {
+    test('get sku from MTDT', async () => {
+      jest
+        .spyOn(mockAxiosInstance, 'get')
+        .mockResolvedValue({ status: 200, data: [{}] })
+      const response = await service.getSku(
+        'skuId',
+        'accontVtex',
+        mockAxiosInstance
+      )
+
+      expect(response).toEqual({
+        status: 200,
+        message: 'OK',
+        data: [{}],
+      })
+    })
+
+    test('Failed to get sku from MTDT', async () => {
+      jest.spyOn(mockAxiosInstance, 'get').mockResolvedValue({ status: 404 })
+      const response = await service.getSku(
+        'skuId',
+        'accountVtex',
+        mockAxiosInstance
+      )
+
+      expect(response).toEqual({
+        status: 404,
+        message: 'not found Sku in MTDT',
+        data: undefined,
+      })
+    })
+
+    test('Error to get sku from MTDT', async () => {
+      jest
+        .spyOn(mockAxiosInstance, 'get')
+        .mockRejectedValue(new Error('Request failed with status code 400'))
+      const response = await service.getSku(
+        'skuId',
+        'accountVtex',
+        mockAxiosInstance
+      )
+
+      expect(response).toEqual({
+        status: 500,
+        message: 'an error has occurred in Sku',
+        data: new Error('Request failed with status code 400'),
+      })
+    })
+  })
+
+  describe('getProduct', () => {
+    test('get product from MTDT', async () => {
+      jest
+        .spyOn(mockAxiosInstance, 'get')
+        .mockResolvedValue({ status: 200, data: [{}] })
+      const response = await service.getProduct(
+        1,
+        'accontVtex',
+        mockAxiosInstance
+      )
+
+      expect(response).toEqual({
+        status: 200,
+        message: 'OK',
+        data: [{}],
+      })
+    })
+
+    test('Failed to get product from MTDT', async () => {
+      jest.spyOn(mockAxiosInstance, 'get').mockResolvedValue({ status: 404 })
+      const response = await service.getProduct(
+        1,
+        'accountVtex',
+        mockAxiosInstance
+      )
+
+      expect(response).toEqual({
+        status: 404,
+        message: 'not found Product in MTDT',
+        data: undefined,
+      })
+    })
+
+    test('Error to get product from MTDT', async () => {
+      jest
+        .spyOn(mockAxiosInstance, 'get')
+        .mockRejectedValue(new Error('Request failed with status code 400'))
+      const response = await service.getProduct(
+        1,
+        'accountVtex',
+        mockAxiosInstance
+      )
+
+      expect(response).toEqual({
+        status: 500,
+        message: 'an error has occurred in Product',
+        data: new Error('Request failed with status code 400'),
+      })
+    })
+  })
 })
