@@ -15,6 +15,7 @@ import { abandonedCartHook } from './middlewares/AbandonedCartHook'
 import { configurationHook } from './middlewares/configurationHook'
 import { addCredentialsHook } from './middlewares/addCredentialsHook'
 import { getParametersHook } from './middlewares/getParametersHook'
+import { getConfigurationHook } from './middlewares/getConfigurationHook'
 
 dotenv.config()
 
@@ -77,6 +78,9 @@ export default new Service({
     }),
     GetParametersHook: method({
       GET: [getParametersHook],
+    }),
+    GetConfigurationHook: method({
+      GET: [getConfigurationHook],
     }),
   },
 })

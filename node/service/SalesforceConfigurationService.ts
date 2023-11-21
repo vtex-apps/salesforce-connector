@@ -142,7 +142,7 @@ export default class SalesforceConfigurationService {
           <createMetadata xmlns="http://soap.sforce.com/2006/04/metadata">
             <metadata xsi:type="CustomField">
               <fullName>Order.Discounts__c</fullName>
-              <label>Descuento</label>
+              <label>Descuentos</label>
               <type>Currency</type>
               <precision>18</precision>
               <scale>2</scale>
@@ -177,11 +177,39 @@ export default class SalesforceConfigurationService {
       </s:Envelope>
     `
 
+    const createdBy = `
+      <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+        <s:Header>
+          <h:SessionHeader xmlns:h="http://soap.sforce.com/2006/04/metadata" 
+            xmlns="http://soap.sforce.com/2006/04/metadata" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <sessionId>${access_token}</sessionId>
+          </h:SessionHeader>
+        </s:Header>
+        <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+          <createMetadata xmlns="http://soap.sforce.com/2006/04/metadata">
+            <metadata xsi:type="CustomField">
+              <fullName>Order.Created_By__c</fullName>
+              <label>Pedido VTEX creado por</label>
+              <type>Lookup</type>
+              <referenceTo>Contact</referenceTo>
+              <relationshipName>Order_CreatedBy_Rel</relationshipName>
+              <required>true</required>
+              <deleteConstraint>Restrict</deleteConstraint>
+            </metadata>
+          </createMetadata>
+        </s:Body>
+      </s:Envelope>
+    `
+
     const fields = [
       orderStatusField,
       paymentMethodField,
       discountField,
       promotionNameField,
+      createdBy,
     ]
 
     const url = `${PATH_CUSTOMFIELD_SALESFORCE}`

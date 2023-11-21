@@ -25,7 +25,10 @@ describe('SalesforceOrderService', () => {
       discounts: 0,
       ratesAndBenefitsData: [
         {
-          name: 'name',
+          name: 'promo 1',
+        },
+        {
+          name: 'promo 2',
         },
       ],
       creationDate: '',
@@ -79,6 +82,23 @@ describe('SalesforceOrderService', () => {
   describe('createOrder', () => {
     test('Create order in Saleforce', async () => {
       jest.spyOn(mockAxiosInstance, 'post').mockResolvedValue({ status: 201 })
+      const response = await service.createOrder(
+        order,
+        '',
+        mockAxiosInstance,
+        parameterList
+      )
+
+      expect(response).toEqual({
+        status: 200,
+        message: 'OK',
+        data: undefined,
+      })
+    })
+
+    test('Create order without promotions in Saleforce', async () => {
+      jest.spyOn(mockAxiosInstance, 'post').mockResolvedValue({ status: 201 })
+      order.ratesAndBenefitsData = []
       const response = await service.createOrder(
         order,
         '',

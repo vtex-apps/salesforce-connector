@@ -65,7 +65,7 @@ export default class OMS extends ExternalClient {
       sequence: response.data.sequence,
       status: response.data.status,
       value: response.data.value,
-      discounts: discounts?.value ?? 0,
+      discounts: discounts?.value / 100 ?? 0,
       ratesAndBenefitsData:
         response.data.ratesAndBenefitsData.rateAndBenefitsIdentifiers,
       creationDate: response.data.creationDate,

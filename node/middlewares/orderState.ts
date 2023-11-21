@@ -27,12 +27,8 @@ export async function orderState(
     )
 
     const parameterList = new ParameterList(resultParameters.data)
-    const salesforceClientService = new SalesforceClient()
     const httpLogin = await getHttpLogin(parameterList)
-    const resultLogin = await salesforceClientService.login(
-      parameterList,
-      httpLogin
-    )
+    const resultLogin = await salesforceClient.login(parameterList, httpLogin)
 
     const http = await getHttpToken(
       parameterList,

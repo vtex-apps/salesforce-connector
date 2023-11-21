@@ -25,6 +25,10 @@
     "GetParametersHook": {
       "path": "/v1/vtex/get-parameters",
       "public": true
+    },
+    "GetConfigurationHook": {
+      "path": "/v1/vtex/get-configuration",
+      "public": true
     }
   },
   "events": {

@@ -73,6 +73,19 @@ describe('SalesforceClient', () => {
       })
     })
 
+    test('Success to login without client id and client secret in Salesforce', async () => {
+      jest.spyOn(mockAxiosInstance, 'post').mockResolvedValue({ status: 201 })
+      parameterList.remove(CLIENT_ID)
+      parameterList.remove(CLIENT_SECRET)
+      const response = await service.login(parameterList, mockAxiosInstance)
+
+      expect(response).toEqual({
+        status: 200,
+        message: 'OK',
+        data: undefined,
+      })
+    })
+
     test('Failure to login in Salesforce', async () => {
       jest.spyOn(mockAxiosInstance, 'post').mockResolvedValue({ status: 500 })
       const response = await service.login(parameterList, mockAxiosInstance)
