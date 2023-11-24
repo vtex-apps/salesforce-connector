@@ -56,12 +56,17 @@ export async function configurationHook(
       (field: { name: string }) => field.name === 'Created_By__c'
     )
 
+    const shippingType = resultCustomFieldExists.data.fields.filter(
+      (field: { name: string }) => field.name === 'Shipping_Type__c'
+    )
+
     const fields = [
       orderStatusField.length,
       paymentMethodField.length,
       discountField.length,
       promotionsNameField.length,
       createdBy.length,
+      shippingType.length,
     ]
 
     const configurationService = new ConfigurationService()

@@ -204,12 +204,38 @@ export default class SalesforceConfigurationService {
       </s:Envelope>
     `
 
+    const shippingType = `
+      <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+        <s:Header>
+          <h:SessionHeader xmlns:h="http://soap.sforce.com/2006/04/metadata" 
+            xmlns="http://soap.sforce.com/2006/04/metadata" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <sessionId>${access_token}</sessionId>
+          </h:SessionHeader>
+        </s:Header>
+        <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+          <createMetadata xmlns="http://soap.sforce.com/2006/04/metadata">
+            <metadata xsi:type="CustomField">
+              <fullName>Order.Shipping_Type__c</fullName>
+              <label>Tipo de envío</label>
+              <type>Text</type>
+              <length>50</length>
+              <required>true</required>
+            </metadata>
+          </createMetadata>
+        </s:Body>
+      </s:Envelope>
+    `
+
     const fields = [
       orderStatusField,
       paymentMethodField,
       discountField,
       promotionNameField,
       createdBy,
+      shippingType,
     ]
 
     const url = `${PATH_CUSTOMFIELD_SALESFORCE}`

@@ -71,6 +71,7 @@ export default class OMS extends ExternalClient {
       creationDate: response.data.creationDate,
       paymentSystemName:
         response.data.paymentData.transactions[0].payments[0].paymentSystemName,
+      shippingType: response.data.shippingData.address.addressType,
       items,
       clientProfileData: {
         id: response.data.clientProfileData.id,
