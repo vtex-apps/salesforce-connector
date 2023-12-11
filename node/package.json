@@ -31,5 +31,5 @@
     "lint": "tsc --noEmit --pretty",
     "test": "jest"
   },
-  "version": "2.0.4"
+  "version": "2.0.5"
 }
