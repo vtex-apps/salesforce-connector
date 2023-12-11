@@ -65,6 +65,7 @@ export default class SalesforceOrderService {
       Discounts__c: order.discounts,
       Promotions__c: promotions || 'Sin promociones',
       Created_By__c: clientSalesforceId,
+      Shipping_Type__c: order.shippingType,
       PoDate: date,
       EffectiveDate: date,
       PoNumber: order.orderId,

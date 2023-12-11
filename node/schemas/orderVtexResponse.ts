@@ -7,6 +7,7 @@ export interface OrderVtexResponse {
   ratesAndBenefitsData: RatesAndBenefitsData[]
   creationDate: string
   paymentSystemName: string
+  shippingType: string
   items: Item[]
   clientProfileData: ClientProfileData
   address: Address

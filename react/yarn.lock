@@ -268,6 +268,10 @@ typescript@3.9.7:
   version "8.134.2"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.134.2/public/@types/vtex.render-runtime#ae69e2b2a471291c6c6b155e17510150fbfc2d0e"
 
+"vtex.salesforce-connector@https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/vtex.salesforce-connector@2.0.4+build1700835112/public/@types/vtex.salesforce-connector":
+  version "0.0.0"
+  resolved "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/vtex.salesforce-connector@2.0.4+build1700835112/public/@types/vtex.salesforce-connector#6ebc5d2ecc5fee9cbf3a27a96b414d61aa4c9691"
+
 "vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.146.9/public/@types/vtex.styleguide":
   version "9.146.9"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.146.9/public/@types/vtex.styleguide#d1601fedfb665c6173334753171717da64e670bc"

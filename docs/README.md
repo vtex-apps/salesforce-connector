@@ -34,19 +34,29 @@ The purpose of this document is to detail the implementation of the middleware r
       "path": "/v1/vtex/add-credentials",
       "public": true
     },
-    "AuthenticationHook": {
-      "path": "/v1/vtex/authenticate",
-      "public": true
-    },
     "ConfigurationHook": {
       "path": "/v1/vtex/configuration",
+      "public": true
+    },
+    "GetParametersHook": {
+      "path": "/v1/vtex/get-parameters",
+      "public": true
+    },
+    "GetConfigurationHook": {
+      "path": "/v1/vtex/get-configuration",
       "public": true
     }
   },
   "events": {
     "orderState": {
       "sender": "vtex.orders-broadcast",
-      "topics": ["payment-approved", "canceled", "ready-for-handling", "handling", "invoiced"]
+      "topics": [
+        "payment-approved",
+        "canceled",
+        "ready-for-handling",
+        "handling",
+        "invoiced"
+      ]
     }
   }
 }
@@ -62,25 +72,26 @@ You can also provide a `public` option for each route. If `true`, that resource 
 #### HTTP methods
 When you define a route on the `service.json`, your NodeJS handlers for that route will be triggered  **on every HTTP method** (GET, POST, PUT...), so, if you need to handle them separately you need to implement a "sub-router". Fortunately, the _node-vtex-api_ provides a helper function `method`, exported from `@vtex/api`, to accomplish that behaviour. Instead of passing your handlers directly to the corresponding route on `index.ts`, you pass a `method` call passing **an object with the desired method as key and one handler as its corresponding value**. Check this example:
 ```typescript
-import {
+import type {
   ClientsConfig,
   ServiceContext,
   RecorderState,
   EventContext,
   IOContext,
-  method,
 } from '@vtex/api'
-import { LRUCache, Service } from '@vtex/api'
+import { method, LRUCache, Service } from '@vtex/api'
 import * as dotenv from 'dotenv'
-dotenv.config()
 
 import { Clients } from './clients'
 import { orderState } from './middlewares/orderState'
 import { updateClientHook } from './middlewares/UpdateClientHook'
 import { abandonedCartHook } from './middlewares/AbandonedCartHook'
-import { authenticationHook } from './middlewares/authenticationHook'
 import { configurationHook } from './middlewares/configurationHook'
 import { addCredentialsHook } from './middlewares/addCredentialsHook'
+import { getParametersHook } from './middlewares/getParametersHook'
+import { getConfigurationHook } from './middlewares/getConfigurationHook'
+
+dotenv.config()
 
 const TIMEOUT_MS = 800
 
@@ -136,11 +147,14 @@ export default new Service({
     AddCredentialsHook: method({
       POST: [addCredentialsHook],
     }),
-    AuthenticationHook: method({
-      GET: [authenticationHook],
-    }),
     ConfigurationHook: method({
       POST: [configurationHook],
+    }),
+    GetParametersHook: method({
+      GET: [getParametersHook],
+    }),
+    GetConfigurationHook: method({
+      GET: [getConfigurationHook],
     }),
   },
 })
@@ -175,6 +189,4 @@ To configure the Salesforce connector you must do the following:
 
 1. Salesforce credentials must be added
 
-2. You must log in to Salesforce
-
-3. Salesforce configurations must be created
+2. Salesforce configurations must be created

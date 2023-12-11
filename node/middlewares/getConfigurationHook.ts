@@ -47,19 +47,22 @@ export async function getConfigurationHook(
       parameterList.get(ACCOUNT_ID) &&
       resultCustomFieldExists.data.fields.filter(
         (field: { name: string }) => field.name === 'Order_Status__c'
-      ) &&
+      ).length > 0 &&
       resultCustomFieldExists.data.fields.filter(
         (field: { name: string }) => field.name === 'Payment_Method__c'
-      ) &&
+      ).length > 0 &&
       resultCustomFieldExists.data.fields.filter(
         (field: { name: string }) => field.name === 'Discounts__c'
-      ) &&
+      ).length > 0 &&
       resultCustomFieldExists.data.fields.filter(
         (field: { name: string }) => field.name === 'Promotions__c'
-      ) &&
+      ).length > 0 &&
       resultCustomFieldExists.data.fields.filter(
         (field: { name: string }) => field.name === 'Created_By__c'
-      )
+      ).length > 0 &&
+      resultCustomFieldExists.data.fields.filter(
+        (field: { name: string }) => field.name === 'Shipping_Type__c'
+      ).length > 0
     ) {
       response = true
     }
