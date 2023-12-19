@@ -27,7 +27,7 @@ export const PATH_OPPORTUNITY_SALESFORCE = '/Opportunity'
 export const PATH_ASSOCIATE_OPPORTUNITY_PRODUCT_SALESFORCE =
   '/OpportunityLineItem'
 export const PATH_CUSTOMFIELD_SALESFORCE = '/services/Soap/m/57.0'
-export const PATH_FIELDS_ORDER_SALESFORCE = '/Order/describe'
+export const PATH_FIELDS_ORDER_SALESFORCE = '/describe'
 /** Code Status */
 export const CODE_STATUS_200 = 200
 export const CODE_STATUS_201 = 201

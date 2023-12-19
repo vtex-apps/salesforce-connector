@@ -14,6 +14,7 @@ export interface OrderVtexResponse {
 }
 
 export interface RatesAndBenefitsData {
+  id: string
   name: string
 }
 
@@ -28,6 +29,12 @@ export interface Item {
   imageUrl: string
   refId: string
   sellingPrice: number
+  priceTags: PriceTag[]
+}
+
+export interface PriceTag {
+  value: number
+  identifier: string
 }
 
 export interface ClientProfileData {

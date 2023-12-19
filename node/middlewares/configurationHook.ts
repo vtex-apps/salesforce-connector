@@ -32,32 +32,42 @@ export async function configurationHook(
     )
 
     const salesforceConfigurationService = new SalesforceConfigurationService()
-    const resultCustomFieldExists = await salesforceConfigurationService.getFielsOrder(
-      http
+    const resultFieldsOrderExists = await salesforceConfigurationService.getFiels(
+      http,
+      'Order'
     )
 
-    const orderStatusField = resultCustomFieldExists.data.fields.filter(
+    const resultFieldsOrderItemExists = await salesforceConfigurationService.getFiels(
+      http,
+      'OrderItem'
+    )
+
+    const orderStatusField = resultFieldsOrderExists.data.fields.filter(
       (field: { name: string }) => field.name === 'Order_Status__c'
     )
 
-    const paymentMethodField = resultCustomFieldExists.data.fields.filter(
+    const paymentMethodField = resultFieldsOrderExists.data.fields.filter(
       (field: { name: string }) => field.name === 'Payment_Method__c'
     )
 
-    const discountField = resultCustomFieldExists.data.fields.filter(
+    const discountField = resultFieldsOrderExists.data.fields.filter(
       (field: { name: string }) => field.name === 'Discounts__c'
     )
 
-    const promotionsNameField = resultCustomFieldExists.data.fields.filter(
+    const promotionsNameField = resultFieldsOrderExists.data.fields.filter(
       (field: { name: string }) => field.name === 'Promotions__c'
     )
 
-    const createdBy = resultCustomFieldExists.data.fields.filter(
+    const createdBy = resultFieldsOrderExists.data.fields.filter(
       (field: { name: string }) => field.name === 'Created_By__c'
     )
 
-    const shippingType = resultCustomFieldExists.data.fields.filter(
+    const shippingType = resultFieldsOrderExists.data.fields.filter(
       (field: { name: string }) => field.name === 'Shipping_Type__c'
+    )
+
+    const priceList = resultFieldsOrderItemExists.data.fields.filter(
+      (field: { name: string }) => field.name === 'Price_List__c'
     )
 
     const fields = [
@@ -67,6 +77,7 @@ export async function configurationHook(
       promotionsNameField.length,
       createdBy.length,
       shippingType.length,
+      priceList.length,
     ]
 
     const configurationService = new ConfigurationService()

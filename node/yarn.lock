@@ -7991,9 +7991,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vtex.salesforce-connector@https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/vtex.salesforce-connector@2.0.4+build1700835112/public/@types/vtex.salesforce-connector":
+"vtex.salesforce-connector@https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/vtex.salesforce-connector@2.0.5+build1703001395/public/@types/vtex.salesforce-connector":
   version "0.0.0"
-  resolved "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/vtex.salesforce-connector@2.0.4+build1700835112/public/@types/vtex.salesforce-connector#6ebc5d2ecc5fee9cbf3a27a96b414d61aa4c9691"
+  resolved "https://salesforcetest--felipedev.myvtex.com/_v/private/typings/linked/v1/vtex.salesforce-connector@2.0.5+build1703001395/public/@types/vtex.salesforce-connector#5a43f8fd75c20f065f61dcd1e53e1e4ac12e8fbc"
 
 "vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.146.9/public/@types/vtex.styleguide":
   version "9.146.9"

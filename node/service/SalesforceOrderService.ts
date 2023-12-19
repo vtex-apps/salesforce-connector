@@ -4,6 +4,7 @@ import { Result } from '../schemas/Result'
 import type {
   Item,
   OrderVtexResponse,
+  PriceTag,
   RatesAndBenefitsData,
 } from '../schemas/orderVtexResponse'
 import type { ParameterList } from '../schemas/Parameter'
@@ -203,16 +204,33 @@ export default class SalesforceOrderService {
   }
 
   public associateOrderAndProduct = async (
+    order: OrderVtexResponse,
     orderId: string,
     pricebookEntryId: string,
     item: Item,
     http: AxiosInstance
   ): Promise<Result> => {
+    let pomotions = ''
+
+    item.priceTags.forEach((priceTag: PriceTag, i) => {
+      const promotion = order.ratesAndBenefitsData.find(
+        (rate) => rate.id === priceTag.identifier
+      )
+
+      if (i !== item.priceTags.length - 1) {
+        pomotions += `${promotion?.name}: ${priceTag.value}, `
+      } else {
+        pomotions += `${promotion?.name}: ${priceTag.value}`
+      }
+    })
+
     const body = {
       OrderId: orderId,
       PricebookEntryId: pricebookEntryId,
       quantity: item.quantity,
       unitPrice: item.sellingPrice / 100,
+      Price_List__c: item.price / 100,
+      Description: pomotions,
     }
 
     const url = `${PATH_API_SALESFORCE}${PATH_ASSOCIATE_ORDER_PRODUCT_SALESFORCE}`
