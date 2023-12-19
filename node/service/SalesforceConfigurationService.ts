@@ -292,8 +292,11 @@ export default class SalesforceConfigurationService {
     }
   }
 
-  public getFielsOrder = async (http: AxiosInstance): Promise<Result> => {
-    const url = `${PATH_API_SALESFORCE}${PATH_FIELDS_ORDER_SALESFORCE}`
+  public getFiels = async (
+    http: AxiosInstance,
+    nameEntity: string
+  ): Promise<Result> => {
+    const url = `${PATH_API_SALESFORCE}/${nameEntity}${PATH_FIELDS_ORDER_SALESFORCE}`
 
     try {
       const { data, status } = await http.get(url)

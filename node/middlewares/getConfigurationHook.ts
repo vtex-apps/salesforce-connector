@@ -36,8 +36,14 @@ export async function getConfigurationHook(
     )
 
     const salesforceConfigurationService = new SalesforceConfigurationService()
-    const resultCustomFieldExists = await salesforceConfigurationService.getFielsOrder(
-      http
+    const resultFieldsOrderExists = await salesforceConfigurationService.getFiels(
+      http,
+      'Order'
+    )
+
+    const resultFieldsOrderItemExists = await salesforceConfigurationService.getFiels(
+      http,
+      'OrderItem'
     )
 
     let response = false
@@ -45,25 +51,25 @@ export async function getConfigurationHook(
     if (
       parameterList.get(LIST_PRICE_ID) &&
       parameterList.get(ACCOUNT_ID) &&
-      resultCustomFieldExists.data.fields.filter(
+      resultFieldsOrderExists.data.fields.filter(
         (field: { name: string }) => field.name === 'Order_Status__c'
       ).length > 0 &&
-      resultCustomFieldExists.data.fields.filter(
+      resultFieldsOrderExists.data.fields.filter(
         (field: { name: string }) => field.name === 'Payment_Method__c'
       ).length > 0 &&
-      resultCustomFieldExists.data.fields.filter(
+      resultFieldsOrderExists.data.fields.filter(
         (field: { name: string }) => field.name === 'Discounts__c'
       ).length > 0 &&
-      resultCustomFieldExists.data.fields.filter(
+      resultFieldsOrderExists.data.fields.filter(
         (field: { name: string }) => field.name === 'Promotions__c'
       ).length > 0 &&
-      resultCustomFieldExists.data.fields.filter(
+      resultFieldsOrderExists.data.fields.filter(
         (field: { name: string }) => field.name === 'Created_By__c'
       ).length > 0 &&
-      resultCustomFieldExists.data.fields.filter(
+      resultFieldsOrderExists.data.fields.filter(
         (field: { name: string }) => field.name === 'Shipping_Type__c'
       ).length > 0 &&
-      resultCustomFieldExists.data.fields.filter(
+      resultFieldsOrderItemExists.data.fields.filter(
         (field: { name: string }) => field.name === 'Price_List__c'
       ).length > 0
     ) {
