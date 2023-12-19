@@ -121,6 +121,7 @@ export default class OrderService {
           )
           // create relation order-product
           const resultCreateOrderItem = await salesforceOrderService.associateOrderAndProduct(
+            order,
             orderSF.idSfc,
             pricebookEntry.priceBookEntryId,
             item,
@@ -180,6 +181,7 @@ export default class OrderService {
 
           // create relation order-product
           const resultCreateOrderItem = await salesforceOrderService.associateOrderAndProduct(
+            order,
             orderSF.idSfc,
             priceBookEntryId,
             item,

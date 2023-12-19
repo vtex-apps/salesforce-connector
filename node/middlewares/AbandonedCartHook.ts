@@ -12,7 +12,7 @@ import type { AbandonedCartResponse } from '../schemas/AbandonedCartResponse'
 
 export async function abandonedCartHook(
   ctx: Context,
-  next: () => Promise<any>
+  next: () => Promise<void>
 ) {
   const { req } = ctx
 
@@ -67,6 +67,7 @@ export async function abandonedCartHook(
         imageUrl: '',
         refId: resultProduct.data.RefId,
         sellingPrice: 0,
+        priceTags: [],
       })
     })
 

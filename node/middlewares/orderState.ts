@@ -8,7 +8,7 @@ import MasterDataService from '../service/MasterDataService'
 
 export async function orderState(
   ctx: StatusChangeContext,
-  next: () => Promise<any>
+  next: () => Promise<void>
 ) {
   const {
     clients: { omsClient, masterDataClient },

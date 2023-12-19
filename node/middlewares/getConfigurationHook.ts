@@ -62,6 +62,9 @@ export async function getConfigurationHook(
       ).length > 0 &&
       resultCustomFieldExists.data.fields.filter(
         (field: { name: string }) => field.name === 'Shipping_Type__c'
+      ).length > 0 &&
+      resultCustomFieldExists.data.fields.filter(
+        (field: { name: string }) => field.name === 'Price_List__c'
       ).length > 0
     ) {
       response = true

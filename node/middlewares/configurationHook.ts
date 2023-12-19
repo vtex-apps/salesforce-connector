@@ -60,6 +60,10 @@ export async function configurationHook(
       (field: { name: string }) => field.name === 'Shipping_Type__c'
     )
 
+    const priceList = resultCustomFieldExists.data.fields.filter(
+      (field: { name: string }) => field.name === 'Price_List__c'
+    )
+
     const fields = [
       orderStatusField.length,
       paymentMethodField.length,
@@ -67,6 +71,7 @@ export async function configurationHook(
       promotionsNameField.length,
       createdBy.length,
       shippingType.length,
+      priceList.length,
     ]
 
     const configurationService = new ConfigurationService()

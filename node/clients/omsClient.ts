@@ -34,6 +34,7 @@ export default class OMS extends ExternalClient {
         imageUrl: item.imageUrl,
         refId: item.refId,
         sellingPrice: item.sellingPrice,
+        priceTags: item.priceTags,
       }
     })
 
@@ -57,6 +58,7 @@ export default class OMS extends ExternalClient {
         imageUrl: '',
         refId: 'SHIPPING-CODE',
         sellingPrice: totalsShipping.value,
+        priceTags: [],
       })
     }
 
