@@ -6,6 +6,13 @@
   "description": "Reference app for VTEX IO Services",
   "mustUpdateAt": "2018-01-04",
   "categories": [],
+  "billingOptions": {
+    "type": "free",
+    "support": {
+      "email": "vtex-apps-support@titamedia.com"
+    },
+    "availableCountries": ["*"]
+  },
   "dependencies": {
     "vtex.styleguide": "9.x"
   },
