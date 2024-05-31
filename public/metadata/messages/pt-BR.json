@@ -1,1 +1,15 @@
-{}
+{
+  "name": "SalesForce Connector",
+  "headline": "Conector entre VTEX e Salesforce",
+  "overview": "Este conector (aplicativo) permitirá a integração do portal de ecommerce VTEX com o CRM Salesforce, que por meio da configuração das credenciais do Salesforce e configuração do Hook de pedidos da plataforma de ecommerce, procederá para criar ou atualizar clientes ou endereços no Salesforce, adicionando novos endereços adicionados pelo cliente e associando-os à lista correspondente no CRM.",
+  "features": [
+    "O aplicativo deve ser hospedado na infraestrutura da VTEX.",
+    "O aplicativo consumirá as informações do CRM através da camada de serviço exposta por este, utilizando um token de API para autenticação, configurável a partir do portal de ecommerce.",
+    "O usuário deve obter do Salesforce e configurar no conector as credenciais correspondentes ao CRM para poder realizar os processos.",
+    "O conector não consumirá serviços de plataformas diferentes da VTEX e do Salesforce CRM."
+  ],
+  "websiteURL": "https://vtex.com/",
+  "support": {
+    "url": "https://support.vtex.com/hc/requests"
+  }
+}
